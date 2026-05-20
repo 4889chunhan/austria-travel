@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F5F0E8"/>
+      <stop offset="55%" stop-color="#D4E8C2"/>
+      <stop offset="100%" stop-color="#8FA882"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#g)"/>
+  <g fill="rgba(45,90,27,0.14)" font-family="Georgia, serif" text-anchor="middle">
+    <text x="960" y="510" font-size="180" font-style="italic" font-weight="400">Discover</text>
+    <text x="960" y="710" font-size="180" font-weight="700">Austria.</text>
+  </g>
+</svg>

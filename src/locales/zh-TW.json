@@ -1,0 +1,55 @@
+{
+  "nav": {
+    "home": "首頁",
+    "plan": "規劃行程",
+    "map": "景點地圖",
+    "itinerary": "我的行程",
+    "language": "EN"
+  },
+  "filter": {
+    "title": "選擇你的旅行偏好",
+    "days": "天數",
+    "travelers": "人數",
+    "interests": "興趣",
+    "startCity": "出發城市",
+    "experience": "我想體驗...",
+    "experienceSub": "選擇你感興趣的類型(可多選)",
+    "categories": {
+      "music": "音樂演出",
+      "art": "藝術博物館",
+      "scenery": "自然風景",
+      "architecture": "建築",
+      "food": "美食咖啡",
+      "outdoor": "戶外活動",
+      "shopping": "購物市集",
+      "history": "歷史文化"
+    },
+    "generate": "產生我的行程",
+    "generateHint": "將根據偏好為你規劃最佳路線"
+  },
+  "card": {
+    "learnCards": "語言小卡",
+    "website": "官網",
+    "save": "收藏",
+    "saved": "已收藏",
+    "flip": "翻轉",
+    "situation": "使用情境",
+    "german": "德文",
+    "pronunciation": "發音",
+    "translation": "翻譯"
+  },
+  "transport": {
+    "train": "火車",
+    "bus": "巴士",
+    "car": "自駕",
+    "duration": "車程"
+  },
+  "hero": {
+    "pill": "奧地利旅遊",
+    "headline1": "發現奧地利",
+    "headline2": "的靈魂",
+    "subtitle": "從皇城到湖畔，規劃你的專屬奧地利之旅",
+    "cta": "開始規劃",
+    "ctaSecondary": "探索地圖"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "nav": {
+    "home": "Home",
+    "plan": "Plan a trip",
+    "map": "Map",
+    "itinerary": "My itinerary",
+    "language": "中"
+  },
+  "filter": {
+    "title": "Choose your travel preferences",
+    "days": "Days",
+    "travelers": "Travelers",
+    "interests": "Interests",
+    "startCity": "Start city",
+    "experience": "I want to experience...",
+    "experienceSub": "Pick whatever interests you (multiple selections OK)",
+    "categories": {
+      "music": "Music",
+      "art": "Art museums",
+      "scenery": "Scenery",
+      "architecture": "Architecture",
+      "food": "Food & cafés",
+      "outdoor": "Outdoor",
+      "shopping": "Markets & shopping",
+      "history": "History & culture"
+    },
+    "generate": "Generate my itinerary",
+    "generateHint": "We'll route the best plan based on your picks"
+  },
+  "card": {
+    "learnCards": "Language cards",
+    "website": "Website",
+    "save": "Save",
+    "saved": "Saved",
+    "flip": "Flip",
+    "situation": "Situation",
+    "german": "German",
+    "pronunciation": "Pronunciation",
+    "translation": "Translation"
+  },
+  "transport": {
+    "train": "Train",
+    "bus": "Bus",
+    "car": "Car",
+    "duration": "Duration"
+  },
+  "hero": {
+    "pill": "Travel Austria",
+    "headline1": "Discover the soul",
+    "headline2": "of Austria",
+    "subtitle": "From imperial cities to alpine lakes — plan your private journey through Austria",
+    "cta": "Start planning",
+    "ctaSecondary": "Explore the map"
+  }
+}
