@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { ArrowLeft, ExternalLink, Train, Bus, Footprints, ChevronUp, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, ExternalLink, Train, Bus, Footprints, ChevronUp, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { useStore } from '../store';
 import { attractions } from '../data/attractions';
 import { primaryCategory } from '../utils/categoryColors';
@@ -308,13 +309,19 @@ function SelectedView({
           </span>
         </div>
 
-        {/* Names */}
-        <h2 className="mt-2 px-4 font-chinese text-[22px] font-bold leading-tight text-ink">
-          {attraction.name.zh}
-        </h2>
-        <p className="px-4 font-serif text-[16px] italic text-ink-muted">
-          {attraction.name.en}
-        </p>
+        {/* Names — clickable into the full detail page */}
+        <Link
+          to={`/attraction/${attraction.slug}`}
+          className="group mt-2 block px-4 transition-colors"
+        >
+          <h2 className="flex items-baseline gap-1.5 font-chinese text-[22px] font-bold leading-tight text-ink group-hover:text-lime-deep">
+            {attraction.name.zh}
+            <ArrowUpRight size={16} className="text-ink-faint transition-all group-hover:text-lime-deep" />
+          </h2>
+          <p className="font-serif text-[16px] italic text-ink-muted">
+            {attraction.name.en}
+          </p>
+        </Link>
         <p className="mt-0.5 px-4 font-german text-[11px] text-ink-faint">
           {attraction.name.de}
         </p>

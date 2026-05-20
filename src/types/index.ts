@@ -48,6 +48,8 @@ export interface TransportMethod {
   duration: string;
   frequency?: string;
   price?: string;
+  /** Operator / line name shown in the badge — ÖBB Railjet, FlixBus, etc. */
+  operator?: string;
   notes?: { zh: string; en: string };
 }
 

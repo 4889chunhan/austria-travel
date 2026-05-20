@@ -317,9 +317,15 @@ function TimelineItem({ attraction }: { attraction: Attraction }) {
           </span>
         </div>
 
-        <h3 className="font-chinese text-[18px] font-semibold leading-snug text-ink">
-          {localized(attraction.name)}
-        </h3>
+        <Link
+          to={`/attraction/${attraction.slug}`}
+          className="group inline-flex items-baseline gap-1.5 transition-colors"
+        >
+          <h3 className="font-chinese text-[18px] font-semibold leading-snug text-ink group-hover:text-lime-deep">
+            {localized(attraction.name)}
+          </h3>
+          <ArrowUpRight size={14} className="text-ink-faint transition-colors group-hover:text-lime-deep" />
+        </Link>
         <p className="font-german text-[13px] text-ink-muted">
           {attraction.name.en}
         </p>
