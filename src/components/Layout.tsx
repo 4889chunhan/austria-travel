@@ -19,6 +19,7 @@ const NAV_ITEMS = [
 export function Layout() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const isHome = location.pathname === '/';
   const isMap = location.pathname === '/map';
   // These pages manage their own internal scroll and hide the global footer:
   // the map, the two-panel plan page, and the full-height chat page.
@@ -36,7 +37,12 @@ export function Layout() {
 
   return (
     <div className="flex h-screen flex-col bg-cream">
-      <header className="z-30 shrink-0 bg-cream/85 backdrop-blur-md">
+      <header
+        className={cn(
+          'z-30 shrink-0 bg-cream/85 backdrop-blur-md',
+          !isHome && 'border-b border-[#e5e5e5]',
+        )}
+      >
         <nav className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-6 py-5 sm:px-8">
           <Link
             to="/"
