@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowUpRight, Volume2, VolumeX } from 'lucide-react';
@@ -55,11 +55,14 @@ export function HomePage() {
           }}
         />
 
-        {/* Featured floating card — top-right, tilted */}
+        {/* Featured floating card — top-right, tilted. Hidden on mobile (would
+            overlap the headline); gently bobs from tablet up. */}
         <Link
           to={`/attraction/${featured.slug}`}
-          className="float-card absolute transition-transform hover:scale-[1.03]"
-          style={{ top: 24, right: 24, width: 230, transform: 'rotate(2deg)' }}
+          className="float-card float-bob absolute hidden md:block"
+          style={
+            { top: 24, right: 24, width: 230, ['--card-rotate']: 'rotate(2deg)' } as CSSProperties
+          }
         >
           <div className="flex items-center justify-between gap-2">
             <p className="font-mono text-[10px] uppercase tracking-editorial text-lime-dark">
@@ -116,14 +119,14 @@ export function HomePage() {
           >
             {t('hero.subtitle')}
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/plan" className="btn-primary">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link to="/plan" className="btn-primary w-full justify-center sm:w-auto">
               {t('hero.cta')}
               <ArrowUpRight size={16} />
             </Link>
             <Link
               to="/map"
-              className="inline-flex items-center gap-2 rounded-pill border border-white/60 px-5 py-2.5 font-chinese text-sm font-medium text-white transition hover:bg-white/30"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-pill border border-white/60 px-5 py-2.5 font-chinese text-sm font-medium text-white transition hover:bg-white/30 sm:w-auto"
               style={{
                 background: 'rgba(255, 255, 255, 0.15)',
                 backdropFilter: 'blur(8px)',

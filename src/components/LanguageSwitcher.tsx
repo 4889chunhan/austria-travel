@@ -20,8 +20,8 @@ export function LanguageSwitcher() {
     <button
       type="button"
       onClick={() => setLang(next)}
-      aria-label={lang === 'zh' ? 'Switch to English' : '切換至中文'}
-      className="rounded-pill border px-3 py-1.5 font-mono text-[11px] uppercase tracking-editorial text-ink-muted transition-colors hover:border-med hover:text-ink"
+      aria-label={`切換語言 — 目前：${lang === 'zh' ? '中文' : 'English'}`}
+      className="inline-flex min-h-[44px] items-center rounded-pill border px-3 py-1.5 font-mono text-[11px] uppercase tracking-editorial text-ink-muted transition-colors hover:border-med hover:text-ink"
     >
       {t('nav.language')}
     </button>

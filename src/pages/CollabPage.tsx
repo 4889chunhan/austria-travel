@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowUpRight,
@@ -302,8 +302,12 @@ function CollabDay({ day, collabId }: { day: DayPlan; collabId: string }) {
   }
   return (
     <ol className="flex flex-col gap-4">
-      {day.attractions.map((a) => (
-        <li key={a.id}>
+      {day.attractions.map((a, i) => (
+        <li
+          key={a.id}
+          className="stagger-item"
+          style={{ ['--index' as string]: i } as CSSProperties}
+        >
           <CollabAttractionCard attraction={a} collabId={collabId} />
         </li>
       ))}
@@ -342,7 +346,7 @@ function CollabAttractionCard({
   };
 
   return (
-    <article className="card overflow-hidden" style={{ padding: 0 }}>
+    <article className="card card-hover overflow-hidden" style={{ padding: 0 }}>
       <div className="flex gap-0">
         <div className="relative shrink-0 overflow-hidden" style={{ width: 110 }}>
           <img
@@ -376,35 +380,41 @@ function CollabAttractionCard({
       </div>
 
       {/* Vote row */}
-      <div className="flex flex-wrap items-center gap-2 border-t px-4 py-3">
-        <span className="mr-1 font-mono text-[11px] text-ink-faint">
-          👍 {up} · 👎 {down}
-        </span>
-
-        {!myVote ? (
-          <>
-            <VotePill variant="up" onClick={() => vote('up')}>
-              <ThumbsUp size={14} /> 想去
-            </VotePill>
-            <VotePill variant="down" onClick={() => vote('down')}>
-              <ThumbsDown size={14} /> 跳過
-            </VotePill>
-          </>
-        ) : (
-          <>
-            <VotePill
-              variant={myVote === 'up' ? 'up' : 'down'}
-              filled
-              disabled
-            >
-              {myVote === 'up' ? <ThumbsUp size={14} /> : <ThumbsDown size={14} />}
-              {myVote === 'up' ? '想去' : '跳過'}
-              <Check size={13} />
-            </VotePill>
+      <div className="border-t px-4 py-3">
+        <div className="mb-2 flex items-center justify-between">
+          <span aria-live="polite" className="font-mono text-[11px] text-ink-faint">
+            👍 {up} · 👎 {down}
+          </span>
+          {myVote && (
             <span className="font-mono text-[10px] uppercase tracking-editorial text-ink-faint">
               {voters} 人投票
             </span>
-          </>
+          )}
+        </div>
+
+        {!myVote ? (
+          <div className="grid grid-cols-2 gap-2">
+            <VotePill
+              variant="up"
+              onClick={() => vote('up')}
+              ariaLabel={`投贊成票 · 目前 ${up} 票`}
+            >
+              <ThumbsUp size={15} /> 想去
+            </VotePill>
+            <VotePill
+              variant="down"
+              onClick={() => vote('down')}
+              ariaLabel={`投反對票 · 目前 ${down} 票`}
+            >
+              <ThumbsDown size={15} /> 跳過
+            </VotePill>
+          </div>
+        ) : (
+          <VotePill variant={myVote === 'up' ? 'up' : 'down'} filled disabled>
+            {myVote === 'up' ? <ThumbsUp size={15} /> : <ThumbsDown size={15} />}
+            {myVote === 'up' ? '想去' : '跳過'}
+            <Check size={14} />
+          </VotePill>
         )}
       </div>
     </article>
@@ -416,12 +426,14 @@ function VotePill({
   filled = false,
   disabled = false,
   onClick,
+  ariaLabel,
   children,
 }: {
   variant: 'up' | 'down';
   filled?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  ariaLabel?: string;
   children: React.ReactNode;
 }) {
   const isUp = variant === 'up';
@@ -442,12 +454,13 @@ function VotePill({
       type="button"
       onClick={onClick}
       disabled={disabled}
+      aria-label={ariaLabel}
       className={cn(
-        'inline-flex items-center justify-center gap-1.5 rounded-pill font-chinese text-[13px] transition',
-        !disabled && !isUp && 'hover:text-ink',
+        'focus-coral inline-flex w-full items-center justify-center gap-1.5 rounded-pill font-chinese text-[14px] transition active:scale-[0.97]',
+        !disabled && (isUp ? 'hover:bg-[rgba(212,232,194,0.4)]' : 'hover:bg-black/5'),
         disabled && 'cursor-not-allowed',
       )}
-      style={{ minWidth: 88, minHeight: 32, padding: '0 14px', ...style }}
+      style={{ minHeight: 48, padding: '0 14px', ...style }}
     >
       {children}
     </button>

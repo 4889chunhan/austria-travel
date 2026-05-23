@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState, type CSSProperties } from 'react';
 import { ChevronDown, ChevronUp, Pencil, RotateCcw } from 'lucide-react';
 import { useStore } from '../store';
 import { useExchangeRate } from '../hooks/useExchangeRate';
+import { usePulsedNumber } from '../hooks/usePulsedNumber';
 import { findRoute } from '../data/transport';
 import { cn } from '../utils/cn';
 import type { DayPlan, TripConfig } from '../types';
@@ -192,12 +193,15 @@ export function BudgetCalculator() {
     return acc;
   }, [rows, overrides]);
 
-  if (itinerary.length === 0) return null;
-
   const subtotal = sums.transport + sums.accommodation + sums.attractions + sums.food;
   const buffer = Math.round(subtotal * 0.1);
   const totalEUR = Math.round(subtotal + buffer);
   const totalTWD = Math.round(totalEUR * rate);
+
+  // Pulse the headline figure whenever it changes (hooks run before any return).
+  const totalPulse = usePulsedNumber(totalTWD);
+
+  if (itinerary.length === 0) return null;
 
   const travelers = Math.max(1, tripConfig.travelers);
   const days = Math.max(1, tripConfig.days || itinerary.length);
@@ -239,8 +243,14 @@ export function BudgetCalculator() {
             <p className="font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
               預估總費用
             </p>
-            <p className="font-serif text-[36px] font-bold leading-none text-ink tabular-nums">
-              {formatTWD(totalTWD)}
+            <p
+              aria-live="polite"
+              aria-atomic="true"
+              className="font-serif text-[36px] font-bold leading-none text-ink tabular-nums"
+            >
+              <span key={totalPulse.key} className={cn('inline-block', totalPulse.pulseClass)}>
+                {formatTWD(totalTWD)}
+              </span>
             </p>
             <p className="mt-1 font-mono text-[14px] text-ink-muted">
               ≈ {formatEUR(totalEUR)}
@@ -275,12 +285,20 @@ export function BudgetCalculator() {
               className="flex h-4 overflow-hidden rounded-pill"
               style={{ width: 200, maxWidth: '100%', background: 'var(--color-cream)' }}
             >
-              {segments.map((seg) =>
+              {segments.map((seg, i) =>
                 seg.eur <= 0 ? null : (
                   <span
                     key={seg.key}
+                    className="bar-grow"
                     title={`${seg.label} · ${formatEUR(seg.eur)} · ${formatTWD(seg.eur * rate)}`}
-                    style={{ width: `${(seg.eur / segTotal) * 100}%`, background: seg.color }}
+                    style={
+                      {
+                        width: `${(seg.eur / segTotal) * 100}%`,
+                        background: seg.color,
+                        ['--w']: `${(seg.eur / segTotal) * 100}%`,
+                        ['--index']: i,
+                      } as CSSProperties
+                    }
                   />
                 ),
               )}
@@ -305,21 +323,29 @@ export function BudgetCalculator() {
           </div>
 
           {/* Right — averages + refresh */}
-          <div className="flex shrink-0 flex-col items-start gap-1 md:items-end">
+          <div className="flex shrink-0 flex-col gap-2 md:items-end">
             <button
               type="button"
               onClick={refresh}
               aria-label="重新計算預算"
-              className="mb-1 flex h-7 w-7 items-center justify-center rounded-pill text-ink-muted transition hover:bg-cream hover:text-ink"
+              className="flex h-11 w-11 items-center justify-center self-start rounded-pill text-ink-muted transition hover:bg-cream hover:text-ink md:h-7 md:w-7 md:self-end"
             >
               <RotateCcw size={15} className={loading ? 'animate-spin' : undefined} />
             </button>
-            <p className="font-mono text-[12px] text-ink-muted">
-              每人均攤 {formatTWD(totalTWD / travelers)}
-            </p>
-            <p className="font-mono text-[12px] text-ink-muted">
-              每日平均 {formatTWD(totalTWD / days)}
-            </p>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 md:block md:text-right">
+              <p className="font-mono text-[12px] text-ink-muted">
+                每人均攤{' '}
+                <span key={`pp-${totalPulse.key}`} className={cn('inline-block', totalPulse.pulseClass)}>
+                  {formatTWD(totalTWD / travelers)}
+                </span>
+              </p>
+              <p className="font-mono text-[12px] text-ink-muted">
+                每日平均{' '}
+                <span key={`pd-${totalPulse.key}`} className={cn('inline-block', totalPulse.pulseClass)}>
+                  {formatTWD(totalTWD / days)}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -389,7 +415,8 @@ function BudgetDetailTable({
   onChangeValue: (id: string, value: string) => void;
 }) {
   return (
-    <table className="mt-3 w-full border-collapse">
+    <div className="mt-3 overflow-x-auto">
+    <table className="w-full min-w-[480px] border-collapse">
       <thead>
         <tr>
           {['項目', 'EUR', 'TWD', '說明'].map((h, i) => (
@@ -411,8 +438,8 @@ function BudgetDetailTable({
           if (groupRows.length === 0) return null;
           const meta = SECTION_META[group];
           return (
-            <>
-              <tr key={`${group}-head`} style={{ background: 'var(--color-cream)' }}>
+            <Fragment key={group}>
+              <tr style={{ background: 'var(--color-cream)' }}>
                 <td colSpan={4} className="px-2 py-1.5">
                   <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
                     <span
@@ -476,7 +503,7 @@ function BudgetDetailTable({
                   </tr>
                 );
               })}
-            </>
+            </Fragment>
           );
         })}
 
@@ -511,5 +538,6 @@ function BudgetDetailTable({
         </tr>
       </tbody>
     </table>
+    </div>
   );
 }

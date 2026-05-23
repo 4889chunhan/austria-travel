@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUp, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
+import { cn } from '../utils/cn';
 import type { ChatMessage } from '../types';
 
 const SUGGESTIONS = [
@@ -43,7 +44,7 @@ export function PlanChatbot({
   // Auto-scroll to the newest message.
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
   }, [chatHistory.length, chatLoading]);
 
   const resetTextarea = () => {
@@ -80,13 +81,16 @@ export function PlanChatbot({
 
   return (
     <div
-      className="flex flex-col overflow-hidden"
+      className={cn(
+        'flex flex-col overflow-hidden',
+        // Embedded: shorter on mobile (220px), full (320px) from tablet up.
+        variant === 'page' ? 'h-full' : 'h-[220px] md:h-[320px]',
+      )}
       style={{
         background: 'var(--color-card)',
         border: '0.5px solid var(--color-border)',
         borderRadius: 'var(--radius-lg)',
         boxShadow: 'var(--shadow-card)',
-        height: variant === 'page' ? '100%' : 320,
       }}
     >
       {/* Header */}
@@ -116,15 +120,15 @@ export function PlanChatbot({
             <p className="max-w-[260px] font-chinese text-[13px] leading-relaxed text-ink-muted">
               用一句話描述你的理想旅程，AI 會幫你調整行程。
             </p>
-            <div className="flex flex-wrap justify-center gap-1.5">
+            <div className="grid w-full max-w-[300px] grid-cols-2 gap-1.5">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
                   type="button"
                   onClick={() => send(s)}
                   disabled={chatLoading || cooldown}
-                  className="rounded-pill px-2.5 py-1 font-chinese text-[11px] text-ink-muted transition-colors hover:text-lime-deep disabled:opacity-50"
-                  style={{ border: '0.5px solid var(--color-border-med)' }}
+                  className="rounded-pill px-2.5 py-1.5 font-chinese text-[11px] text-ink-muted transition-colors hover:text-lime-deep disabled:opacity-50"
+                  style={{ border: '0.5px solid var(--color-border-med)', minHeight: 44 }}
                 >
                   {s}
                 </button>
@@ -132,7 +136,7 @@ export function PlanChatbot({
             </div>
           </div>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-3" aria-live="polite">
             {chatHistory.map((msg) => (
               <Bubble key={msg.id} msg={msg} />
             ))}
@@ -170,8 +174,8 @@ export function PlanChatbot({
         <button
           type="submit"
           disabled={!canSend}
-          aria-label="送出"
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-pill bg-lime text-lime-deep transition hover:bg-[#C2DAAC] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label="送出訊息"
+          className="flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-pill bg-lime text-lime-deep transition hover:bg-[#C2DAAC] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <ArrowUp size={16} strokeWidth={2.4} />
         </button>
@@ -185,7 +189,7 @@ export function PlanChatbot({
 function Bubble({ msg }: { msg: ChatMessage }) {
   if (msg.role === 'user') {
     return (
-      <li className="flex justify-end">
+      <li className="bubble-in flex justify-end">
         <span
           className="max-w-[85%] whitespace-pre-wrap font-chinese text-[13px] leading-relaxed text-lime-deep"
           style={{
@@ -201,7 +205,7 @@ function Bubble({ msg }: { msg: ChatMessage }) {
   }
 
   return (
-    <li className="flex flex-col gap-2">
+    <li className="bubble-in flex flex-col gap-2">
       <div className="flex items-start gap-2">
         <Avatar />
         <span
@@ -217,7 +221,7 @@ function Bubble({ msg }: { msg: ChatMessage }) {
       </div>
       {msg.patchNote && (
         <div
-          className="ml-7 font-chinese text-[12px] text-lime-deep"
+          className="patch-slide-in ml-7 font-chinese text-[12px] text-lime-deep"
           style={{
             background: '#F0FAF0',
             borderLeft: '3px solid var(--color-lime)',

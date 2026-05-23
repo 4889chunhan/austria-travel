@@ -56,7 +56,7 @@ export function AttractionMarker({
         className="relative cursor-pointer"
         style={{ transform: 'translateY(0)' }}
         role="button"
-        aria-label={localized(attraction.name)}
+        aria-label={`${localized(attraction.name)} — 點擊查看詳情`}
       >
         {/* Pulsing halo behind selected pin */}
         {selected && (

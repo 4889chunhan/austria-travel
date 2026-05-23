@@ -139,16 +139,18 @@ export function PhrasebookPage() {
                   setActiveTab(tab.id);
                 }}
                 aria-pressed={active}
+                aria-label={tab.label}
                 className={cn(
-                  'flex shrink-0 items-center gap-1.5 rounded-pill px-4 py-2 font-chinese text-[13px] transition-colors',
+                  // Mobile: 44×44 icon-only pills. Tablet+: icon + label.
+                  'flex h-11 w-11 shrink-0 items-center justify-center gap-1.5 rounded-pill font-chinese text-[13px] transition-colors lg:h-auto lg:w-auto lg:px-4 lg:py-2',
                   active
                     ? 'bg-lime font-medium text-lime-deep'
                     : 'text-ink-muted hover:text-ink',
                 )}
                 style={active ? undefined : { border: '1px solid var(--color-border-med)' }}
               >
-                <Icon size={14} strokeWidth={2.2} />
-                {tab.label}
+                <Icon size={16} strokeWidth={2.2} />
+                <span className="hidden lg:inline">{tab.label}</span>
               </button>
             );
           })}
@@ -201,8 +203,8 @@ export function PhrasebookPage() {
       <button
         type="button"
         onClick={jumpToEmergency}
-        aria-label="緊急用語"
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-pill font-mono text-[13px] font-bold text-white shadow-float transition-transform active:scale-95 md:hidden"
+        aria-label="跳至緊急用語"
+        className="focus-coral fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-pill font-mono text-[13px] font-bold text-white shadow-float transition-transform active:scale-95 md:hidden"
         style={{ background: '#E0625D', letterSpacing: '0.08em' }}
       >
         SOS

@@ -108,7 +108,7 @@ export function LanguageCard({
       }}
       role="button"
       tabIndex={0}
-      aria-label={t('card.flip')}
+      aria-label={`語言卡片：${card.german}，點擊翻轉查看中文翻譯`}
       aria-pressed={flipped}
     >
       <div

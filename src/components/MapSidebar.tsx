@@ -117,11 +117,12 @@ export function MapSidebar({ onFlyTo }: { onFlyTo: (lng: number, lat: number, zo
         <button
           type="button"
           onClick={() => setMobileExpanded(!mobileExpanded)}
-          aria-label={mobileExpanded ? 'Collapse' : 'Expand'}
-          className="flex h-8 w-full items-center justify-center"
+          aria-label="拖曳展開詳細資訊"
+          aria-expanded={mobileExpanded}
+          className="flex h-11 w-full items-center justify-center"
         >
           <span
-            className="block rounded-pill bg-ink-faint/40"
+            className={cn('block rounded-pill bg-ink-faint/50', !mobileExpanded && 'handle-pulse')}
             style={{ width: 48, height: 4 }}
           />
           {mobileExpanded ? (

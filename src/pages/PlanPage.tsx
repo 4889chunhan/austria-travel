@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowDown,
@@ -39,6 +39,7 @@ import { CATEGORY_META, CATEGORY_ORDER, primaryCategory } from '../utils/categor
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { LanguageCardDeck } from '../components/LanguageCardDeck';
 import { PlanChatbot } from '../components/PlanChatbot';
+import { BudgetCalculator } from '../components/BudgetCalculator';
 import { cn } from '../utils/cn';
 import {
   addDaysISO,
@@ -104,8 +105,6 @@ const ACCOMMODATION_TAGS: { id: AccTag; label: string }[] = [
   { id: 'family', label: '家庭友善' },
   { id: 'romantic', label: '浪漫情調' },
 ];
-
-const EXCHANGE_RATE_FALLBACK = 34.5;
 
 /* ===========================================================================
    Helpers
@@ -684,8 +683,8 @@ function InterestsSection() {
               aria-pressed={active}
               title={meta.zh}
               className={cn(
-                'card flex flex-col items-center justify-center gap-1 transition-colors',
-                active && 'border-transparent bg-lime',
+                'card flex flex-col items-center justify-center gap-1 transition-all duration-200',
+                active && 'border-transparent bg-lime scale-[1.04]',
               )}
               style={{ padding: '8px 4px', minHeight: 56 }}
             >
@@ -880,7 +879,7 @@ function RightPanel() {
         <EmptyPreview />
       ) : (
         <div className="flex flex-col gap-5 px-6 py-6">
-          <BudgetSummaryCard />
+          <BudgetCalculator />
           <ShareBar />
           <DayTabs
             days={itinerary}
@@ -920,124 +919,6 @@ function EmptyPreview() {
           </span>
         ))}
       </div>
-    </div>
-  );
-}
-
-/* ---- Budget summary card --------------------------------------------------- */
-
-const BUDGET_SEGMENTS: {
-  key: 'transport' | 'accommodation' | 'attractions' | 'food' | 'buffer';
-  label: string;
-  color: string;
-}[] = [
-  { key: 'transport', label: '交通', color: '#5B9EC9' },
-  { key: 'accommodation', label: '住宿', color: '#8B6F9B' },
-  { key: 'attractions', label: '門票', color: '#E8956D' },
-  { key: 'food', label: '餐飲', color: '#E87D7D' },
-  { key: 'buffer', label: '緩衝', color: 'var(--color-ink-faint)' },
-];
-
-function BudgetSummaryCard() {
-  const budget = useStore((s) => s.budgetSummary);
-  const exchangeRate = useStore((s) => s.exchangeRate);
-  const updatedAt = useStore((s) => s.exchangeRateUpdatedAt);
-  const [expanded, setExpanded] = useState(false);
-
-  if (!budget) return null;
-
-  const total = Object.values(budget.breakdown).reduce((a, b) => a + b, 0) || 1;
-  const rateText = (exchangeRate || EXCHANGE_RATE_FALLBACK).toFixed(2);
-  const updatedText = updatedAt
-    ? new Date(updatedAt).toLocaleDateString('zh-TW', {
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-      })
-    : '預設匯率';
-
-  return (
-    <div className="card sticky top-0 z-10" style={{ padding: '16px 20px' }}>
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-editorial text-ink-faint">
-            預估總費用
-          </p>
-          <p className="font-serif text-[32px] font-bold leading-none text-ink tabular-nums">
-            {formatTWD(budget.totalTWD)}
-          </p>
-          <p className="mt-1 font-mono text-[11px] text-ink-faint">
-            ≈ €{budget.totalEUR.toLocaleString('en-US')}
-          </p>
-        </div>
-        <div className="text-right">
-          <p className="font-mono text-[11px] text-ink-faint">
-            匯率 1 EUR = {rateText} TWD
-          </p>
-          <p className="font-mono text-[10px] text-ink-faint">
-            更新時間: {updatedText}
-          </p>
-        </div>
-      </div>
-
-      {/* Stacked breakdown bar */}
-      <div
-        className="mt-3 flex h-2.5 w-full overflow-hidden rounded-pill"
-        style={{ background: 'var(--color-cream)' }}
-      >
-        {BUDGET_SEGMENTS.map((seg) => {
-          const eur = budget.breakdown[seg.key];
-          if (eur <= 0) return null;
-          const pct = (eur / total) * 100;
-          return (
-            <span
-              key={seg.key}
-              title={`${seg.label} · €${eur} · ${formatTWD(eur * exchangeRate)}`}
-              style={{ width: `${pct}%`, background: seg.color }}
-            />
-          );
-        })}
-      </div>
-
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="mt-3 flex w-full items-center justify-center gap-1 font-mono text-[11px] uppercase tracking-editorial text-ink-faint transition-colors hover:text-ink"
-      >
-        {expanded ? '收起明細' : '展開明細'}
-        {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-      </button>
-
-      {expanded && (
-        <table className="mt-3 w-full border-collapse">
-          <tbody>
-            {BUDGET_SEGMENTS.map((seg) => {
-              const eur = budget.breakdown[seg.key];
-              return (
-                <tr key={seg.key} className="border-t">
-                  <td className="py-1.5">
-                    <span className="flex items-center gap-2 font-chinese text-[13px] text-ink">
-                      <span
-                        aria-hidden
-                        className="inline-block h-2.5 w-2.5 rounded-pill"
-                        style={{ background: seg.color }}
-                      />
-                      {seg.label}
-                    </span>
-                  </td>
-                  <td className="py-1.5 text-right font-mono text-[12px] text-ink-muted">
-                    €{eur}
-                  </td>
-                  <td className="py-1.5 text-right font-mono text-[12px] text-ink">
-                    {formatTWD(eur * exchangeRate)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
     </div>
   );
 }
@@ -1158,7 +1039,9 @@ function ShareBar() {
       {/* Toast */}
       {toast && (
         <div
-          className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-pill px-4 py-2 font-chinese text-[13px] font-medium text-lime-deep shadow-float"
+          role="status"
+          aria-live="polite"
+          className="toast-in fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-pill px-4 py-2 font-chinese text-[13px] font-medium text-lime-deep shadow-float"
           style={{ background: 'var(--color-lime)' }}
         >
           分享連結已複製 ✓
@@ -1234,8 +1117,14 @@ function DailyView({ day, prevDay }: { day: DayPlan; prevDay?: DayPlan }) {
 
   return (
     <section className="flex flex-col gap-4">
-      {events.map((tip) => (
-        <SeasonalBanner key={tip.title.zh} tip={tip} />
+      {events.map((tip, i) => (
+        <div
+          key={tip.title.zh}
+          className="tip-slide-down"
+          style={{ ['--index' as string]: i } as CSSProperties}
+        >
+          <SeasonalBanner tip={tip} />
+        </div>
       ))}
 
       {day.attractions.length === 0 ? (
@@ -1247,7 +1136,11 @@ function DailyView({ day, prevDay }: { day: DayPlan; prevDay?: DayPlan }) {
       ) : (
         <ol className="flex flex-col">
           {day.attractions.map((a, i) => (
-            <li key={a.id}>
+            <li
+              key={a.id}
+              className="stagger-item"
+              style={{ ['--index' as string]: i } as CSSProperties}
+            >
               <AttractionRow attraction={a} />
               {i < day.attractions.length - 1 && (
                 <TransportConnector from={a} to={day.attractions[i + 1]!} />

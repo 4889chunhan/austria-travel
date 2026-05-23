@@ -107,7 +107,7 @@ function DetailView({ attraction }: { attraction: Attraction }) {
   return (
     <div className="bg-cream">
       {/* ============ HERO ============ */}
-      <div className="relative w-full" style={{ height: '55vh' }}>
+      <div className="relative h-[40vh] w-full md:h-[55vh]">
         <img
           src={attraction.imageUrl}
           alt={localized(attraction.name)}
@@ -146,7 +146,7 @@ function DetailView({ attraction }: { attraction: Attraction }) {
       </div>
 
       {/* ============ CONTENT ============ */}
-      <article className="mx-auto max-w-[800px] px-6 pb-16">
+      <article className="mx-auto max-w-[800px] px-4 pb-16 sm:px-6">
         {/* TOP META */}
         <div className="mt-8 flex flex-wrap items-center gap-2">
           <span
@@ -239,7 +239,7 @@ function DetailView({ attraction }: { attraction: Attraction }) {
           </div>
 
           <aside className="md:col-span-5">
-            <div className="sticky" style={{ top: 88 }}>
+            <div className="md:sticky" style={{ top: 88 }}>
               <InfoCard attraction={attraction} onShare={handleShare} />
             </div>
           </aside>
