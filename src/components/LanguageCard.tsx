@@ -23,8 +23,7 @@ import { cn } from '../utils/cn';
 
 /**
  * Pick a lucide icon based on keywords in the situation's English label.
- * Falls back to a generic chat bubble. Intentionally heuristic — the data
- * model doesn't carry a category enum on language cards.
+ * Heuristic — the data model doesn't carry a category enum on cards.
  */
 function iconForSituation(en: string): LucideIcon {
   const s = en.toLowerCase();
@@ -44,9 +43,35 @@ function iconForSituation(en: string): LucideIcon {
   return MessageCircle;
 }
 
+// Font sizes scale down as text gets longer so nothing overflows the fixed
+// card. The card is 300×200; these thresholds keep the longest seed phrases
+// (~65 chars) inside the bounds.
+function germanFontSize(text: string): number {
+  const n = text.length;
+  if (n > 58) return 15;
+  if (n > 44) return 17;
+  if (n > 30) return 20;
+  return 24;
+}
+function pronFontSize(text: string): number {
+  const n = text.length;
+  if (n > 56) return 9;
+  if (n > 38) return 10;
+  return 11;
+}
+function chineseFontSize(text: string): number {
+  const n = text.length;
+  if (n > 26) return 16;
+  if (n > 16) return 19;
+  return 23;
+}
+function englishFontSize(text: string): number {
+  return text.length > 52 ? 12.5 : 14.5;
+}
+
 /**
- * Bilingual signature card — German phrase on the front, Chinese + English
- * translation on the back. Flips on click / tap / keyboard.
+ * Bilingual signature card — German on the front, Chinese + English on the
+ * back. Flips on click / tap / keyboard. Text auto-scales to avoid overflow.
  */
 export function LanguageCard({
   card,
@@ -62,17 +87,18 @@ export function LanguageCard({
   const SituationIcon = iconForSituation(card.situation.en);
   const situationLabel = localized(card.situation);
   const note = card.note ? localized(card.note) : null;
+  // Emergency cards get a soft coral back face to signal importance.
+  const isEmergency = card.scenario === 'emergency';
 
   const toggle = () => setFlipped((f) => !f);
 
   return (
     <div
       className={cn(
-        'group relative cursor-pointer select-none',
-        'w-full max-w-[300px]',
+        'group relative w-full max-w-[300px] cursor-pointer select-none',
         className,
       )}
-      style={{ perspective: '1000px', aspectRatio: '300 / 190' }}
+      style={{ perspective: '1000px', aspectRatio: '300 / 200' }}
       onClick={toggle}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -90,13 +116,12 @@ export function LanguageCard({
         style={{
           transformStyle: 'preserve-3d',
           transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-          transition:
-            'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), filter 0.25s ease',
+          transition: 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
         {/* ============ Front — German ============ */}
         <div
-          className="absolute inset-0 flex flex-col p-5"
+          className="absolute inset-0 flex flex-col overflow-hidden p-4"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
@@ -107,28 +132,32 @@ export function LanguageCard({
         >
           <div className="flex items-center gap-1.5">
             <SituationIcon
-              size={14}
+              size={13}
               strokeWidth={2.2}
-              style={{ color: 'var(--color-lime)' }}
+              style={{ color: 'var(--color-lime)', flexShrink: 0 }}
             />
             <span
-              className="font-mono uppercase tracking-editorial"
+              className="truncate font-mono uppercase tracking-editorial"
               style={{ fontSize: 10, color: 'var(--color-lime)' }}
             >
               {situationLabel}
             </span>
           </div>
 
-          <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <div className="flex flex-1 flex-col items-center justify-center overflow-hidden text-center">
             <p
               className="font-german italic text-white"
-              style={{ fontSize: 26, lineHeight: 1.3, fontWeight: 400 }}
+              style={{ fontSize: germanFontSize(card.german), lineHeight: 1.25 }}
             >
               {card.german}
             </p>
             <p
-              className="mt-3 font-mono"
-              style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)' }}
+              className="mt-2 font-mono"
+              style={{
+                fontSize: pronFontSize(card.pronunciation),
+                lineHeight: 1.35,
+                color: 'rgba(255,255,255,0.45)',
+              }}
             >
               {card.pronunciation}
             </p>
@@ -146,38 +175,44 @@ export function LanguageCard({
 
         {/* ============ Back — Chinese + English ============ */}
         <div
-          className="absolute inset-0 flex flex-col items-center p-5"
+          className="absolute inset-0 flex flex-col items-center overflow-hidden p-4"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            background: 'var(--color-card)',
+            background: isEmergency ? '#FFF5F5' : 'var(--color-card)',
             borderRadius: 'var(--radius-lg)',
-            border: '0.5px solid var(--color-border)',
+            border: isEmergency
+              ? '0.5px solid #F1C9C9'
+              : '0.5px solid var(--color-border)',
             boxShadow: 'var(--shadow-card)',
             transform: 'rotateY(180deg)',
           }}
         >
           <span
-            className="mt-1 rounded-pill px-3 py-1 font-mono uppercase tracking-editorial"
+            className="max-w-full shrink-0 truncate rounded-pill px-3 py-1 font-mono uppercase tracking-editorial"
             style={{
-              background: 'var(--color-lime)',
-              color: 'var(--color-lime-deep)',
+              background: isEmergency ? '#FBDCDC' : 'var(--color-lime)',
+              color: isEmergency ? '#B3261E' : 'var(--color-lime-deep)',
               fontSize: 10,
             }}
           >
             {situationLabel}
           </span>
 
-          <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <div className="flex flex-1 flex-col items-center justify-center overflow-hidden text-center">
             <p
               className="font-chinese text-ink"
-              style={{ fontSize: 24, fontWeight: 500, lineHeight: 1.25 }}
+              style={{
+                fontSize: chineseFontSize(card.chinese),
+                fontWeight: 500,
+                lineHeight: 1.25,
+              }}
             >
               {card.chinese}
             </p>
             <p
               className="mt-1 font-serif italic text-ink-muted"
-              style={{ fontSize: 15, lineHeight: 1.35 }}
+              style={{ fontSize: englishFontSize(card.english), lineHeight: 1.3 }}
             >
               {card.english}
             </p>
@@ -185,8 +220,15 @@ export function LanguageCard({
 
           {note && (
             <p
-              className="px-2 text-center font-german italic text-ink-faint"
-              style={{ fontSize: 11, lineHeight: 1.45 }}
+              className="shrink-0 px-1 text-center font-german italic text-ink-faint"
+              style={{
+                fontSize: 10.5,
+                lineHeight: 1.4,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
             >
               {note}
             </p>

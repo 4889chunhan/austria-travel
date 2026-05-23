@@ -1,10 +1,19 @@
+import { useState } from 'react';
 import { Marker } from 'react-map-gl';
-import { Castle, Mountain as MountainIcon, type LucideIcon } from 'lucide-react';
-import type { Attraction } from '../types';
+import {
+  BedDouble,
+  Castle,
+  Mountain as MountainIcon,
+  type LucideIcon,
+} from 'lucide-react';
+import type { Accommodation, Attraction } from '../types';
 import { useStore } from '../store';
 import { primaryCategory } from '../utils/categoryColors';
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { cn } from '../utils/cn';
+
+/** Muted purple — distinct from every attraction category color. */
+export const ACCOMMODATION_COLOR = '#8B6F9B';
 
 /* ---------------------------------------------------------------------------
    Attraction teardrop pin
@@ -15,13 +24,11 @@ export function AttractionMarker({
   onClick,
   routeIndex,
   zoom,
-  dimmed,
 }: {
   attraction: Attraction;
   onClick: () => void;
   routeIndex?: number;
   zoom: number;
-  dimmed: boolean;
 }) {
   const selectedId = useStore((s) => s.selectedAttraction?.id);
   const hoveredId = useStore((s) => s.hoveredAttraction);
@@ -38,10 +45,6 @@ export function AttractionMarker({
       longitude={attraction.coordinates.lng}
       latitude={attraction.coordinates.lat}
       anchor="bottom"
-      style={{
-        opacity: dimmed ? 0.3 : 1,
-        pointerEvents: dimmed ? 'none' : 'auto',
-      }}
     >
       <div
         onClick={(e) => {
@@ -160,6 +163,118 @@ function TeardropPin({
         style={{ top: 10, left: 10 }}
       >
         <Icon size={12} color={color} strokeWidth={2.4} />
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Accommodation teardrop pin (purple, white BedDouble icon)
+   --------------------------------------------------------------------------- */
+
+export function AccommodationMarker({
+  accommodation,
+  onClick,
+  zoom,
+}: {
+  accommodation: Accommodation;
+  onClick: () => void;
+  zoom: number;
+}) {
+  const selectedId = useStore((s) => s.selectedAccommodation?.id);
+  const localized = useLocalizedField();
+  const [hovered, setHovered] = useState(false);
+
+  const selected = selectedId === accommodation.id;
+  const showLabel = zoom >= 11 || selected || hovered;
+
+  return (
+    <Marker
+      longitude={accommodation.coordinates.lng}
+      latitude={accommodation.coordinates.lat}
+      anchor="bottom"
+    >
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick();
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="relative cursor-pointer"
+        role="button"
+        aria-label={localized(accommodation.name)}
+      >
+        {selected && (
+          <div
+            className="marker-pulse absolute rounded-pill"
+            style={{
+              left: '50%',
+              top: '40%',
+              width: 48,
+              height: 48,
+              marginLeft: -24,
+              marginTop: -24,
+              background: ACCOMMODATION_COLOR,
+            }}
+          />
+        )}
+
+        <div
+          key={selected ? 'selected' : 'idle'}
+          className={cn(
+            'relative transition-transform duration-200',
+            selected && 'marker-bounce',
+          )}
+          style={{
+            transform: selected
+              ? 'scale(1.3)'
+              : hovered
+              ? 'scale(1.18)'
+              : 'scale(1)',
+            transformOrigin: 'center bottom',
+          }}
+        >
+          <AccommodationTeardropPin ring={selected} />
+        </div>
+
+        {showLabel && (
+          <div
+            className="pointer-events-none absolute left-1/2 -translate-x-1/2 whitespace-nowrap rounded-pill bg-white px-2 py-0.5 font-chinese text-[10px] font-medium text-ink"
+            style={{
+              top: 'calc(100% + 2px)',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+              maxWidth: 140,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {localized(accommodation.name)}
+          </div>
+        )}
+      </div>
+    </Marker>
+  );
+}
+
+function AccommodationTeardropPin({ ring }: { ring: boolean }) {
+  return (
+    <div className="relative" style={{ width: 32, height: 40 }}>
+      <svg
+        width="32"
+        height="40"
+        viewBox="0 0 32 40"
+        style={{ filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.22))' }}
+      >
+        <path
+          d="M16 0C7.16 0 0 7.16 0 16c0 12 16 24 16 24s16-12 16-24C32 7.16 24.84 0 16 0z"
+          fill={ACCOMMODATION_COLOR}
+          stroke={ring ? '#FFFFFF' : 'none'}
+          strokeWidth={ring ? 2.5 : 0}
+        />
+      </svg>
+      <div className="pointer-events-none absolute" style={{ top: 8, left: 10 }}>
+        <BedDouble size={12} color="#FFFFFF" strokeWidth={2.2} />
       </div>
     </div>
   );

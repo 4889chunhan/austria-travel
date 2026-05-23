@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import { Hotel, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
 import {
   CATEGORY_META,
@@ -16,6 +16,8 @@ export function MapFilterBar() {
   const activeCategories = useStore((s) => s.activeCategories);
   const toggleCategory = useStore((s) => s.toggleCategory);
   const clearCategories = useStore((s) => s.clearCategories);
+  const showAccommodations = useStore((s) => s.showAccommodations);
+  const toggleShowAccommodations = useStore((s) => s.toggleShowAccommodations);
 
   const allActive = activeCategories.length === 0;
 
@@ -46,7 +48,46 @@ export function MapFilterBar() {
           />
         );
       })}
+      <Separator />
+      <AccommodationPill
+        active={showAccommodations}
+        onClick={toggleShowAccommodations}
+      />
     </div>
+  );
+}
+
+const ACCOMMODATION_COLOR = '#8B6F9B';
+
+function AccommodationPill({
+  active,
+  onClick,
+}: {
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={cn(
+        'flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-pill px-3.5 py-1.5 font-chinese text-[12px] transition-all duration-200',
+        active ? '' : 'text-ink-muted hover:text-ink',
+      )}
+      style={
+        active
+          ? {
+              background: hexAlpha(ACCOMMODATION_COLOR, 0.15),
+              color: ACCOMMODATION_COLOR,
+              border: `1.5px solid ${ACCOMMODATION_COLOR}`,
+            }
+          : { border: '1.5px solid transparent' }
+      }
+    >
+      <Hotel size={14} strokeWidth={2.2} />
+      住宿
+    </button>
   );
 }
 

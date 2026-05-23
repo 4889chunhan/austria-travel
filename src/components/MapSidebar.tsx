@@ -1,13 +1,52 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Train, Bus, Footprints, ChevronUp, ChevronDown, ArrowUpRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Bell,
+  Bus,
+  Car,
+  ChevronDown,
+  ChevronUp,
+  Coffee,
+  Dumbbell,
+  ExternalLink,
+  Footprints,
+  Mountain,
+  PawPrint,
+  Snowflake,
+  Sparkles,
+  Star,
+  Train,
+  UtensilsCrossed,
+  Waves,
+  Wifi,
+  Wine,
+  type LucideIcon,
+} from 'lucide-react';
 import { useStore } from '../store';
 import { attractions } from '../data/attractions';
 import { primaryCategory } from '../utils/categoryColors';
+import { ACCOMMODATION_COLOR } from './MapMarkers';
 import { useLocalizedField } from '../hooks/useLocalizedField';
-import { LanguageCardDeck } from './LanguageCardDeck';
 import { cn } from '../utils/cn';
-import type { Attraction } from '../types';
+import type { Accommodation, Attraction } from '../types';
+
+/** Amenity key → icon + bilingual chip label. Unknown keys fall back to text. */
+const AMENITY_META: Record<string, { icon: LucideIcon; zh: string }> = {
+  wifi: { icon: Wifi, zh: '免費 Wi-Fi' },
+  breakfast: { icon: Coffee, zh: '早餐' },
+  parking: { icon: Car, zh: '停車' },
+  spa: { icon: Sparkles, zh: 'Spa' },
+  restaurant: { icon: UtensilsCrossed, zh: '餐廳' },
+  bar: { icon: Wine, zh: '酒吧' },
+  gym: { icon: Dumbbell, zh: '健身房' },
+  pool: { icon: Waves, zh: '泳池' },
+  pets: { icon: PawPrint, zh: '寵物友善' },
+  ac: { icon: Snowflake, zh: '空調' },
+  lakeview: { icon: Mountain, zh: '湖景' },
+  concierge: { icon: Bell, zh: '禮賓服務' },
+};
 
 const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
   vienna:    { zh: '維也納',     en: 'Vienna' },
@@ -31,6 +70,8 @@ const PROFILE_FOR_CATEGORY: Record<string, string> = {
 export function MapSidebar({ onFlyTo }: { onFlyTo: (lng: number, lat: number, zoom?: number) => void }) {
   const selectedAttraction = useStore((s) => s.selectedAttraction);
   const setSelectedAttraction = useStore((s) => s.setSelectedAttraction);
+  const selectedAccommodation = useStore((s) => s.selectedAccommodation);
+  const setSelectedAccommodation = useStore((s) => s.setSelectedAccommodation);
   const setHovered = useStore((s) => s.setHoveredAttraction);
   const [mobileExpanded, setMobileExpanded] = useState(false);
 
@@ -48,7 +89,9 @@ export function MapSidebar({ onFlyTo }: { onFlyTo: (lng: number, lat: number, zo
       >
         <SidebarBody
           selected={selectedAttraction}
+          selectedAccommodation={selectedAccommodation}
           onBack={() => setSelectedAttraction(null)}
+          onBackAccommodation={() => setSelectedAccommodation(null)}
           onFlyTo={onFlyTo}
           onCityClick={(city) => {
             const first = attractions.find((a) => a.city === city);
@@ -90,7 +133,9 @@ export function MapSidebar({ onFlyTo }: { onFlyTo: (lng: number, lat: number, zo
         <div className="flex-1 overflow-y-auto">
           <SidebarBody
             selected={selectedAttraction}
+            selectedAccommodation={selectedAccommodation}
             onBack={() => setSelectedAttraction(null)}
+            onBackAccommodation={() => setSelectedAccommodation(null)}
             onFlyTo={onFlyTo}
             onCityClick={(city) => {
               const first = attractions.find((a) => a.city === city);
@@ -110,24 +155,33 @@ export function MapSidebar({ onFlyTo }: { onFlyTo: (lng: number, lat: number, zo
 
 function SidebarBody({
   selected,
+  selectedAccommodation,
   onBack,
+  onBackAccommodation,
   onFlyTo,
   onCityClick,
   onHover,
 }: {
   selected: Attraction | null;
+  selectedAccommodation: Accommodation | null;
   onBack: () => void;
+  onBackAccommodation: () => void;
   onFlyTo: (lng: number, lat: number, zoom?: number) => void;
   onCityClick: (city: string) => void;
   onHover: (id: string | null) => void;
 }) {
   return (
     <div
-      key={selected?.id ?? 'default'}
+      key={selectedAccommodation?.id ?? selected?.id ?? 'default'}
       className="flex h-full flex-col"
       style={{ animation: 'panel-fade-in 0.25s ease-out both' }}
     >
-      {selected ? (
+      {selectedAccommodation ? (
+        <AccommodationDetailCard
+          accommodation={selectedAccommodation}
+          onBack={onBackAccommodation}
+        />
+      ) : selected ? (
         <SelectedView attraction={selected} onBack={onBack} />
       ) : (
         <DefaultView
@@ -260,10 +314,11 @@ function SelectedView({
     s.savedAttractions.includes(attraction.id),
   );
 
+  const setLanguageCardsOpen = useStore((s) => s.setLanguageCardsOpen);
+
   const profile = PROFILE_FOR_CATEGORY[meta.id] ?? '所有旅人';
   const highlights = (attraction.tips?.zh ?? attraction.tagline.zh)
     .replace(/。$/, '');
-  const [showCards, setShowCards] = useState(false);
 
   return (
     <div className="flex h-full flex-col">
@@ -342,65 +397,210 @@ function SelectedView({
         {/* Transport time card */}
         <TransportCard />
 
-        {/* CTAs / Language cards deck */}
-        {showCards ? (
-          <div className="px-4 pb-6 pt-4">
-            <div className="mb-4 flex items-baseline justify-between">
-              <div>
-                <h3 className="font-serif text-[20px] italic text-ink">
-                  語言小卡
-                </h3>
-                <p className="mt-0.5 font-mono text-[10px] uppercase tracking-editorial text-ink-faint">
-                  Language cards
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowCards(false)}
-                className="btn-secondary"
-                style={{ padding: '4px 12px', fontSize: 12 }}
-              >
-                <ArrowLeft size={12} />
-                收起
-              </button>
-            </div>
-            {attraction.languageCards.length > 0 ? (
-              <LanguageCardDeck cards={attraction.languageCards} />
-            ) : (
-              <p className="text-center font-chinese text-[13px] text-ink-faint">
-                這個景點還沒有語言小卡。
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2 px-4 pb-6 pt-4">
-            <button
-              type="button"
-              onClick={() => setShowCards(true)}
-              className="btn-primary w-full justify-center"
-            >
-              語言小卡
-              <span className="font-mono text-[10px] opacity-70">
-                {attraction.languageCards.length}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => toggleSaved(attraction.id)}
-              className="btn-secondary w-full justify-center"
-            >
-              {isSaved ? '已加入行程' : '加入行程'}
-            </button>
-            <a
-              href={attraction.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary w-full justify-center"
-            >
-              官方網站 <ExternalLink size={14} />
-            </a>
+        {/* CTAs — "語言小卡" opens the floating panel over the map */}
+        <div className="flex flex-col gap-2 px-4 pb-6 pt-4">
+          <button
+            type="button"
+            onClick={() => setLanguageCardsOpen(true)}
+            disabled={attraction.languageCards.length === 0}
+            className="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            語言小卡
+            <span className="font-mono text-[10px] opacity-70">
+              {attraction.languageCards.length}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => toggleSaved(attraction.id)}
+            className="btn-secondary w-full justify-center"
+          >
+            {isSaved ? '已加入行程' : '加入行程'}
+          </button>
+          <a
+            href={attraction.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary w-full justify-center"
+          >
+            官方網站 <ExternalLink size={14} />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Accommodation detail — shown in the sidebar detail slot
+   --------------------------------------------------------------------------- */
+
+function AccommodationDetailCard({
+  accommodation,
+  onBack,
+}: {
+  accommodation: Accommodation;
+  onBack: () => void;
+}) {
+  const localized = useLocalizedField();
+  const exchangeRate = useStore((s) => s.exchangeRate);
+  const assignAccommodationToDay = useStore((s) => s.assignAccommodationToDay);
+  const isSaved = useStore((s) =>
+    s.savedAccommodations.includes(accommodation.id),
+  );
+
+  const cityLabel = CITY_DISPLAY[accommodation.city] ?? {
+    zh: accommodation.city,
+    en: accommodation.city,
+  };
+  const twd = Math.round(accommodation.pricePerNight.EUR * exchangeRate);
+
+  // Resolve nearby slugs to real attractions (skips cities without data).
+  const nearby = accommodation.nearbyAttractions
+    .map((slug) => attractions.find((a) => a.slug === slug))
+    .filter((a): a is Attraction => Boolean(a));
+
+  return (
+    <div className="flex h-full flex-col">
+      {/* Photo */}
+      <div
+        className="relative shrink-0"
+        style={{ height: 180, background: 'var(--color-cream)' }}
+      >
+        <img
+          src={accommodation.imageUrl}
+          alt={localized(accommodation.name)}
+          className="h-full w-full object-cover"
+          style={{ borderRadius: 0 }}
+        />
+        <span
+          className="absolute right-3 top-3 flex items-center gap-1 rounded-pill px-2 py-0.5 font-mono text-[10px] uppercase tracking-editorial text-white"
+          style={{ background: ACCOMMODATION_COLOR }}
+        >
+          {accommodation.type}
+        </span>
+      </div>
+
+      <div className="flex-1 overflow-y-auto">
+        {/* Back */}
+        <div className="px-4 pt-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="btn-secondary inline-flex items-center gap-1"
+          >
+            <ArrowLeft size={14} />
+            返回
+          </button>
+        </div>
+
+        {/* Stars + city */}
+        <div className="mt-3 flex items-center gap-2 px-4">
+          {accommodation.stars && (
+            <span className="flex items-center gap-0.5 text-[#D4A84B]">
+              {Array.from({ length: accommodation.stars }).map((_, i) => (
+                <Star key={i} size={12} fill="currentColor" strokeWidth={0} />
+              ))}
+            </span>
+          )}
+          <span className="ml-auto rounded-pill bg-lime px-2 py-0.5 font-mono text-[9px] uppercase tracking-editorial text-lime-deep">
+            {cityLabel.en}
+          </span>
+        </div>
+
+        {/* Names */}
+        <h2 className="mt-2 px-4 font-chinese text-[20px] font-bold leading-tight text-ink">
+          {accommodation.name.zh}
+        </h2>
+        <p className="px-4 font-serif text-[15px] italic text-ink-muted">
+          {accommodation.name.en}
+        </p>
+
+        {/* Price */}
+        <div className="mt-3 flex items-baseline gap-1.5 px-4">
+          <span className="font-serif text-[28px] font-bold leading-none text-ink">
+            €{accommodation.pricePerNight.EUR}
+          </span>
+          <span className="font-chinese text-[14px] text-ink-muted">/晚</span>
+        </div>
+        <p className="px-4 font-mono text-[12px] text-ink-faint">
+          (約 NT$ {twd.toLocaleString('en-US')})
+        </p>
+
+        {/* Amenities */}
+        {accommodation.amenities.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5 px-4">
+            {accommodation.amenities.map((key) => {
+              const meta = AMENITY_META[key];
+              const Icon = meta?.icon;
+              return (
+                <span
+                  key={key}
+                  className="inline-flex items-center gap-1 rounded-pill px-2 py-1 font-chinese text-[11px] text-ink-muted"
+                  style={{ border: '0.5px solid var(--color-border)' }}
+                >
+                  {Icon && <Icon size={12} strokeWidth={1.8} />}
+                  {meta?.zh ?? key}
+                </span>
+              );
+            })}
           </div>
         )}
+
+        {/* Description */}
+        <p
+          className="mt-3 px-4 font-chinese text-[13px] leading-relaxed text-ink"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {localized(accommodation.description)}
+        </p>
+
+        {/* Nearby attractions */}
+        {nearby.length > 0 && (
+          <div className="mt-4 px-4">
+            <p className="font-mono text-[9px] uppercase tracking-editorial text-ink-faint">
+              鄰近景點
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {nearby.map((a) => (
+                <Link
+                  key={a.id}
+                  to={`/attraction/${a.slug}`}
+                  className="inline-flex items-center gap-0.5 rounded-pill bg-cream px-2.5 py-1 font-chinese text-[12px] text-ink transition-colors hover:text-lime-deep"
+                  style={{ border: '0.5px solid var(--color-border)' }}
+                >
+                  {localized(a.name)}
+                  <ArrowUpRight size={11} />
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CTAs */}
+        <div className="flex flex-col gap-2 px-4 pb-6 pt-4">
+          <button
+            type="button"
+            onClick={() => assignAccommodationToDay(accommodation)}
+            className="btn-primary w-full justify-center"
+          >
+            {isSaved ? '已加入行程' : '加入行程'}
+            <ArrowUpRight size={14} />
+          </button>
+          <a
+            href={accommodation.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary w-full justify-center"
+          >
+            查看訂房 <ExternalLink size={14} />
+          </a>
+        </div>
       </div>
     </div>
   );

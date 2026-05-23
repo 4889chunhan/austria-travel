@@ -246,6 +246,13 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
+/* Typing indicator — three dots bobbing in the chatbot. Each dot sets its own
+   inline `animation-delay` to stagger the wave. */
+@keyframes dot-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
 @layer utilities {
   /* Italic emphasis for English headlines — pair with `<em>` or `<i>`. */
   .italic-emphasis {

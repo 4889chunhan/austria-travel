@@ -3,7 +3,11 @@ import MapGL, { ScaleControl, Source, Layer, type MapRef } from 'react-map-gl';
 import type { Map as MapboxMap } from 'mapbox-gl';
 import { attractions } from '../data/attractions';
 import { useStore } from '../store';
-import { AttractionMarker, CityClusterMarker } from './MapMarkers';
+import {
+  AccommodationMarker,
+  AttractionMarker,
+  CityClusterMarker,
+} from './MapMarkers';
 import { ZoomControls } from './MapControls';
 import type { Attraction } from '../types';
 
@@ -37,6 +41,9 @@ export function MapView({
   const activeCategories = useStore((s) => s.activeCategories);
   const setSelectedAttraction = useStore((s) => s.setSelectedAttraction);
   const itinerary = useStore((s) => s.itinerary);
+  const accommodations = useStore((s) => s.accommodations);
+  const showAccommodations = useStore((s) => s.showAccommodations);
+  const setSelectedAccommodation = useStore((s) => s.setSelectedAccommodation);
 
   const handleLoad = () => {
     const map = mapRef.current?.getMap();
@@ -93,10 +100,22 @@ export function MapView({
     return () => window.clearInterval(id);
   }, [routeGeoJSON]);
 
-  // Compute city centroids for low-zoom cluster chips
+  // Attractions matching the active category filter. An empty filter shows all.
+  // Non-matching pins are removed entirely (not just dimmed).
+  const visibleAttractions = useMemo(
+    () =>
+      attractions.filter(
+        (a: Attraction) =>
+          activeCategories.length === 0 ||
+          a.category.some((c) => activeCategories.includes(c)),
+      ),
+    [activeCategories],
+  );
+
+  // Compute city centroids for low-zoom cluster chips (filter-aware).
   const cityClusters = useMemo(() => {
     const groups = new Map<string, { sum: [number, number]; count: number }>();
-    for (const a of attractions) {
+    for (const a of visibleAttractions) {
       const entry = groups.get(a.city) ?? { sum: [0, 0], count: 0 };
       entry.sum[0] += a.coordinates.lng;
       entry.sum[1] += a.coordinates.lat;
@@ -108,12 +127,7 @@ export function MapView({
       count,
       center: [sum[0] / count, sum[1] / count] as [number, number],
     }));
-  }, []);
-
-  // Filter visibility
-  const isVisible = (a: Attraction) =>
-    activeCategories.length === 0 ||
-    a.category.some((c) => activeCategories.includes(c));
+  }, [visibleAttractions]);
 
   // Expose imperative API to parent
   useEffect(() => {
@@ -172,12 +186,11 @@ export function MapView({
                 }
               />
             ))
-          : attractions.map((a) => (
+          : visibleAttractions.map((a) => (
               <AttractionMarker
                 key={a.id}
                 attraction={a}
                 zoom={zoom}
-                dimmed={!isVisible(a)}
                 routeIndex={routePositions.get(a.id)}
                 onClick={() => {
                   setSelectedAttraction(a);
@@ -190,6 +203,27 @@ export function MapView({
                 }}
               />
             ))}
+
+        {/* Accommodation pins — only when the 住宿 filter is on and we're past
+            the cluster zoom threshold, so they never crowd the city chips. */}
+        {showAccommodations &&
+          !showClusters &&
+          accommodations.map((acc) => (
+            <AccommodationMarker
+              key={acc.id}
+              accommodation={acc}
+              zoom={zoom}
+              onClick={() => {
+                setSelectedAccommodation(acc);
+                mapRef.current?.flyTo({
+                  center: [acc.coordinates.lng, acc.coordinates.lat],
+                  zoom: Math.max(zoom, 12),
+                  duration: 1100,
+                  offset: [-150, 0],
+                });
+              }}
+            />
+          ))}
 
         {routeGeoJSON && (
           <Source id="route" type="geojson" data={routeGeoJSON}>

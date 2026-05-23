@@ -1,9 +1,11 @@
 {
   "nav": {
     "home": "Home",
-    "plan": "Plan a trip",
-    "map": "Map",
-    "itinerary": "My itinerary",
+    "plan": "Plan a Trip",
+    "map": "Attraction Map",
+    "itinerary": "My Itinerary",
+    "phrasebook": "Phrasebook",
+    "chat": "AI Chat",
     "language": "中"
   },
   "filter": {
