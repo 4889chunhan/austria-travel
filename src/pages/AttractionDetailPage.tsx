@@ -146,143 +146,148 @@ function DetailView({ attraction }: { attraction: Attraction }) {
       </div>
 
       {/* ============ CONTENT ============ */}
-      <article className="mx-auto max-w-[800px] px-4 pb-16 sm:px-6">
-        {/* TOP META */}
-        <div className="mt-8 flex flex-wrap items-center gap-2">
-          <span
-            className="rounded-pill bg-lime px-2.5 py-1 font-mono uppercase tracking-editorial text-lime-deep"
-            style={{ fontSize: 10 }}
-          >
-            {cityLabel.en}
-          </span>
-          {attraction.category.map((c) => {
-            const m = CATEGORY_META[c];
-            return (
-              <span
-                key={c}
-                className="rounded-pill px-2.5 py-1 font-mono uppercase tracking-editorial"
-                style={{
-                  background: hexAlpha(m.color, 0.15),
-                  color: m.color,
-                  fontSize: 10,
-                }}
-              >
-                {m.en}
-              </span>
-            );
-          })}
-          <button
-            type="button"
-            onClick={() => toggleSaved(attraction.id)}
-            aria-pressed={isSaved}
-            className={cn(
-              'ml-auto inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 font-chinese text-[12px] font-medium transition-colors',
-              isSaved
-                ? 'bg-lime text-lime-deep'
-                : 'text-ink-muted hover:text-ink',
+      <article className="mx-auto max-w-[1200px] px-6 pb-16">
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12">
+          <aside className="lg:col-span-3 lg:sticky lg:self-start" style={{ top: 88 }}>
+            {nearby.length > 0 && (
+              <div className="lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto lg:pr-1">
+                <h2 className="mb-4 font-chinese text-[18px] font-medium text-ink">
+                  附近景點
+                  <span className="ml-2 font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
+                    · {cityLabel.en}
+                  </span>
+                </h2>
+                <div className="space-y-3">
+                  {nearby.map((a) => (
+                    <NearbyCard key={a.id} attraction={a} compact />
+                  ))}
+                </div>
+              </div>
             )}
-            style={
-              !isSaved
-                ? { border: '1px solid var(--color-border-med)' }
-                : undefined
-            }
-          >
-            <Heart size={14} fill={isSaved ? 'currentColor' : 'none'} strokeWidth={2} />
-            {isSaved ? '已收藏' : '收藏'}
-          </button>
-        </div>
-
-        {/* NAME BLOCK */}
-        <header className="mt-5">
-          <h1
-            className="font-chinese text-ink"
-            style={{ fontSize: 44, fontWeight: 700, lineHeight: 1.1 }}
-          >
-            {attraction.name.zh}
-          </h1>
-          <p
-            className="mt-1 font-serif italic text-ink-muted"
-            style={{ fontSize: 26, lineHeight: 1.2 }}
-          >
-            {attraction.name.en}
-          </p>
-          <p className="mt-1 font-german text-ink-faint" style={{ fontSize: 15 }}>
-            {attraction.name.de}
-          </p>
-        </header>
-
-        {/* TWO-COLUMN: description + info card */}
-        <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-7">
-            <p
-              className="font-chinese text-ink"
-              style={{ fontSize: 16, lineHeight: 1.85 }}
-            >
-              <span
-                aria-hidden
-                className={isZh ? 'font-chinese' : 'font-serif'}
-                style={{
-                  float: 'left',
-                  fontSize: 64,
-                  fontWeight: 700,
-                  lineHeight: 1,
-                  marginRight: 12,
-                  marginTop: 6,
-                  color: 'var(--color-ink)',
-                }}
-              >
-                {dropChar}
-              </span>
-              {restOfDesc}
-            </p>
-            <div style={{ clear: 'both' }} />
-          </div>
-
-          <aside className="md:col-span-5">
-            <div className="md:sticky" style={{ top: 88 }}>
-              <InfoCard attraction={attraction} onShare={handleShare} />
-            </div>
           </aside>
-        </div>
 
-        {/* TRANSPORT */}
-        <TransportSection />
-
-        {/* LANGUAGE CARDS */}
-        <section className="mt-16">
-          <div className="mb-6 flex items-baseline gap-3">
-            <h2 className="font-serif italic text-ink" style={{ fontSize: 36 }}>
-              語言小卡
-            </h2>
-            <p className="font-german text-[14px] text-ink-muted">
-              Language cards
-            </p>
-          </div>
-          {attraction.languageCards.length > 0 ? (
-            <LanguageCardDeck cards={attraction.languageCards} />
-          ) : (
-            <p className="font-chinese text-[14px] text-ink-faint">
-              這個景點還沒有語言小卡。
-            </p>
-          )}
-        </section>
-
-        {/* NEARBY */}
-        {nearby.length > 0 && (
-          <section className="mt-16">
-            <h2 className="mb-4 font-chinese text-[18px] font-medium text-ink">
-              附近景點
-              <span className="ml-2 font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
-                · {cityLabel.en}
+          <div
+            className="lg:col-span-9 lg:sticky lg:self-start lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto lg:pr-1"
+            style={{ top: 88 }}
+          >
+            {/* TOP META */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="rounded-pill bg-lime px-2.5 py-1 font-mono uppercase tracking-editorial text-lime-deep"
+                style={{ fontSize: 10 }}
+              >
+                {cityLabel.en}
               </span>
-            </h2>
-            <div className="scrollbar-hidden -mx-6 flex gap-3 overflow-x-auto px-6 pb-2">
-              {nearby.map((a) => (
-                <NearbyCard key={a.id} attraction={a} />
-              ))}
+              {attraction.category.map((c) => {
+                const m = CATEGORY_META[c];
+                return (
+                  <span
+                    key={c}
+                    className="rounded-pill px-2.5 py-1 font-mono uppercase tracking-editorial"
+                    style={{
+                      background: hexAlpha(m.color, 0.15),
+                      color: m.color,
+                      fontSize: 10,
+                    }}
+                  >
+                    {m.en}
+                  </span>
+                );
+              })}
+              <button
+                type="button"
+                onClick={() => toggleSaved(attraction.id)}
+                aria-pressed={isSaved}
+                className={cn(
+                  'ml-auto inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 font-chinese text-[12px] font-medium transition-colors',
+                  isSaved
+                    ? 'bg-lime text-lime-deep'
+                    : 'text-ink-muted hover:text-ink',
+                )}
+                style={
+                  !isSaved
+                    ? { border: '1px solid var(--color-border-med)' }
+                    : undefined
+                }
+              >
+                <Heart size={14} fill={isSaved ? 'currentColor' : 'none'} strokeWidth={2} />
+                {isSaved ? '已收藏' : '收藏'}
+              </button>
             </div>
-          </section>
-        )}
+
+            {/* NAME BLOCK */}
+            <header className="mt-5">
+              <h1
+                className="font-chinese text-ink"
+                style={{ fontSize: 44, fontWeight: 700, lineHeight: 1.1 }}
+              >
+                {attraction.name.zh}
+              </h1>
+              <p
+                className="mt-1 font-serif italic text-ink-muted"
+                style={{ fontSize: 26, lineHeight: 1.2 }}
+              >
+                {attraction.name.en}
+              </p>
+              <p className="mt-1 font-german text-ink-faint" style={{ fontSize: 15 }}>
+                {attraction.name.de}
+              </p>
+            </header>
+
+            <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
+              <div className="md:col-span-7">
+                <p
+                  className="font-chinese text-ink"
+                  style={{ fontSize: 16, lineHeight: 1.85 }}
+                >
+                  <span
+                    aria-hidden
+                    className={isZh ? 'font-chinese' : 'font-serif'}
+                    style={{
+                      float: 'left',
+                      fontSize: 64,
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      marginRight: 12,
+                      marginTop: 6,
+                      color: 'var(--color-ink)',
+                    }}
+                  >
+                    {dropChar}
+                  </span>
+                  {restOfDesc}
+                </p>
+                <div style={{ clear: 'both' }} />
+              </div>
+
+              <aside className="md:col-span-5">
+                <InfoCard attraction={attraction} onShare={handleShare} />
+              </aside>
+            </div>
+
+            {/* TRANSPORT */}
+            <TransportSection />
+
+            {/* LANGUAGE CARDS */}
+            <section className="mt-16">
+              <div className="mb-6 flex items-baseline gap-3">
+                <h2 className="font-serif italic text-ink" style={{ fontSize: 36 }}>
+                  語言小卡
+                </h2>
+                <p className="font-german text-[14px] text-ink-muted">
+                  Language cards
+                </p>
+              </div>
+              {attraction.languageCards.length > 0 ? (
+                <LanguageCardDeck cards={attraction.languageCards} />
+              ) : (
+                <p className="font-chinese text-[14px] text-ink-faint">
+                  這個景點還沒有語言小卡。
+                </p>
+              )}
+            </section>
+          </div>
+        </div>
       </article>
     </div>
   );
@@ -484,7 +489,13 @@ function TransportRow({
    Nearby cards (horizontal scroll)
    --------------------------------------------------------------------------- */
 
-function NearbyCard({ attraction }: { attraction: Attraction }) {
+function NearbyCard({
+  attraction,
+  compact = false,
+}: {
+  attraction: Attraction;
+  compact?: boolean;
+}) {
   const localized = useLocalizedField();
   const cityLabel =
     CITY_DISPLAY[attraction.city] ?? { zh: attraction.city, en: attraction.city };
@@ -492,8 +503,8 @@ function NearbyCard({ attraction }: { attraction: Attraction }) {
   return (
     <Link
       to={`/attraction/${attraction.slug}`}
-      className="card card-hover block shrink-0 overflow-hidden"
-      style={{ width: 180, padding: 0 }}
+      className={cn('card card-hover block overflow-hidden', compact && 'w-full')}
+      style={{ width: compact ? '100%' : 180, padding: 0 }}
     >
       <div
         className="relative"

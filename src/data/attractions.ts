@@ -259,7 +259,7 @@ export const attractions: Attraction[] = [
       zh: '布勒哲爾廳常擠滿團客,建議先逛二樓再下到一樓古文物。',
       en: 'The Bruegel room fills with tour groups — do the upper floor first, then descend to antiquities.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1599582909646-2c33d6c30c9f?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1586018216369-dcc16c09416b?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'vienna-khm-ticket',
@@ -400,7 +400,7 @@ export const attractions: Attraction[] = [
       zh: '若彌撒進行中遊客僅能至教堂後方。屋頂彩瓦最佳拍攝位置在 Domgasse 街口。',
       en: 'During Mass, tourists can only access the rear of the nave. Best roof-tile photo: from the corner of Domgasse.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1573599852326-2d4da0bbe613?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1606036089869-2efd8af0c3ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'vienna-stephansdom-ticket',
@@ -471,7 +471,7 @@ export const attractions: Attraction[] = [
       zh: '排隊常達 30 分鐘以上,工作日下午較不擁擠。線上可預訂。',
       en: 'Expect a 30-minute wait at peak times; weekday afternoons are calmer. Online reservations available.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1568393691080-9c6e6fa46d5d?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://www.berkeleysquarebarbarian.com/wp-content/uploads/2017/12/cafe-central-3-1024x768.jpg',
     languageCards: [
       {
         id: 'vienna-cafe-central-table',
@@ -550,7 +550,7 @@ export const attractions: Attraction[] = [
       zh: '不喜歡纜車可走 Festungsgasse 步道,約 20 分鐘陡坡。',
       en: 'Prefer not to take the funicular? Walk up Festungsgasse — about 20 minutes uphill.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1625745184488-3b6ad541e4fa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'salzburg-hohensalzburg-ticket',
@@ -617,7 +617,7 @@ export const attractions: Attraction[] = [
       zh: '與河對岸的「莫扎特故居」(Mozart-Wohnhaus,他 17 歲後的住處)為兩個獨立博物館,可購聯票。',
       en: 'Different from the "Mozart-Wohnhaus" across the river (where he lived from age 17) — combined tickets available.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1572976833712-2c91d6c0e5e0?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1617624236501-9c3ef2c02d00?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'salzburg-mozart-ticket',
@@ -687,7 +687,7 @@ export const attractions: Attraction[] = [
       zh: '清晨無人時光線最美。晚間大理石廳常有室內樂演出,門票 €35 起。',
       en: 'Loveliest at dawn before crowds. The Marble Hall hosts evening chamber concerts from €35.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1574493611207-d83a40ce6cd1?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1662835483255-c0e2719add45?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'salzburg-mirabell-photo',
@@ -757,7 +757,7 @@ export const attractions: Attraction[] = [
       zh: '街上 Fürst 是莫扎特巧克力球發源店;週日許多商店休息,請事先安排。',
       en: 'Fürst on the street is the original Mozartkugel shop. Many stores close Sunday — plan accordingly.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1547756536-cde3a23bbef4?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://www.sacher.com/en/wp-content/uploads/sites/4/fly-images/6379/Hotel-Sacher-Salzburg_Servus_Sights_Getreidegasse-1-2200x9999.jpg.webp',
     languageCards: [
       {
         id: 'salzburg-getreidegasse-shop',
@@ -830,7 +830,7 @@ export const attractions: Attraction[] = [
       zh: '禁止觀光巴士進村,須停山下停車場步行 10 分鐘。最佳拍攝點在 Seestraße 北端的木棧道。',
       en: 'Tour buses can\'t enter the village — park outside and walk 10 min. The classic photo spot is the wooden walkway at the north end of Seestraße.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1566999573217-25c859ec1450?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'hallstatt-village-ferry',
@@ -901,7 +901,7 @@ export const attractions: Attraction[] = [
       zh: '礦坑常年 8°C,務必帶外套。導覽為德、英、義語輪流,可現場詢問場次。',
       en: 'The mine stays at 8°C year-round — bring a jacket. Guided tours rotate between German, English, and Italian; ask on site for the next slot.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1610476671-c4cdf12cc488?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://www.salzwelten.at/Medien/Presse/2025_Pressekonferenz_Salzbgerbahn_Neu/1973/image-thumb__1973__textMedia_1-5_2/HT_Neue_Standseilbahn_Visualisierung_Talstation%C2%A9Hasenauer.Architekten~-~media--9a2dd926--query@2x.webp',
     languageCards: [
       {
         id: 'hallstatt-salzwelten-ticket',
@@ -976,7 +976,7 @@ export const attractions: Attraction[] = [
       zh: '高山氣候多變,出發前查 webcam。山頂氣溫常比山下低 10°C,務必多帶一件。',
       en: 'Alpine weather changes fast — check the webcam before going up. Summit temps are typically 10°C colder than the valley; bring an extra layer.',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1602710307862-3f8e15a8f0fb?w=1600&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1536054650585-13f3b6fd3e75?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [
       {
         id: 'hallstatt-dachstein-ticket',

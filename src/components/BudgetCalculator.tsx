@@ -234,7 +234,9 @@ export function BudgetCalculator() {
     setOverrides((o) => ({ ...o, [id]: Math.max(0, Number(value) || 0) }));
 
   return (
-    <div className="sticky top-0 z-10 flex flex-col gap-3">
+    // Sticks to the top of the right-panel scroll area on desktop; on mobile
+    // it just scrolls with the page (the whole panel stacks under the form).
+    <div className="flex flex-col gap-4 md:top-0 md:z-10">
       {/* ===== Summary card ===== */}
       <div className="card" style={{ padding: 20 }}>
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:gap-6">
@@ -278,12 +280,12 @@ export function BudgetCalculator() {
 
           {/* Center — stacked bar */}
           <div className="min-w-0 flex-1">
-            <p className="mb-1.5 font-mono text-[10px] uppercase tracking-editorial text-ink-faint">
+            <p className="mb-1.5 font-mono text-[12px] uppercase tracking-editorial text-ink-faint">
               費用分配
             </p>
             <div
               className="flex h-4 overflow-hidden rounded-pill"
-              style={{ width: 200, maxWidth: '100%', background: 'var(--color-cream)' }}
+              style={{ width: 220, maxWidth: '100%', background: 'var(--color-cream)' }}
             >
               {segments.map((seg, i) =>
                 seg.eur <= 0 ? null : (
@@ -332,7 +334,15 @@ export function BudgetCalculator() {
             >
               <RotateCcw size={15} className={loading ? 'animate-spin' : undefined} />
             </button>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1 md:block md:text-right">
+            <div
+              className="grid grid-cols-2 gap-x-4 gap-y-1 md:block md:text-right"
+              style={{
+                background: '#F4F1EA',
+                border: '0.5px solid var(--color-border)',
+                borderRadius: 'var(--radius-md)',
+                padding: '8px 12px',
+              }}
+            >
               <p className="font-mono text-[12px] text-ink-muted">
                 每人均攤{' '}
                 <span key={`pp-${totalPulse.key}`} className={cn('inline-block', totalPulse.pulseClass)}>

@@ -801,13 +801,14 @@ export const useStore = create<AppStore>()(
     }),
     {
       name: 'austria-reise-store',
-      // Only persist user data — not ephemeral UI state or derived itinerary.
+      // Only persist user data — not ephemeral UI state.
       // Language is also excluded; i18next's own languageDetector handles that.
       partialize: (state) => ({
         savedAttractions: state.savedAttractions,
         savedAccommodations: state.savedAccommodations,
         tripConfig: state.tripConfig,
         activeCategories: state.activeCategories,
+        itinerary: state.itinerary,
       }),
       // Backward-compatible hydration: older persisted snapshots may miss
       // newer TripConfig keys (e.g. `cities`), which would crash /plan.
@@ -841,6 +842,9 @@ export const useStore = create<AppStore>()(
           activeCategories: Array.isArray(persisted.activeCategories)
             ? persisted.activeCategories
             : current.activeCategories,
+          itinerary: Array.isArray(persisted.itinerary)
+            ? persisted.itinerary
+            : current.itinerary,
         };
       },
     },

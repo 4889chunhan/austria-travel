@@ -48,16 +48,16 @@ function iconForSituation(en: string): LucideIcon {
 // (~65 chars) inside the bounds.
 function germanFontSize(text: string): number {
   const n = text.length;
-  if (n > 58) return 15;
-  if (n > 44) return 17;
+  if (n > 58) return 16;
+  if (n > 44) return 18;
   if (n > 30) return 20;
   return 24;
 }
 function pronFontSize(text: string): number {
   const n = text.length;
-  if (n > 56) return 9;
-  if (n > 38) return 10;
-  return 11;
+  if (n > 56) return 12;
+  if (n > 38) return 14;
+  return 13;
 }
 function chineseFontSize(text: string): number {
   const n = text.length;
@@ -66,7 +66,7 @@ function chineseFontSize(text: string): number {
   return 23;
 }
 function englishFontSize(text: string): number {
-  return text.length > 52 ? 12.5 : 14.5;
+  return text.length > 52 ? 13 : 15;
 }
 
 /**
@@ -147,7 +147,7 @@ export function LanguageCard({
           <div className="flex flex-1 flex-col items-center justify-center overflow-hidden text-center">
             <p
               className="font-german italic text-white"
-              style={{ fontSize: germanFontSize(card.german), lineHeight: 1.25 }}
+              style={{ fontSize: germanFontSize(card.german), lineHeight: 1.5 }}
             >
               {card.german}
             </p>
@@ -155,7 +155,7 @@ export function LanguageCard({
               className="mt-2 font-mono"
               style={{
                 fontSize: pronFontSize(card.pronunciation),
-                lineHeight: 1.35,
+                lineHeight: 1.3,
                 color: 'rgba(255,255,255,0.45)',
               }}
             >
@@ -166,7 +166,7 @@ export function LanguageCard({
           <div className="flex justify-end">
             <span
               className="font-mono uppercase tracking-editorial"
-              style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)' }}
+              style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)' }}
             >
               {t('card.flip')} ↺
             </span>
@@ -205,7 +205,7 @@ export function LanguageCard({
               style={{
                 fontSize: chineseFontSize(card.chinese),
                 fontWeight: 500,
-                lineHeight: 1.25,
+                lineHeight: 1.3,
               }}
             >
               {card.chinese}
@@ -220,7 +220,7 @@ export function LanguageCard({
 
           {note && (
             <p
-              className="shrink-0 px-1 text-center font-german italic text-ink-faint"
+              className="shrink-0 px-1 text-center font-german text-ink-faint"
               style={{
                 fontSize: 10.5,
                 lineHeight: 1.4,

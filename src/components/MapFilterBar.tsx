@@ -29,8 +29,6 @@ export function MapFilterBar() {
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
         borderBottom: '0.5px solid var(--color-border)',
-        borderBottomLeftRadius: 'var(--radius-lg)',
-        borderBottomRightRadius: 'var(--radius-lg)',
       }}
     >
       <AllPill active={allActive} onClick={clearCategories} />

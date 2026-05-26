@@ -171,6 +171,8 @@ function SidebarBody({
   onCityClick: (city: string) => void;
   onHover: (id: string | null) => void;
 }) {
+  const hasItinerary = useStore((s) => s.itinerary.length > 0);
+
   return (
     <div
       key={selectedAccommodation?.id ?? selected?.id ?? 'default'}
@@ -184,6 +186,8 @@ function SidebarBody({
         />
       ) : selected ? (
         <SelectedView attraction={selected} onBack={onBack} />
+      ) : hasItinerary ? (
+        <ItineraryView onFlyTo={onFlyTo} onHover={onHover} />
       ) : (
         <DefaultView
           onCityClick={onCityClick}
@@ -191,6 +195,75 @@ function SidebarBody({
           onHover={onHover}
         />
       )}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Itinerary view — shown in the sidebar once the user has generated a trip.
+   --------------------------------------------------------------------------- */
+
+function ItineraryView({
+  onFlyTo,
+  onHover,
+}: {
+  onFlyTo: (lng: number, lat: number, zoom?: number) => void;
+  onHover: (id: string | null) => void;
+}) {
+  const itinerary = useStore((s) => s.itinerary);
+  const setSelected = useStore((s) => s.setSelectedAttraction);
+  const localized = useLocalizedField();
+
+  return (
+    <div className="flex-1 overflow-y-auto">
+      <div className="border-b px-5 py-5">
+        <p className="eyebrow mb-2">My itinerary</p>
+        <h2 className="font-serif text-2xl italic text-ink">我的行程</h2>
+      </div>
+
+      {itinerary.map((day) => {
+        const label = CITY_DISPLAY[day.city] ?? { zh: day.city, en: day.city };
+        return (
+          <div key={day.day} className="border-b px-4 py-4">
+            <div className="mb-2 flex items-baseline gap-2">
+              <span
+                className="rounded-pill bg-lime px-2 py-0.5 font-mono uppercase tracking-editorial text-lime-deep"
+                style={{ fontSize: 10 }}
+              >
+                Day {String(day.day).padStart(2, '0')}
+              </span>
+              <h3 className="font-chinese text-[15px] font-medium text-ink">
+                {localized(label)}
+              </h3>
+            </div>
+
+            {day.attractions.length === 0 ? (
+              <p className="font-chinese text-[12px] text-ink-faint">尚未安排景點</p>
+            ) : (
+              <ul className="space-y-1">
+                {day.attractions.map((a) => (
+                  <li
+                    key={a.id}
+                    onMouseEnter={() => onHover(a.id)}
+                    onMouseLeave={() => onHover(null)}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelected(a);
+                        onFlyTo(a.coordinates.lng, a.coordinates.lat, 13);
+                      }}
+                      className="block w-full text-left font-chinese text-[13px] text-ink-muted transition-colors hover:text-ink"
+                    >
+                      · {localized(a.name)}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -221,13 +294,6 @@ function DefaultView({
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="border-b px-5 py-5">
-        <p className="eyebrow mb-2">Edition 01</p>
-        <h2 className="font-serif text-2xl italic text-ink">
-          City guide
-        </h2>
-      </div>
-
       {byCity.map(([city, list]) => {
         const label = CITY_DISPLAY[city] ?? { zh: city, en: city };
         return (
@@ -323,30 +389,33 @@ function SelectedView({
 
   return (
     <div className="flex h-full flex-col">
-      {/* Photo (flush to top, square corners) */}
+      {/* Back — pinned to the very top of the sidebar */}
       <div
-        className="relative shrink-0"
-        style={{ height: 190, background: 'var(--color-cream)' }}
+        className="shrink-0 px-4 py-2.5"
+        style={{ background: 'var(--color-card)', borderBottom: '0.5px solid var(--color-border)' }}
       >
-        <img
-          src={attraction.imageUrl}
-          alt={localized(attraction.name)}
-          className="h-full w-full object-cover"
-          style={{ borderRadius: 0 }}
-        />
+        <button
+          type="button"
+          onClick={onBack}
+          className="btn-secondary inline-flex items-center gap-1"
+        >
+          <ArrowLeft size={14} />
+          全部景點
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        {/* Back */}
-        <div className="px-4 pt-3">
-          <button
-            type="button"
-            onClick={onBack}
-            className="btn-secondary inline-flex items-center gap-1"
-          >
-            <ArrowLeft size={14} />
-            全部景點
-          </button>
+        {/* Photo (square corners, flush) */}
+        <div
+          className="relative shrink-0"
+          style={{ height: 190, background: 'var(--color-cream)' }}
+        >
+          <img
+            src={attraction.imageUrl}
+            alt={localized(attraction.name)}
+            className="h-full w-full object-cover"
+            style={{ borderRadius: 0 }}
+          />
         </div>
 
         {/* Meta row */}
