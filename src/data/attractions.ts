@@ -1024,4 +1024,419 @@ export const attractions: Attraction[] = [
       },
     ],
   },
+
+  // ===========================================================================
+  // VIENNA · 維也納 (additions for the 7/8 itinerary)
+  // ===========================================================================
+  {
+    id: 'vienna-musikverein',
+    slug: 'wiener-musikverein',
+    city: 'vienna',
+    name: { zh: '維也納音樂協會（金色大廳）', en: 'Wiener Musikverein', de: 'Wiener Musikverein' },
+    tagline: {
+      zh: '金廳每年新年音樂會全球轉播的舞台',
+      en: 'The gilded hall the New Year’s Concert is broadcast from',
+    },
+    description: {
+      zh: '1870 年落成的音樂殿堂，最知名的金色大廳（Großer Saal / Goldener Saal）以鍍金壁柱與木質聲學聞名，被視為全球音響最佳音樂廳之一。莫扎特、維瓦爾第《四季》等夏季演出常設。',
+      en: 'Opened in 1870, the Großer Saal — better known as the Goldener Saal — is regarded as one of the world’s finest acoustical halls. Mozart and Vivaldi’s Four Seasons run year-round; the New Year’s Concert is broadcast worldwide from here.',
+    },
+    category: ['music', 'architecture'],
+    coordinates: { lat: 48.2007, lng: 16.3724 },
+    address: 'Musikvereinsplatz 1, 1010 Wien',
+    website: 'https://www.musikverein.at/en',
+    openingHours: { zh: '依演出而定', en: 'Varies by performance' },
+    price: { zh: '一般演出 €35 起，新年音樂會抽籤', en: 'Concerts from €35; New Year ticket by ballot' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'vienna-secession',
+    slug: 'secession-building',
+    city: 'vienna',
+    name: { zh: '分離派會館', en: 'Secession Building', de: 'Wiener Secessionsgebäude' },
+    tagline: {
+      zh: '「金色高麗菜」圓頂下的維也納分離派宣言',
+      en: 'The "golden cabbage" of Vienna’s Secession movement',
+    },
+    description: {
+      zh: '1898 年由 Joseph Maria Olbrich 設計，是維也納分離派藝術家脫離學院的宣言。金箔月桂葉圓頂下永久展出克林姆《貝多芬橫飾帶》長 34 公尺。入口刻字「Der Zeit ihre Kunst. Der Kunst ihre Freiheit.」',
+      en: "Joseph Maria Olbrich's 1898 manifesto for the Vienna Secession. Beneath its gilded laurel dome hangs Klimt's 34-metre Beethoven Frieze. The motto carved above the door reads 'To every age its art, to art its freedom.'",
+    },
+    category: ['art', 'architecture'],
+    coordinates: { lat: 48.2007, lng: 16.3656 },
+    address: 'Friedrichstraße 12, 1010 Wien',
+    website: 'https://www.secession.at',
+    openingHours: { zh: '週二–週日 10:00–18:00', en: 'Tue–Sun 10:00–18:00' },
+    price: { zh: '成人 €12（含貝多芬橫飾帶）', en: 'Adult €12 (incl. Beethoven Frieze)' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+
+  // ===========================================================================
+  // WACHAU · 瓦豪河谷
+  // ===========================================================================
+  {
+    id: 'wachau-durnstein',
+    slug: 'durnstein-village',
+    city: 'durnstein',
+    name: { zh: '杜恩斯坦小鎮', en: 'Dürnstein', de: 'Dürnstein' },
+    tagline: {
+      zh: '多瑙河畔的藍色修道院與獅心王傳說',
+      en: 'A blue baroque tower above the Danube — and a Crusader’s prison',
+    },
+    description: {
+      zh: '瓦豪河谷最上鏡的小鎮，標誌性的藍白巴洛克修道院塔樓矗立於葡萄園與多瑙河之上。山頂城堡曾囚禁英王獅心理查（1192–1193）；老街遍布酒農與杏桃利口酒小舖。',
+      en: 'The Wachau’s most photogenic village, anchored by its powder-blue baroque abbey tower above terraced vineyards and the Danube. The clifftop castle ruins once held King Richard the Lionheart (1192–93). The main lane is lined with winemakers and apricot-liqueur shops.',
+    },
+    category: ['scenery', 'history', 'architecture'],
+    coordinates: { lat: 48.4006, lng: 15.5189 },
+    address: '3601 Dürnstein, Austria',
+    website: 'https://www.duernstein.at',
+    imageUrl:
+      'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'wachau-melk-abbey',
+    slug: 'melk-abbey',
+    city: 'melk',
+    name: { zh: '梅爾克修道院', en: 'Melk Abbey', de: 'Stift Melk' },
+    tagline: {
+      zh: '多瑙河上的黃色巴洛克王座',
+      en: 'A yellow baroque crown above the Danube',
+    },
+    description: {
+      zh: '1089 年創立的本篤會修道院，現存的巴洛克建築由 Jakob Prandtauer 於 1702–1736 年建成。黃色立面、雙塔教堂與藏書 10 萬冊的修道院圖書館是奧地利巴洛克的顛峰之作。',
+      en: 'A Benedictine abbey founded in 1089; the present baroque complex was built 1702–36 by Jakob Prandtauer. Its yellow façade, twin-towered church and 100,000-volume library mark the apex of Austrian Baroque.',
+    },
+    category: ['architecture', 'history'],
+    coordinates: { lat: 48.2284, lng: 15.3334 },
+    address: 'Abt-Berthold-Dietmayr-Straße 1, 3390 Melk',
+    website: 'https://www.stiftmelk.at',
+    openingHours: { zh: '5–9 月 09:00–17:30', en: 'May–Sep 09:00–17:30' },
+    price: { zh: '成人 €14，含導覽 €17', en: 'Adult €14; with guided tour €17' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1582659809123-3e5c20a13bff?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+
+  // ===========================================================================
+  // SALZKAMMERGUT · 鹽湖區
+  // ===========================================================================
+  {
+    id: 'salzkammergut-wolfgangsee',
+    slug: 'wolfgangsee-lake',
+    city: 'wolfgangsee',
+    name: { zh: '聖沃夫岡湖', en: 'Wolfgangsee', de: 'Wolfgangsee' },
+    tagline: {
+      zh: '夏夫山齒軌列車眺望的祖母綠湖泊',
+      en: 'The emerald lake under the Schafberg cog railway',
+    },
+    description: {
+      zh: '長 10.5 公里的高山湖泊，湖畔小鎮 St. Wolfgang 以 Pfarrkirche 木雕祭壇聞名。可搭蒸汽動力的 Schafbergbahn 齒軌列車登 1,783 m 夏夫山觀景，或乘湖中遊船串連 St. Gilgen。',
+      en: 'A 10.5-km alpine lake fringed by the village of St. Wolfgang, famed for its medieval winged altarpiece. Ride the steam-powered Schafbergbahn cog railway to a 1,783-m panorama, or hop the lake steamer between St. Wolfgang and St. Gilgen.',
+    },
+    category: ['scenery', 'outdoor'],
+    coordinates: { lat: 47.74, lng: 13.4439 },
+    address: '5360 St. Wolfgang im Salzkammergut',
+    website: 'https://www.wolfgangsee.at',
+    imageUrl:
+      'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'salzkammergut-gosaukamm',
+    slug: 'gosaukamm-gosausee',
+    city: 'gosau',
+    name: { zh: '戈紹湖與戈紹卡姆纜車', en: 'Gosausee & Gosaukamm Cable Car', de: 'Gosausee & Gosaukammbahn' },
+    tagline: {
+      zh: '達赫斯坦冰川倒映的阿爾卑斯明信片',
+      en: 'The Dachstein glacier mirrored in an alpine postcard',
+    },
+    description: {
+      zh: '戈紹湖（Vorderer Gosausee）湖面如鏡，正對達赫斯坦冰川群，是奧地利最常被拍攝的山景之一。Gosaukammbahn 纜車送你到 Zwieselalm，山頂有多條中等難度健行路線。',
+      en: 'Vorderer Gosausee’s glassy surface reflects the Dachstein glacier — one of Austria’s most photographed alpine vistas. The Gosaukammbahn cable car lifts you to Zwieselalm for a network of moderate ridgeline hikes.',
+    },
+    category: ['scenery', 'outdoor'],
+    coordinates: { lat: 47.5413, lng: 13.4972 },
+    address: '4824 Gosau, Austria',
+    website: 'https://www.dachstein.at/en/gosau',
+    imageUrl:
+      'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+
+  // ===========================================================================
+  // BAYERN (Germany) · 巴伐利亞
+  // ===========================================================================
+  {
+    id: 'bayern-konigssee',
+    slug: 'konigssee-lake',
+    city: 'konigssee',
+    name: { zh: '國王湖', en: 'Königssee', de: 'Königssee' },
+    tagline: {
+      zh: '電動船划行的綠寶石峽灣與聖巴特羅買教堂',
+      en: 'An emerald fjord plied by electric boats to St. Bartholomä',
+    },
+    description: {
+      zh: '德國最潔淨的湖泊之一，三面被貝希特斯加登國家公園的崖壁環繞。傳統電動船靜悄悄駛過湖面，船長在絕壁回音點吹小號，是最經典的體驗，終點為紅頂的 St. Bartholomä 朝聖教堂。',
+      en: 'One of Germany’s cleanest lakes, walled in by the cliffs of Berchtesgaden National Park. Silent electric boats ferry visitors to the red-domed pilgrimage chapel of St. Bartholomä — the boatman plays a trumpet for the famous cliff echo en route.',
+    },
+    category: ['scenery', 'outdoor'],
+    coordinates: { lat: 47.5871, lng: 12.9853 },
+    address: 'Seestraße 3, 83471 Schönau am Königssee',
+    website: 'https://www.seenschifffahrt.de/koenigssee',
+    openingHours: { zh: '依季節，多為 08:00–17:00', en: 'Seasonal, roughly 08:00–17:00' },
+    price: { zh: '往返船票（至 St. Bartholomä）€21', en: 'Boat round-trip to St. Bartholomä €21' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1527142879-95b61a0b8226?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'munich-marienplatz',
+    slug: 'munich-marienplatz',
+    city: 'munich',
+    name: { zh: '瑪麗恩廣場', en: 'Marienplatz', de: 'Marienplatz' },
+    tagline: {
+      zh: '新市政廳鐘樓木偶報時的慕尼黑心臟',
+      en: 'Munich’s heart, where the Glockenspiel chimes on cue',
+    },
+    description: {
+      zh: '慕尼黑舊城核心，正面是壯麗的新哥德式新市政廳。每日 11:00、12:00（夏季加 17:00）鐘樓木偶 Glockenspiel 表演 15 分鐘，廣場中央矗立 1638 年的瑪利亞圓柱。',
+      en: 'Munich’s old-town heart, anchored by the neo-Gothic Neues Rathaus. The Glockenspiel performs daily at 11:00 and 12:00 (and 17:00 in summer) for 15 minutes; the 1638 Mariensäule column rises at the square’s centre.',
+    },
+    category: ['architecture', 'history'],
+    coordinates: { lat: 48.1372, lng: 11.5757 },
+    address: 'Marienplatz, 80331 München',
+    website: 'https://www.muenchen.travel/sights/marienplatz',
+    imageUrl:
+      'https://images.unsplash.com/photo-1577462281852-279a4f5d9b0f?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'munich-nymphenburg',
+    slug: 'nymphenburg-palace',
+    city: 'munich',
+    name: { zh: '寧芬堡宮', en: 'Nymphenburg Palace', de: 'Schloss Nymphenburg' },
+    tagline: {
+      zh: '維特爾斯巴赫家族的巴洛克夏宮與美人畫廊',
+      en: 'The Wittelsbachs’ baroque summer palace and Gallery of Beauties',
+    },
+    description: {
+      zh: '1664 年起建的巴洛克夏宮，園林橫跨 200 公頃。必看路德維希一世的「美人畫廊」（Schönheitengalerie）展出 36 位 19 世紀美人肖像，以及國王御用馬車的 Marstallmuseum。',
+      en: 'A baroque summer palace begun in 1664 with 200 hectares of formal gardens. Don’t miss Ludwig I’s "Gallery of Beauties" — 36 portraits of 19th-century beauties — and the royal carriage Marstallmuseum.',
+    },
+    category: ['architecture', 'art', 'history'],
+    coordinates: { lat: 48.1583, lng: 11.5033 },
+    address: 'Schloß Nymphenburg 1, 80638 München',
+    website: 'https://www.schloss-nymphenburg.de',
+    openingHours: { zh: '4–10 月 09:00–18:00，11–3 月至 16:00', en: 'Apr–Oct 09:00–18:00, Nov–Mar to 16:00' },
+    price: { zh: '聯票（含全部建築）€15；可用 14 日巴伐利亞通票', en: 'Combined ticket €15; covered by 14-day Bavarian Castle pass' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1583952321859-7e6f96cd9b40?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'munich-bmw-welt',
+    slug: 'bmw-welt',
+    city: 'munich',
+    name: { zh: 'BMW 世界', en: 'BMW Welt', de: 'BMW Welt' },
+    tagline: {
+      zh: '雙圓筒總部對面的未來感品牌展示館',
+      en: 'A futuristic brand pavilion opposite the four-cylinder HQ',
+    },
+    description: {
+      zh: '2007 年開幕的多功能展示中心，由 Coop Himmelb(l)au 設計，融合車輛展示、新車交付儀式與餐廳。免費參觀，可加購對面 BMW 博物館門票，是車迷與建築愛好者的雙重朝聖地。',
+      en: 'A 2007 multi-function pavilion by Coop Himmelb(l)au combining new-car displays, customer delivery ceremonies and restaurants. Free entry; pair it with the paid BMW Museum across the street for a double pilgrimage.',
+    },
+    category: ['architecture'],
+    coordinates: { lat: 48.1769, lng: 11.5564 },
+    address: 'Am Olympiapark 1, 80809 München',
+    website: 'https://www.bmw-welt.com',
+    openingHours: { zh: '展示廳每日 07:30–24:00，博物館 10:00–18:00', en: 'Pavilion daily 07:30–24:00; Museum 10:00–18:00' },
+    price: { zh: 'BMW Welt 免費；博物館 €10', en: 'BMW Welt free; Museum €10' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'munich-hofbrauhaus',
+    slug: 'hofbrauhaus',
+    city: 'munich',
+    name: { zh: '皇家啤酒屋', en: 'Hofbräuhaus', de: 'Hofbräuhaus am Platzl' },
+    tagline: {
+      zh: '1589 年王室啤酒廠至今最熱鬧的慕尼黑啤酒大廳',
+      en: 'The 1589 royal brewery’s rowdy beer hall',
+    },
+    description: {
+      zh: '原為 1589 年巴伐利亞公爵的宮廷啤酒廠，1828 年起對外營業。共三層樓，1 樓 Schwemme 巨型啤酒大廳是經典場景：Maß（1 公升）大杯啤酒、白香腸 Weißwurst 與銅管樂團。',
+      en: 'Originally the Bavarian duke’s 1589 court brewery, opened to the public in 1828. The ground-floor Schwemme hall is the classic Munich scene — one-litre Maß steins, Weißwurst and an oompah band.',
+    },
+    category: ['food', 'history'],
+    coordinates: { lat: 48.1376, lng: 11.5797 },
+    address: 'Platzl 9, 80331 München',
+    website: 'https://www.hofbraeuhaus.de',
+    openingHours: { zh: '每日 11:00–24:00', en: 'Daily 11:00–24:00' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1542838686-37da4a9fd1b3?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'bayern-neuschwanstein',
+    slug: 'neuschwanstein-castle',
+    city: 'neuschwanstein',
+    name: { zh: '新天鵝堡', en: 'Neuschwanstein Castle', de: 'Schloss Neuschwanstein' },
+    tagline: {
+      zh: '迪士尼城堡的原型 — 路德維希二世的浪漫夢境',
+      en: 'The fairy-tale castle that inspired Disney',
+    },
+    description: {
+      zh: '巴伐利亞「童話國王」路德維希二世於 1869 年起建的新羅曼式城堡，棲身於阿爾卑斯山麓懸崖。內部僅 14 個房間完工，國王 1886 年離奇身亡僅 6 週後便對外開放。瑪利亞橋（Marienbrücke）是拍攝經典側影的觀景台。',
+      en: "King Ludwig II of Bavaria’s neo-Romantic castle, begun 1869 on an alpine crag. Only 14 rooms were completed before the 'Fairy-tale King' died mysteriously in 1886 — and just six weeks later it opened to the public. The Marienbrücke footbridge gives the iconic side view.",
+    },
+    category: ['architecture', 'history', 'scenery'],
+    coordinates: { lat: 47.5575, lng: 10.7498 },
+    address: 'Neuschwansteinstraße 20, 87645 Schwangau',
+    website: 'https://www.neuschwanstein.de',
+    openingHours: { zh: '夏季 09:00–18:00；冬季 10:00–16:00', en: 'Summer 09:00–18:00; winter 10:00–16:00' },
+    price: { zh: '成人 €21（線上預約 +€2.5）；14 日巴伐利亞通票涵蓋', en: 'Adult €21 (online +€2.50); covered by the 14-day Bavarian Castle pass' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1530092285049-1c42085fd395?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'bayern-regensburg-altstadt',
+    slug: 'regensburg-altstadt',
+    city: 'regensburg',
+    name: { zh: '雷根斯堡老城', en: 'Regensburg Old Town', de: 'Regensburger Altstadt' },
+    tagline: {
+      zh: 'UNESCO 保存最完好的中世紀德意志城市',
+      en: 'Germany’s best-preserved medieval city — a UNESCO site',
+    },
+    description: {
+      zh: '多瑙河南岸的 UNESCO 世界遺產，1500 棟中世紀至文藝復興建築原貌保留。地標包括 12 世紀的石橋 Steinerne Brücke、雙塔哥德式 Dom St. Peter，與義式風格的「家族塔」。',
+      en: 'A UNESCO-listed riverside old town on the Danube where 1,500 medieval-to-Renaissance buildings stand intact. Landmarks include the 12th-century Steinerne Brücke stone bridge, the twin-towered Gothic St. Peter cathedral and the Italianate "family towers".',
+    },
+    category: ['architecture', 'history'],
+    coordinates: { lat: 49.0193, lng: 12.0972 },
+    address: 'Domplatz, 93047 Regensburg',
+    website: 'https://tourismus.regensburg.de/en',
+    imageUrl:
+      'https://images.unsplash.com/photo-1599056407101-7c557a4a0144?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+
+  // ===========================================================================
+  // CZECH REPUBLIC · 捷克
+  // ===========================================================================
+  {
+    id: 'prague-castle',
+    slug: 'prague-castle',
+    city: 'prague',
+    name: { zh: '布拉格城堡', en: 'Prague Castle', de: 'Prager Burg' },
+    tagline: {
+      zh: '世界最大的城堡群與聖維特主教座堂的哥德尖塔',
+      en: 'The world’s largest castle complex, crowned by St. Vitus',
+    },
+    description: {
+      zh: '建於 9 世紀的城堡群，金氏世界紀錄認證最大的古代城堡建築群（占地 7 公頃）。內含哥德式巔峰之作的聖維特主教座堂、舊皇宮、聖喬治大殿與黃金巷。山下花園是俯瞰小城區與紅瓦舊城的最佳觀景點。',
+      en: 'A 9th-century complex, listed by Guinness as the largest ancient castle in the world at 7 hectares. It contains the Gothic masterpiece St. Vitus Cathedral, the Old Royal Palace, St. George’s Basilica and Golden Lane. The terraced gardens give the best view over Malá Strana and the red-tiled old town.',
+    },
+    category: ['architecture', 'history'],
+    coordinates: { lat: 50.0905, lng: 14.3998 },
+    address: 'Hradčany, 119 08 Praha 1',
+    website: 'https://www.hrad.cz/en',
+    openingHours: { zh: '城堡園區 06:00–22:00；歷史建築 09:00–17:00', en: 'Grounds 06:00–22:00; historic buildings 09:00–17:00' },
+    price: { zh: '基本套票（含主要建築）CZK 250', en: 'Basic circuit ticket CZK 250' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'prague-old-town-square',
+    slug: 'prague-old-town-square',
+    city: 'prague',
+    name: { zh: '布拉格舊城廣場', en: 'Old Town Square', de: 'Altstädter Ring' },
+    tagline: {
+      zh: '每小時整點報時的天文鐘與哥德雙塔教堂',
+      en: 'Where the Astronomical Clock chimes the hour beneath Gothic spires',
+    },
+    description: {
+      zh: '舊城核心廣場周圍環繞 13–18 世紀建築：1410 年的布拉格天文鐘（Pražský orloj）整點上演十二使徒巡行；廣場上有哥德雙塔的提恩教堂與洛可可的 Kinský 宮。',
+      en: 'The medieval heart of Prague, ringed by 13th–18th-century façades. The 1410 Astronomical Clock parades its Twelve Apostles on the hour; the twin Gothic spires of the Týn Church and the rococo Kinský Palace anchor the square.',
+    },
+    category: ['architecture', 'history'],
+    coordinates: { lat: 50.087, lng: 14.4208 },
+    address: 'Staroměstské náměstí, 110 00 Praha 1',
+    website: 'https://www.prague.eu/en',
+    imageUrl:
+      'https://images.unsplash.com/photo-1541849546-216549ae216d?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'prague-charles-bridge',
+    slug: 'charles-bridge',
+    city: 'prague',
+    name: { zh: '查理大橋', en: 'Charles Bridge', de: 'Karlsbrücke' },
+    tagline: {
+      zh: '伏爾塔瓦河上 30 尊巴洛克雕像守護的哥德石橋',
+      en: 'A Gothic bridge guarded by 30 baroque saints over the Vltava',
+    },
+    description: {
+      zh: '1357 年由查理四世奠基的哥德式石橋，連接舊城與小城區，兩端各有塔樓。1683–1714 年陸續加裝 30 座巴洛克聖人雕像，其中聖約翰像底座銅板被遊客摸得發亮。日出與黃昏無人最美。',
+      en: 'A Gothic stone bridge laid in 1357 by Charles IV, linking the old town to Malá Strana with a watchtower at each end. The 30 baroque saintly statues were added 1683–1714 — the bronze plaque under St. John of Nepomuk is rubbed shiny for luck. Loveliest at sunrise.',
+    },
+    category: ['architecture', 'history', 'scenery'],
+    coordinates: { lat: 50.0865, lng: 14.4114 },
+    address: 'Karlův most, 110 00 Praha 1',
+    website: 'https://www.prague.eu/en/object/places/93/charles-bridge-karluv-most',
+    imageUrl:
+      'https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'prague-dancing-house',
+    slug: 'dancing-house',
+    city: 'prague',
+    name: { zh: '跳舞的房子', en: 'Dancing House', de: 'Tančící dům' },
+    tagline: {
+      zh: '解構主義雙塔，暱稱 Fred 與 Ginger',
+      en: 'A deconstructivist duet nicknamed "Fred & Ginger"',
+    },
+    description: {
+      zh: 'Frank Gehry 與 Vlado Milunić 1996 年合作完成的解構主義辦公樓，外觀如一對旋舞的男女，是布拉格少見的當代地標。頂樓 Glass Bar 可俯瞰伏爾塔瓦河與布拉格城堡。',
+      en: 'Frank Gehry and Vlado Milunić’s 1996 deconstructivist building, designed to look like a dancing couple — a rare contemporary landmark in Prague. The rooftop Glass Bar overlooks the Vltava and Prague Castle.',
+    },
+    category: ['architecture'],
+    coordinates: { lat: 50.0755, lng: 14.414 },
+    address: 'Jiráskovo nám. 1981/6, 120 00 Praha 2',
+    website: 'https://www.tadu.cz/en',
+    imageUrl:
+      'https://images.unsplash.com/photo-1573599852326-2d4da0bbe613?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'cesky-krumlov-old-town',
+    slug: 'cesky-krumlov-old-town',
+    city: 'cesky-krumlov',
+    name: { zh: '庫倫洛夫老城', en: 'Český Krumlov Old Town', de: 'Krumauer Altstadt' },
+    tagline: {
+      zh: '伏爾塔瓦河彎裡的童話城堡小鎮',
+      en: 'A fairy-tale town curled inside a bend of the Vltava',
+    },
+    description: {
+      zh: 'UNESCO 世界遺產，13 世紀起建的老城被伏爾塔瓦河 S 型彎環抱。城堡是捷克第二大（僅次於布拉格城堡），彩繪塔（Zámecká věž）登頂可俯瞰整座彩色屋頂的小鎮。',
+      en: 'A UNESCO-listed old town tucked inside an S-shaped bend of the Vltava. The Renaissance castle is the second largest in the Czech Republic (after Prague) — climb the painted Round Tower for the full panorama of red-tiled rooftops.',
+    },
+    category: ['architecture', 'history', 'scenery'],
+    coordinates: { lat: 48.8124, lng: 14.3158 },
+    address: 'Náměstí Svornosti, 381 01 Český Krumlov',
+    website: 'https://www.ckrumlov.info/en',
+    imageUrl:
+      'https://images.unsplash.com/photo-1567536097648-66a8cb6cdfe7?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
 ];

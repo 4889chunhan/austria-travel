@@ -3,14 +3,8 @@ import { ArrowUpRight, MapPin } from 'lucide-react';
 import { PlanChatbot } from '../components/PlanChatbot';
 import { useStore } from '../store';
 import { useLocalizedField } from '../hooks/useLocalizedField';
+import { CITY_DISPLAY } from '../utils/cityDisplay';
 
-const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
-  vienna: { zh: '維也納', en: 'Vienna' },
-  salzburg: { zh: '薩爾斯堡', en: 'Salzburg' },
-  hallstatt: { zh: '哈修塔特', en: 'Hallstatt' },
-  innsbruck: { zh: '因斯布魯克', en: 'Innsbruck' },
-  graz: { zh: '格拉茲', en: 'Graz' },
-};
 const cityLabel = (c: string) => CITY_DISPLAY[c] ?? { zh: c, en: c };
 
 /**

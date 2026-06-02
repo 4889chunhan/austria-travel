@@ -5,19 +5,12 @@ import { useExchangeRate } from '../hooks/useExchangeRate';
 import { usePulsedNumber } from '../hooks/usePulsedNumber';
 import { findRoute } from '../data/transport';
 import { cn } from '../utils/cn';
+import { CITY_DISPLAY } from '../utils/cityDisplay';
 import type { DayPlan, TripConfig } from '../types';
 
 /* ---------------------------------------------------------------------------
    Static config
    --------------------------------------------------------------------------- */
-
-const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
-  vienna: { zh: '維也納', en: 'Vienna' },
-  salzburg: { zh: '薩爾斯堡', en: 'Salzburg' },
-  hallstatt: { zh: '哈修塔特', en: 'Hallstatt' },
-  innsbruck: { zh: '因斯布魯克', en: 'Innsbruck' },
-  graz: { zh: '格拉茲', en: 'Graz' },
-};
 
 type Lang = 'zh' | 'en';
 type RowGroup = 'transport' | 'accommodation' | 'attractions' | 'food';

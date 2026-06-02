@@ -20,15 +20,8 @@ import { CATEGORY_META, primaryCategory } from '../utils/categoryColors';
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { LanguageCardDeck } from '../components/LanguageCardDeck';
 import { cn } from '../utils/cn';
+import { CITY_DISPLAY } from '../utils/cityDisplay';
 import type { Attraction } from '../types';
-
-const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
-  vienna:    { zh: '維也納',     en: 'Vienna' },
-  salzburg:  { zh: '薩爾斯堡',   en: 'Salzburg' },
-  hallstatt: { zh: '哈修塔特',   en: 'Hallstatt' },
-  innsbruck: { zh: '因斯布魯克', en: 'Innsbruck' },
-  graz:      { zh: '格拉茨',     en: 'Graz' },
-};
 
 export function AttractionDetailPage() {
   const { slug } = useParams<{ slug: string }>();

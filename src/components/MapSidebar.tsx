@@ -30,6 +30,7 @@ import { primaryCategory } from '../utils/categoryColors';
 import { ACCOMMODATION_COLOR } from './MapMarkers';
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { cn } from '../utils/cn';
+import { CITY_DISPLAY } from '../utils/cityDisplay';
 import type { Accommodation, Attraction } from '../types';
 
 /** Amenity key → icon + bilingual chip label. Unknown keys fall back to text. */
@@ -48,13 +49,6 @@ const AMENITY_META: Record<string, { icon: LucideIcon; zh: string }> = {
   concierge: { icon: Bell, zh: '禮賓服務' },
 };
 
-const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
-  vienna:    { zh: '維也納',     en: 'Vienna' },
-  salzburg:  { zh: '薩爾斯堡',   en: 'Salzburg' },
-  hallstatt: { zh: '哈修塔特',   en: 'Hallstatt' },
-  innsbruck: { zh: '因斯布魯克', en: 'Innsbruck' },
-  graz:      { zh: '格拉茨',     en: 'Graz' },
-};
 
 const PROFILE_FOR_CATEGORY: Record<string, string> = {
   music:        '情侶 / 文化愛好者',

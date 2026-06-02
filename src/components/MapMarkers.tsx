@@ -11,6 +11,7 @@ import { useStore } from '../store';
 import { primaryCategory } from '../utils/categoryColors';
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { cn } from '../utils/cn';
+import { CITY_DISPLAY } from '../utils/cityDisplay';
 
 /** Muted purple — distinct from every attraction category color. */
 export const ACCOMMODATION_COLOR = '#8B6F9B';
@@ -290,14 +291,16 @@ const CITY_LANDMARK: Record<string, LucideIcon> = {
   hallstatt: MountainIcon,
   innsbruck: MountainIcon,
   graz: Castle,
-};
-
-const CITY_LABELS: Record<string, { zh: string; en: string }> = {
-  vienna:    { zh: '維也納',     en: 'Vienna' },
-  salzburg:  { zh: '薩爾斯堡',   en: 'Salzburg' },
-  hallstatt: { zh: '哈修塔特',   en: 'Hallstatt' },
-  innsbruck: { zh: '因斯布魯克', en: 'Innsbruck' },
-  graz:      { zh: '格拉茨',     en: 'Graz' },
+  durnstein: Castle,
+  melk: Castle,
+  wolfgangsee: MountainIcon,
+  gosau: MountainIcon,
+  konigssee: MountainIcon,
+  munich: Castle,
+  neuschwanstein: Castle,
+  regensburg: Castle,
+  prague: Castle,
+  'cesky-krumlov': Castle,
 };
 
 export function CityClusterMarker({
@@ -312,7 +315,7 @@ export function CityClusterMarker({
   onClick: () => void;
 }) {
   const Icon = CITY_LANDMARK[city] ?? Castle;
-  const label = CITY_LABELS[city] ?? { zh: city, en: city };
+  const label = CITY_DISPLAY[city] ?? { zh: city, en: city };
   const localized = useLocalizedField();
 
   return (

@@ -87,21 +87,29 @@ interface AppStore {
   getSeasonalTipsForDate: (attractionId: string) => SeasonalTip[];
 }
 
-// All cities the app knows about, in a sensible default travel order.
-const ALL_CITIES: Attraction['city'][] = [
+// All cities the app knows about, in a sensible default travel order
+// (Austria → Bayern → Czech, mirroring the cross-border road-trip flow).
+const ALL_CITIES: string[] = [
   'vienna',
+  'durnstein',
+  'melk',
   'salzburg',
+  'wolfgangsee',
+  'gosau',
   'hallstatt',
+  'konigssee',
+  'munich',
+  'neuschwanstein',
+  'regensburg',
+  'prague',
+  'cesky-krumlov',
   'innsbruck',
   'graz',
 ];
 
 /** City sequence with `startCity` pulled to the front. */
-function getCityOrder(startCity: string): Attraction['city'][] {
-  return [
-    startCity as Attraction['city'],
-    ...ALL_CITIES.filter((c) => c !== startCity),
-  ];
+function getCityOrder(startCity: string): string[] {
+  return [startCity, ...ALL_CITIES.filter((c) => c !== startCity)];
 }
 
 const DEFAULT_TRIP_CONFIG: TripConfig = {

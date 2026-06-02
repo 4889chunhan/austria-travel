@@ -5,7 +5,8 @@
 export interface Attraction {
   id: string;
   slug: string;
-  city: 'vienna' | 'salzburg' | 'hallstatt' | 'graz' | 'innsbruck';
+  /** City slug (e.g. 'vienna', 'munich', 'prague'). See utils/cityDisplay. */
+  city: string;
   name: { zh: string; en: string; de: string };
   tagline: { zh: string; en: string };
   description: { zh: string; en: string };
