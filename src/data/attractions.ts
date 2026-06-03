@@ -1119,7 +1119,7 @@ export const attractions: Attraction[] = [
     openingHours: { zh: '5–9 月 09:00–17:30', en: 'May–Sep 09:00–17:30' },
     price: { zh: '成人 €14，含導覽 €17', en: 'Adult €14; with guided tour €17' },
     imageUrl:
-      'https://images.unsplash.com/photo-1582659809123-3e5c20a13bff?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1733353020460-07fa24accf18?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
 

@@ -405,6 +405,24 @@
   /* Toast that's centered with translateX(-50%) — keeps the centering while
      animating in from below. */
   .toast-in { animation: toast-in 0.3s ease-out both; }
+
+  /* Card with a notched top-right corner where an arrow sits. The notch is a
+     pseudo-element coloured to match the page background (cream), which makes
+     the card edge appear to curve inward. Parent must have position: relative,
+     overflow: visible, and sit on a cream surface. */
+  .card-notch-tr { position: relative; }
+  .card-notch-tr::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-cream);
+    pointer-events: none;
+    z-index: 1;
+  }
 }
 
 /* =========================================================================

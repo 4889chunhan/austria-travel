@@ -47,8 +47,10 @@ export const sampleTripConfig: Partial<TripConfig> = {
 };
 
 export const sampleItinerary: DayPlan[] = [
-  // Day 1 · 7/8 — Taipei → Vienna (overnight flight, no sights)
-  { day: 1, date: '2026-07-08', city: 'vienna', attractions: [] },
+  // Day 1 · 7/8 — Taipei → Vienna (overnight flight). Stephansdom is the first
+  // landmark guests typically see on the arrival-evening walk, so we pin it
+  // here as the day's representative spot.
+  { day: 1, date: '2026-07-08', city: 'vienna', attractions: pick('stephansdom') },
 
   // Day 2 · 7/9 — Vienna arrival, old town walk
   {
