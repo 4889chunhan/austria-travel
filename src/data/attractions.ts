@@ -25,8 +25,8 @@ export const attractions: Attraction[] = [
       en: 'Six centuries of Habsburg power',
     },
     description: {
-      zh: '霍夫堡是奧匈帝國的冬宮,也是哈布斯堡家族統治歐洲六百年的核心。今日內含西西博物館、皇家公寓、銀器陳列館與西班牙騎術學校,是維也納帝國氣息最濃的一隅。',
-      en: 'The Habsburgs\' winter residence and the political heart of the empire for six centuries. Today it houses the Sisi Museum, Imperial Apartments, Silver Collection, and the Spanish Riding School — the most regal address in Vienna.',
+      zh: '霍夫堡是奧匈帝國的冬宮，也是哈布斯堡家族統治歐洲六百年的核心 — 更像一座「建築博物館」：從中世紀、文藝復興到巴洛克與帝國歷史主義風格，隨著世紀擴建不斷堆疊，展示了歐洲權力核心的視覺演變史。今日內含西西博物館、皇家公寓、銀器陳列館與西班牙騎術學校，是維也納帝國氣息最濃的一隅。',
+      en: 'The Habsburgs’ winter residence and the empire’s political heart for six centuries — effectively an open-air museum of architecture, layering medieval, Renaissance, Baroque and imperial historicist wings as it grew. Today it houses the Sisi Museum, Imperial Apartments, Silver Collection, and the Spanish Riding School — the most regal address in Vienna.',
     },
     category: ['architecture', 'history'],
     coordinates: { lat: 48.2065, lng: 16.3656 },
@@ -100,8 +100,8 @@ export const attractions: Attraction[] = [
       en: 'The Habsburgs\' summer residence',
     },
     description: {
-      zh: '佔地遼闊的洛可可宮殿與花園,1,441 個房間中對外開放四十間。瑪麗亞·特蕾莎在此撫養十六個孩子,弗朗茨·約瑟夫在此終老。後花園的格洛麗特凱旋門俯瞰整個維也納。',
-      en: 'A sprawling rococo palace and gardens — 40 of its 1,441 rooms are open to visitors. Maria Theresa raised sixteen children here; Franz Joseph died here. The Gloriette in the rear gardens overlooks the entire city.',
+      zh: '佔地遼闊的洛可可宮殿與花園，外牆採用最具象徵性的「美泉黃」（Schönbrunn Yellow）。1,441 個房間中對外開放四十間，瑪麗亞·特蕾莎在此撫養十六個孩子，弗朗茨·約瑟夫在此終老。後花園是巴洛克空間設計的極致演繹：講求絕對的對稱、軸線延伸與幾何修剪的植物，將自然徹底「符號化」與「秩序化」，盡頭的格洛麗特凱旋門俯瞰整個維也納。',
+      en: 'A sprawling rococo palace and gardens, washed in the signature "Schönbrunn Yellow". 40 of its 1,441 rooms are open — Maria Theresa raised sixteen children here, Franz Joseph died here. The rear gardens are a textbook of Baroque spatial design: absolute symmetry, axial perspective, and geometrically trimmed hedges that turn nature itself into a system of symbols. The Gloriette closes the axis with a panoramic view of the city.',
     },
     category: ['architecture', 'scenery'],
     coordinates: { lat: 48.1845, lng: 16.3122 },
@@ -246,8 +246,8 @@ export const attractions: Attraction[] = [
       en: 'Six centuries of Habsburg collecting',
     },
     description: {
-      zh: '帝國級的藝術寶庫,藏有全世界最多的布勒哲爾畫作(包括《巴別塔》與《雪中獵人》),以及維梅爾、拉斐爾、提香、卡拉瓦喬等大師原作。光是穹頂下的咖啡座就值得專程造訪。',
-      en: 'An imperial-scale collection holding the world\'s largest gathering of Bruegels (including the Tower of Babel and Hunters in the Snow), plus Vermeer, Raphael, Titian, and Caravaggio. The café beneath the dome alone justifies the trip.',
+      zh: '帝國級的藝術寶庫，本身就是一件歷史主義建築傑作 — 大廳樓梯上方還能找到克林姆早期繪製的壁畫。藏有全世界最多的布勒哲爾畫作（包括《巴別塔》與《雪中獵人》），以及維梅爾、拉斐爾、提香、卡拉瓦喬等文藝復興與巴洛克大師原作。布展的空間美學與光線引導本身就值得細細觀察。穹頂下的咖啡座更是必訪。',
+      en: 'An imperial collection inside a historicist masterpiece — look up the grand staircase to spot Klimt’s early frescoes. It holds the world’s largest gathering of Bruegels (including the Tower of Babel and Hunters in the Snow), plus Vermeer, Raphael, Titian and Caravaggio. The curatorial use of space and light is its own quiet show. The café beneath the dome alone justifies the trip.',
     },
     category: ['art'],
     coordinates: { lat: 48.2037, lng: 16.3614 },
@@ -387,8 +387,8 @@ export const attractions: Attraction[] = [
       en: 'Vienna\'s spiritual landmark, famed for its tiled roof',
     },
     description: {
-      zh: '12 世紀奠基的哥德式大教堂,南塔(Steffl)136.4 米可徒步登頂;北塔藏有奧地利最大的鐘「Pummerin」,每年除夕敲響。教堂下方的地下墓穴(Katakomben)安葬歷代哈布斯堡內臟。',
-      en: 'A Gothic cathedral founded in the 12th century. Climb 343 steps up the South Tower (Steffl, 136.4 m); the North Tower holds Austria\'s largest bell, the Pummerin, rung at New Year. The catacombs below preserve the entrails of Habsburg rulers.',
+      zh: '12 世紀奠基的哥德式大教堂。最具視覺特色的是由 23 萬片彩色琉璃瓦拼成的「雙頭鷹」馬賽克屋頂；內部典型的哥德式高聳垂直感與肋架拱頂展現強烈的權力與宗教神聖感。南塔（Steffl）136.4 米可徒步登頂；北塔藏有奧地利最大的鐘「Pummerin」，每年除夕敲響。教堂下方的地下墓穴（Katakomben）安葬歷代哈布斯堡內臟。',
+      en: 'A Gothic cathedral founded in the 12th century. Its most striking feature is the roof — a Habsburg double-eagle mosaic of 230,000 glazed tiles — set above a soaring Gothic nave whose rib vaults speak of imperial and sacred power. Climb 343 steps up the South Tower (Steffl, 136.4 m); the North Tower holds Austria’s largest bell, the Pummerin, rung at New Year. The catacombs below preserve the entrails of Habsburg rulers.',
     },
     category: ['architecture', 'history'],
     coordinates: { lat: 48.2082, lng: 16.3725 },
@@ -1049,7 +1049,48 @@ export const attractions: Attraction[] = [
     price: { zh: '一般演出 €35 起，新年音樂會抽籤', en: 'Concerts from €35; New Year ticket by ballot' },
     imageUrl:
       'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1600&q=80&auto=format&fit=crop',
-    languageCards: [],
+    languageCards: [
+      {
+        id: 'musikverein-pickup',
+        situation: { zh: '領取預訂的音樂會門票', en: 'Picking up reserved concert tickets' },
+        german: 'Ich möchte meine reservierten Tickets für das Konzert abholen.',
+        pronunciation: 'ikh MUEKH-te MAI-ne re-zer-VEER-ten TIK-ets fuer das kon-TSAIRT AP-ho-len',
+        chinese: '我來領取我預訂的音樂會門票。',
+        english: "I'm here to pick up my reserved tickets for the concert.",
+      },
+      {
+        id: 'musikverein-seat',
+        situation: { zh: '詢問座位區', en: 'Asking for the seat block' },
+        german: 'Wo ist mein Sitzplatz im Großen Saal?',
+        pronunciation: 'voh ist main ZITS-plats im GROH-sen zahl',
+        chinese: '請問我的座位在金色大廳哪一區？',
+        english: 'Where is my seat in the Großer Saal?',
+        note: {
+          zh: 'Parterre = 一樓正廳；Balkon = 樓座；Stehplatz = 站票。',
+          en: 'Parterre = stalls; Balkon = balcony; Stehplatz = standing.',
+        },
+      },
+      {
+        id: 'musikverein-intermission',
+        situation: { zh: '中場休息點酒水', en: 'Intermission drink order' },
+        german: 'Ein Glas Sekt in der Pause, bitte.',
+        pronunciation: 'ain glas zekt in dair POW-ze, BIT-te',
+        chinese: '中場休息時請給我一杯氣泡酒。',
+        english: 'A glass of sparkling wine for the intermission, please.',
+      },
+      {
+        id: 'musikverein-photo',
+        situation: { zh: '可否拍照', en: 'Photography rules' },
+        german: 'Darf ich vor dem Konzert ein Foto vom Saal machen?',
+        pronunciation: 'darf ikh for daym kon-TSAIRT ain FO-toh fom zahl MAKH-en',
+        chinese: '開演前我可以拍一張大廳的照片嗎？',
+        english: 'May I take a photo of the hall before the concert starts?',
+        note: {
+          zh: '演出開始後嚴禁拍照與錄影。',
+          en: 'No photos or video once the concert begins.',
+        },
+      },
+    ],
   },
   {
     id: 'vienna-secession',
@@ -1095,6 +1136,10 @@ export const attractions: Attraction[] = [
     coordinates: { lat: 48.4006, lng: 15.5189 },
     address: '3601 Dürnstein, Austria',
     website: 'https://www.duernstein.at',
+    tips: {
+      zh: '兩個重點：①藍白巴洛克教堂尖塔（Stift Dürnstein）— 沿多瑙河遠遠就能看到，是拍河谷的最佳前景；②庫恩林格城堡廢墟（Burgruine Dürnstein）— 獅心王理查曾被囚禁，從小鎮有條微陡步道，20–30 分鐘登頂後回望，多瑙河大弧度急轉彎搭配兩側葡萄園階梯，是自駕才能捕捉的經典畫面。',
+      en: 'Two highlights: ① the powder-blue Stift Dürnstein tower — visible from miles down the Danube and the best foreground for any river-valley shot; ② the Kuenringer castle ruins (Burgruine Dürnstein) where Richard the Lionheart was once imprisoned — a 20–30-min steep trail rewards you with the great curve of the Danube ringed by terraced vineyards, a view only drivers reach.',
+    },
     imageUrl:
       'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=1600&q=80&auto=format&fit=crop',
     languageCards: [],
@@ -1118,8 +1163,12 @@ export const attractions: Attraction[] = [
     website: 'https://www.stiftmelk.at',
     openingHours: { zh: '5–9 月 09:00–17:30', en: 'May–Sep 09:00–17:30' },
     price: { zh: '成人 €14，含導覽 €17', en: 'Adult €14; with guided tour €17' },
+    tips: {
+      zh: '三個視覺重點：①大理石廳天花板是平的，但 trompe-l’œil 透視壁畫讓它看起來極高；②兩層樓的胡桃木修道院圖書館（《玫瑰的名字》靈感來源），但**禁止拍照**；③連接圖書館與教堂的粉紅×粉綠旋轉樓梯，由上往下俯拍是完美的同心圓。修道院下方花園很大，自駕中段非常適合停下來伸展。',
+      en: 'Three visual showstoppers: ① the Marble Hall — the ceiling is flat but a trompe-l’œil fresco makes it soar; ② the two-storey walnut Library (inspiration for The Name of the Rose) — note that **photography is forbidden**; ③ the pink-and-green spiral staircase between library and church, best shot looking straight down for a perfect geometric spiral. The gardens below the abbey are huge and great for a road-trip leg stretch.',
+    },
     imageUrl:
-      'https://images.unsplash.com/photo-1733353020460-07fa24accf18?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Stift_Melk_001.jpg?width=1600',
     languageCards: [],
   },
 
@@ -1144,7 +1193,7 @@ export const attractions: Attraction[] = [
     address: '5360 St. Wolfgang im Salzkammergut',
     website: 'https://www.wolfgangsee.at',
     imageUrl:
-      'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1666365860906-eee759d70152?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
   {
@@ -1164,6 +1213,10 @@ export const attractions: Attraction[] = [
     coordinates: { lat: 47.5413, lng: 13.4972 },
     address: '4824 Gosau, Austria',
     website: 'https://www.dachstein.at/en/gosau',
+    tips: {
+      zh: '下午到傍晚是達赫斯坦冰川群的順光魔幻時刻 — 比上午畫面更立體。湖畔有一條 1 小時平緩的環湖步道，非常適合「中等節奏」散步。**自駕優勢**：哈修塔特停車位難求且昂貴，戈紹湖有大片免費停車場，下車一分鐘就到湖邊。',
+      en: 'Late afternoon brings front-lit, almost magical light onto the Dachstein wall — far better than morning. A flat 1-hour lakeshore loop suits a relaxed pace. The driver’s payoff: while Hallstatt parking is brutal and pricey, Gosausee has a huge free lot one minute from the water.',
+    },
     imageUrl:
       'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=1600&q=80&auto=format&fit=crop',
     languageCards: [],
@@ -1191,8 +1244,12 @@ export const attractions: Attraction[] = [
     website: 'https://www.seenschifffahrt.de/koenigssee',
     openingHours: { zh: '依季節，多為 08:00–17:00', en: 'Seasonal, roughly 08:00–17:00' },
     price: { zh: '往返船票（至 St. Bartholomä）€21', en: 'Boat round-trip to St. Bartholomä €21' },
+    tips: {
+      zh: '7 月旺季務必趕在**早上 8:30 前**抵達碼頭搭頭兩班船。船開到終點站 Salet 後，步行 15–20 分鐘可達上湖（Obersee）：百年延伸至水面的木屋、垂直絕壁背景，無波倒影像懸浮一般；再往內走 20 分鐘抵達 Fischunkelalm 牧場小屋，可買新鮮鮮牛奶或啤酒，配著瀑布草地，是自由行最大的獎勵。',
+      en: 'In July, be at the pier before 8:30am for the first two boats. From the Salet terminus a 15–20 min walk leads to Obersee — a century-old wooden hut on the water with sheer cliffs behind, mirror-still on calm mornings. A further 20 min reaches the Fischunkelalm dairy hut for fresh milk or beer with a waterfall view. Self-drive payoff at its purest.',
+    },
     imageUrl:
-      'https://images.unsplash.com/photo-1527142879-95b61a0b8226?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1551810079-ca17196f21f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
   {
@@ -1213,7 +1270,7 @@ export const attractions: Attraction[] = [
     address: 'Marienplatz, 80331 München',
     website: 'https://www.muenchen.travel/sights/marienplatz',
     imageUrl:
-      'https://images.unsplash.com/photo-1577462281852-279a4f5d9b0f?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1577653993857-3718d1f1f997?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
   {
@@ -1236,7 +1293,7 @@ export const attractions: Attraction[] = [
     openingHours: { zh: '4–10 月 09:00–18:00，11–3 月至 16:00', en: 'Apr–Oct 09:00–18:00, Nov–Mar to 16:00' },
     price: { zh: '聯票（含全部建築）€15；可用 14 日巴伐利亞通票', en: 'Combined ticket €15; covered by 14-day Bavarian Castle pass' },
     imageUrl:
-      'https://images.unsplash.com/photo-1583952321859-7e6f96cd9b40?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1647900243412-5bb779589fbf?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
   {
@@ -1259,7 +1316,7 @@ export const attractions: Attraction[] = [
     openingHours: { zh: '展示廳每日 07:30–24:00，博物館 10:00–18:00', en: 'Pavilion daily 07:30–24:00; Museum 10:00–18:00' },
     price: { zh: 'BMW Welt 免費；博物館 €10', en: 'BMW Welt free; Museum €10' },
     imageUrl:
-      'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1622287483085-5160a984e317?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
   {
@@ -1281,8 +1338,57 @@ export const attractions: Attraction[] = [
     website: 'https://www.hofbraeuhaus.de',
     openingHours: { zh: '每日 11:00–24:00', en: 'Daily 11:00–24:00' },
     imageUrl:
-      'https://images.unsplash.com/photo-1542838686-37da4a9fd1b3?w=1600&q=80&auto=format&fit=crop',
-    languageCards: [],
+      'https://images.unsplash.com/photo-1589769419005-45da87fe7697?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [
+      {
+        id: 'hofbrau-mass',
+        situation: { zh: '點一公升大啤酒', en: 'Ordering a one-litre stein' },
+        german: 'Zwei Maß Helles, bitte.',
+        pronunciation: 'tsvai mas HEL-les, BIT-te',
+        chinese: '請給我兩杯一公升的淡啤酒。',
+        english: 'Two one-litre steins of Helles, please.',
+        note: {
+          zh: 'Maß（mas）= 1 公升大杯；Helles = 淡色拉格；Dunkles = 黑啤；Weißbier = 小麥啤酒。',
+          en: 'Maß (mas) = 1-litre stein; Helles = pale lager; Dunkles = dark; Weißbier = wheat beer.',
+        },
+      },
+      {
+        id: 'hofbrau-schweinshaxe',
+        situation: { zh: '點豬腳與白香腸', en: 'Order pork knuckle & Weißwurst' },
+        german: 'Wir möchten eine Schweinshaxe und zwei Weißwürste mit süßem Senf.',
+        pronunciation: 'veer MUEKH-ten AI-ne SHVAINS-hak-se oont tsvai VAIS-vuer-ste mit ZUE-sem zenf',
+        chinese: '我們要點一份德國豬腳和兩條白香腸，附甜芥末。',
+        english: "We'd like one Schweinshaxe and two Weißwürste with sweet mustard.",
+        note: {
+          zh: '白香腸傳統只賣到中午前；豬腳兩人分食剛好。',
+          en: 'Weißwurst is traditionally only served before noon; one Schweinshaxe usually feeds two.',
+        },
+      },
+      {
+        id: 'hofbrau-sharetable',
+        situation: { zh: '詢問共桌空位', en: 'Sharing a table (common here)' },
+        german: 'Sind hier noch zwei Plätze frei?',
+        pronunciation: 'zint heer nokh tsvai PLET-se frai',
+        chinese: '請問這裡還有兩個空位嗎？',
+        english: 'Are these two seats still free?',
+        note: {
+          zh: '德式啤酒屋共桌（Stammtisch 是常客專用桌，桌牌寫著 RESERVIERT 切勿坐）。',
+          en: 'Sharing tables is normal — but never sit at one labelled Stammtisch / RESERVIERT.',
+        },
+      },
+      {
+        id: 'hofbrau-prost',
+        situation: { zh: '乾杯', en: 'Cheers!' },
+        german: 'Prost! Auf eine schöne Reise!',
+        pronunciation: 'prohst! owf AI-ne SHUE-ne RAI-ze',
+        chinese: '乾杯！祝旅途愉快！',
+        english: 'Cheers! To a wonderful trip!',
+        note: {
+          zh: '碰杯時眼神接觸是德國禮儀，不然據說會七年衰運。',
+          en: 'Always make eye contact when clinking glasses — German tradition says you’ll get seven years of bad luck otherwise.',
+        },
+      },
+    ],
   },
   {
     id: 'bayern-neuschwanstein',
@@ -1304,8 +1410,45 @@ export const attractions: Attraction[] = [
     openingHours: { zh: '夏季 09:00–18:00；冬季 10:00–16:00', en: 'Summer 09:00–18:00; winter 10:00–16:00' },
     price: { zh: '成人 €21（線上預約 +€2.5）；14 日巴伐利亞通票涵蓋', en: 'Adult €21 (online +€2.50); covered by the 14-day Bavarian Castle pass' },
     imageUrl:
-      'https://images.unsplash.com/photo-1530092285049-1c42085fd395?w=1600&q=80&auto=format&fit=crop',
-    languageCards: [],
+      'https://images.unsplash.com/photo-1557067175-db3159d938ac?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [
+      {
+        id: 'neuschwanstein-missed',
+        situation: { zh: '塞車錯過入場時段', en: 'Missed timed entry due to traffic' },
+        german: 'Wir haben verkehrsbedingt unsere Einlasszeit verpasst. Können wir mit diesem Ticket noch reingehen?',
+        pronunciation: 'veer HAH-ben fer-KAIRS-be-dingt OON-ze-re AIN-las-tsait fer-PAST. KUEN-nen veer mit DEE-zem TIK-et nokh RAIN-gay-en',
+        chinese: '我們因塞車錯過了入場時段，這張票還能進去嗎？',
+        english: 'We missed our entry slot due to traffic. Can we still enter with this ticket?',
+        note: {
+          zh: '時段把關非常嚴，遲到 15 分鐘以上通常作廢；務必提早抵達售票中心 Hohenschwangau。',
+          en: 'Slots are strict — 15+ min late usually voids the ticket. Arrive early at the Hohenschwangau ticket centre.',
+        },
+      },
+      {
+        id: 'neuschwanstein-shuttle',
+        situation: { zh: '上山方式', en: 'Getting up to the castle' },
+        german: 'Wie kommen wir am besten zum Schloss hinauf — zu Fuß, mit dem Bus oder der Kutsche?',
+        pronunciation: 'vee KOM-men veer am BES-ten tsoom shlos hi-NOWF — tsoo foos, mit daym boos OH-der dair KOOT-she',
+        chinese: '我們上城堡最好怎麼上去 — 步行、巴士還是馬車？',
+        english: 'What’s the best way up to the castle — on foot, by bus, or by horse carriage?',
+        note: {
+          zh: '步行約 40 分鐘陡坡；接駁巴士 €3 單程；馬車 €8 較浪漫但慢。',
+          en: 'Walk = 40 min steep climb; shuttle bus €3 one-way; horse carriage €8 — romantic but slow.',
+        },
+      },
+      {
+        id: 'neuschwanstein-marienbrucke',
+        situation: { zh: '前往瑪利亞橋觀景', en: 'Asking for Marienbrücke viewpoint' },
+        german: 'Wo geht es zur Marienbrücke? Ist die heute geöffnet?',
+        pronunciation: 'voh gayt es tsoor ma-REE-en-bruek-e. ist dee HOY-te ge-UEF-net',
+        chinese: '請問瑪利亞橋怎麼走？今天有開放嗎？',
+        english: 'Where is the Marienbrücke? Is it open today?',
+        note: {
+          zh: '經典側拍角度的橋，冬季積雪或維修時會關閉。',
+          en: 'The footbridge with the iconic side view — closed in winter snow or for maintenance.',
+        },
+      },
+    ],
   },
   {
     id: 'bayern-regensburg-altstadt',
@@ -1325,7 +1468,7 @@ export const attractions: Attraction[] = [
     address: 'Domplatz, 93047 Regensburg',
     website: 'https://tourismus.regensburg.de/en',
     imageUrl:
-      'https://images.unsplash.com/photo-1599056407101-7c557a4a0144?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1659101647724-3e0fbe95d16e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
 
@@ -1415,7 +1558,7 @@ export const attractions: Attraction[] = [
     address: 'Jiráskovo nám. 1981/6, 120 00 Praha 2',
     website: 'https://www.tadu.cz/en',
     imageUrl:
-      'https://images.unsplash.com/photo-1573599852326-2d4da0bbe613?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1629044563175-5cc2e117e5f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     languageCards: [],
   },
   {
@@ -1436,7 +1579,163 @@ export const attractions: Attraction[] = [
     address: 'Náměstí Svornosti, 381 01 Český Krumlov',
     website: 'https://www.ckrumlov.info/en',
     imageUrl:
-      'https://images.unsplash.com/photo-1567536097648-66a8cb6cdfe7?w=1600&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1572376390533-dca20771dc30?q=80&w=2473&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [],
+  },
+
+  // ===========================================================================
+  // Optimized-itinerary additions (Day 2–12 detail spots)
+  // ===========================================================================
+  {
+    id: 'vienna-graben-kohlmarkt',
+    slug: 'graben-kohlmarkt',
+    city: 'vienna',
+    name: { zh: '格拉本大街與科爾市場', en: 'Graben & Kohlmarkt', de: 'Graben & Kohlmarkt' },
+    tagline: {
+      zh: '黑死病紀念柱與帝國時期的時尚大道',
+      en: 'The Plague Column and Vienna’s most fashionable boulevard',
+    },
+    description: {
+      zh: '維也納最具指標性的時尚與建築大道。可以觀察到黑死病紀念柱（巴洛克雕刻的極致，充滿流動感與光影戲劇張力），以及兩旁 19 世紀歷史主義風格的店面立面。從聖史蒂芬大教堂步行 2 分鐘即達，是進入皇室商圈的必經門面。',
+      en: 'Vienna’s most photographed shopping street, anchored by the Pestsäule Plague Column — a baroque pile of swirling marble that captures the era’s flair for light, shadow and movement. The 19th-century historicist façades lining Graben and Kohlmarkt lead straight to Hofburg’s back gate.',
+    },
+    category: ['architecture', 'shopping'],
+    coordinates: { lat: 48.209, lng: 16.3697 },
+    address: 'Graben, 1010 Wien',
+    website: 'https://www.wien.info/en/sightseeing/sights/graben',
+    tips: {
+      zh: '黃昏前後光線最柔，紀念柱的雕刻陰影最有戲劇性。從 Kohlmarkt 西望可正面拍到霍夫堡的米歇爾門弧形立面。',
+      en: 'Late afternoon light is softest on the Plague Column. Look west along Kohlmarkt for the head-on view of the Michaelertor curve at Hofburg.',
+    },
+    imageUrl:
+      'https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?w=1600&q=80&auto=format&fit=crop',
+    languageCards: [],
+  },
+  {
+    id: 'salzburg-cathedral',
+    slug: 'salzburg-cathedral',
+    city: 'salzburg',
+    name: { zh: '薩爾斯堡主教座堂', en: 'Salzburg Cathedral', de: 'Salzburger Dom' },
+    tagline: {
+      zh: '阿爾卑斯山北麓第一座巨大的巴洛克教堂',
+      en: 'The first great baroque church north of the Alps',
+    },
+    description: {
+      zh: '阿爾卑斯山北麓第一座巨大的巴洛克建築（1628 年完工）。巨大的穹頂與純白色的灰泥雕刻內部，利用高窗投射下來的光線，營造出神聖、充滿空氣感的劇場式視覺效果。莫扎特 1756 年在此受洗。',
+      en: 'The first great baroque church north of the Alps (completed 1628). Its colossal dome and luminous white stucco interior catch high-window light to create a theatrical, almost airborne sanctity. Mozart was baptised here in 1756.',
+    },
+    category: ['architecture', 'history'],
+    coordinates: { lat: 47.7979, lng: 13.0466 },
+    address: 'Domplatz 1A, 5020 Salzburg',
+    website: 'https://www.salzburger-dom.at',
+    openingHours: { zh: '週一–週六 08:00–19:00，週日下午起開放', en: 'Mon–Sat 08:00–19:00; Sun afternoons' },
+    price: { zh: '免費入場（捐獻歡迎）', en: 'Free entry (donation welcome)' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1663616132535-e1e14b514c0f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [],
+  },
+  {
+    id: 'munich-st-peter',
+    slug: 'munich-st-peter',
+    city: 'munich',
+    name: { zh: '聖伯多祿教堂', en: "St. Peter's Church", de: 'Alter Peter' },
+    tagline: {
+      zh: '306 階登頂俯瞰新市政廳與舊城紋理',
+      en: '306 steps to the best skyline view of Munich',
+    },
+    description: {
+      zh: '慕尼黑最古老的教區教堂（暱稱 Alter Peter「老彼得」）。值得爬上 306 階木製樓梯到塔頂觀景台，這是俯瞰新市政廳哥德立面與整個瑪麗恩廣場最棒的視角，天氣好時甚至能看到阿爾卑斯山。',
+      en: "Munich's oldest parish church — locals call it Alter Peter (\"Old Peter\"). Climb the 306 wooden steps to the tower viewing platform for the city's best overhead shot of Marienplatz and the neo-Gothic Neues Rathaus; on clear days you can spot the Alps.",
+    },
+    category: ['architecture', 'history', 'scenery'],
+    coordinates: { lat: 48.1361, lng: 11.5764 },
+    address: 'Rindermarkt 1, 80331 München',
+    website: 'https://www.erzbistum-muenchen.de/pfarrei/pv-st-peter-muenchen',
+    openingHours: { zh: '塔樓夏季 09:00–19:30', en: 'Tower (summer) 09:00–19:30' },
+    price: { zh: '登塔 €5', en: 'Tower €5' },
+    tips: {
+      zh: '上午光線好且人少；午後人多需排隊 30 分鐘以上。塔內樓梯狹窄無電梯，背包或推車不建議攜帶。',
+      en: 'Mornings are quieter and better lit; afternoons can queue 30+ min. The staircase is narrow with no lift — skip if you have a stroller.',
+    },
+    imageUrl:
+      'https://images.unsplash.com/photo-1544267822-2d9ac57fc38b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [],
+  },
+  {
+    id: 'munich-residenz',
+    slug: 'munich-residenz',
+    city: 'munich',
+    name: { zh: '慕尼黑王宮', en: 'Munich Residenz', de: 'Münchner Residenz' },
+    tagline: {
+      zh: '文藝復興至洛可可的歐洲最大都市宮殿',
+      en: 'Europe’s largest urban palace — Renaissance to Rococo',
+    },
+    description: {
+      zh: '昔日巴伐利亞王室住所，130 個房間橫跨文藝復興、巴洛克、洛可可三大時期。**必看 Antiquarium（古物陳列館）**：文藝復興時期極致對稱的桶形拱頂長廊，兩側羅馬雕像，天花板佈滿精細壁畫，是視覺延伸感的完美示範。珍寶館（Schatzkammer）收藏王冠權杖。',
+      en: 'The former Bavarian royal residence — 130 rooms spanning Renaissance, Baroque and Rococo. The must-see is the **Antiquarium**, a perfectly symmetrical barrel-vaulted Renaissance hall lined with Roman sculpture and ceiling frescoes — a masterclass in perspective and visual depth. The Schatzkammer treasury holds the crowns and sceptres.',
+    },
+    category: ['architecture', 'art', 'history'],
+    coordinates: { lat: 48.1413, lng: 11.5777 },
+    address: 'Residenzstraße 1, 80333 München',
+    website: 'https://www.residenz-muenchen.de',
+    openingHours: { zh: '4–10 月 09:00–18:00；11–3 月 10:00–17:00', en: 'Apr–Oct 09:00–18:00; Nov–Mar 10:00–17:00' },
+    price: { zh: '王宮 €10、珍寶館 €10、聯票 €17（14 日巴伐利亞通票涵蓋）', en: 'Residenz €10; Treasury €10; combined €17 (covered by Bavarian Castle pass)' },
+    tips: {
+      zh: '整館像迷宮、超過 100 個房間，全程需 2.5–3 小時。一進去就拿中文語音導覽直接抓重點看，否則容易審美疲勞。',
+      en: 'The interior is a 100-room maze and takes 2.5–3 hours to do justice. Pick up the audio guide on entry and stick to the highlights to avoid burnout.',
+    },
+    imageUrl:
+      'https://images.unsplash.com/photo-1633171418458-5f6b41948a15?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [],
+  },
+  {
+    id: 'prague-municipal-house',
+    slug: 'prague-municipal-house',
+    city: 'prague',
+    name: { zh: '布拉格市民會館', en: 'Municipal House', de: 'Gemeindehaus Prag' },
+    tagline: {
+      zh: '新藝術運動巔峰 — 慕夏親自操刀的市長廳',
+      en: 'Czech Art Nouveau at its peak — Mucha decorated the Mayor’s Hall',
+    },
+    description: {
+      zh: '1912 年完工的新藝術運動代表作，外牆有大型馬賽克壁畫《向布拉格致敬》，窗框、露台、燈飾皆是流暢的植物線條與花草波浪紋路。樓上的「市長廳」由捷克國寶藝術家慕夏（Alphonse Mucha）親自設計，壁畫展現他經典的唯美女性與裝飾風格。',
+      en: 'A 1912 Art Nouveau showpiece. The façade carries a huge mosaic — "Homage to Prague" — and every window, balcony and lamp curves with floral lines. Upstairs, the Mayor’s Hall was personally designed by Alphonse Mucha, with his signature mystic women and decorative motifs.',
+    },
+    category: ['architecture', 'art', 'history'],
+    coordinates: { lat: 50.0879, lng: 14.4286 },
+    address: 'náměstí Republiky 5, 110 00 Praha 1',
+    website: 'https://www.obecnidum.cz/en',
+    openingHours: { zh: '導覽時段 10:00–18:00；咖啡廳每日 07:30–23:00', en: 'Guided tours 10:00–18:00; café daily 07:30–23:00' },
+    price: { zh: '導覽團 CZK 290；一樓咖啡廳免費入內', en: 'Guided tour CZK 290; ground-floor café free to visit' },
+    tips: {
+      zh: '想看二樓的慕夏房間必須參加付費導覽。不想花錢的話最聰明的玩法：直接去一樓的 Kavárna Obecní dům 喝一杯咖啡，挑高水晶吊燈與全套新藝術裝飾，免費感受 19 世紀末布拉格。',
+      en: 'The upper Mucha rooms require a paid guided tour. The smart hack: just have coffee in the ground-floor Kavárna Obecní dům — soaring crystal chandeliers and full Art Nouveau decor for the price of a melange.',
+    },
+    imageUrl:
+      'https://images.unsplash.com/photo-1708531017673-96f1c2f982cd?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    languageCards: [],
+  },
+  {
+    id: 'chiemsee-herrenchiemsee',
+    slug: 'herrenchiemsee',
+    city: 'chiemsee',
+    name: { zh: '海倫基姆湖宮', en: 'Schloss Herrenchiemsee', de: 'Schloss Herrenchiemsee' },
+    tagline: {
+      zh: '湖中島上的「巴伐利亞凡爾賽宮」',
+      en: 'The Bavarian Versailles on an island lake',
+    },
+    description: {
+      zh: '位於基姆湖中 Herreninsel 島上，路德維希二世以凡爾賽宮為藍本興建的最後一座夢想宮殿（1878–1886）。國王過世時只完成中央立面，但鏡廳（Spiegelgalerie）長 98 公尺、比凡爾賽更為金碧輝煌，是新天鵝堡之外另一段「童話國王」的浪漫主義縮影。從 Prien 搭船 20 分鐘抵達。',
+      en: "On Herreninsel island in Lake Chiemsee, Ludwig II's final dream palace (1878–86) — modelled on Versailles. Only the central wing was completed before the king's death, but its 98-metre Hall of Mirrors outshines the original in gilding. A 20-minute boat ride from Prien — the perfect Bavarian-Versailles companion to Neuschwanstein.",
+    },
+    category: ['architecture', 'history', 'scenery'],
+    coordinates: { lat: 47.8676, lng: 12.3905 },
+    address: '83209 Herrenchiemsee, Germany',
+    website: 'https://www.herrenchiemsee.de',
+    openingHours: { zh: '4–10 月 09:00–18:00；11–3 月 09:40–16:15', en: 'Apr–Oct 09:00–18:00; Nov–Mar 09:40–16:15' },
+    price: { zh: '宮殿 €11；含船票（Chiemsee-Schifffahrt）約 €19', en: 'Palace €11; with Chiemsee ferry round-trip ≈ €19' },
+    imageUrl:
+      'https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=1600&q=80&auto=format&fit=crop',
     languageCards: [],
   },
 ];

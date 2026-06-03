@@ -54,6 +54,16 @@ export const seasonalTipsByCity: Record<string, SeasonalTip[]> = {
       },
     },
     {
+      months: [7, 8],
+      type: 'event',
+      icon: 'Music',
+      title: { zh: '市政廳廣場音樂電影節', en: 'Rathausplatz Film Festival' },
+      description: {
+        zh: '6 月底至 9 月初，每晚於市政廳前廣場露天播放世界級歌劇、芭蕾與交響樂電影，現場數十家國際美食攤位 — 免費入場。',
+        en: 'Late June to early September: every evening the Rathausplatz hosts a free open-air screen of world-class opera, ballet and symphony films, with dozens of international food stalls.',
+      },
+    },
+    {
       months: [10, 11],
       type: 'tip',
       icon: 'Leaf',
@@ -133,6 +143,22 @@ export const seasonalTipsByCity: Record<string, SeasonalTip[]> = {
       description: {
         zh: '花卉盛開、遊客尚未湧入，強烈推薦。',
         en: 'Flowers bloom before the crowds arrive — highly recommended.',
+      },
+    },
+  ],
+
+  // ===========================================================================
+  // MUNICH · 慕尼黑
+  // ===========================================================================
+  munich: [
+    {
+      months: [7],
+      type: 'event',
+      icon: 'Music',
+      title: { zh: '慕尼黑夏季歌劇節', en: 'Münchner Opernfestspiele' },
+      description: {
+        zh: '整個 7 月慕尼黑國家劇院（Nationaltheater）上演頂級歌劇與芭蕾，極具歐洲貴族氣息，是啤酒屋之外的另一個夜間選擇。',
+        en: 'Throughout July the Nationaltheater stages top-tier opera and ballet — a refined alternative to the beer halls for evenings in Munich.',
       },
     },
   ],

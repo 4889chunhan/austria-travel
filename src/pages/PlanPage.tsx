@@ -38,7 +38,7 @@ import { attractions } from '../data/attractions';
 import { sampleItinerary, sampleTripConfig } from '../data/sampleItinerary';
 import { CATEGORY_META, CATEGORY_ORDER, primaryCategory } from '../utils/categoryColors';
 import { useLocalizedField } from '../hooks/useLocalizedField';
-import { LanguageCardDeck } from '../components/LanguageCardDeck';
+import { LanguageCard } from '../components/LanguageCard';
 import { PlanChatbot } from '../components/PlanChatbot';
 import { BudgetCalculator } from '../components/BudgetCalculator';
 import { cn } from '../utils/cn';
@@ -1225,12 +1225,18 @@ function AttractionRow({ attraction }: { attraction: Attraction }) {
   const setSelectedAttraction = useStore((s) => s.setSelectedAttraction);
   const [showCards, setShowCards] = useState(false);
 
-  const meta = primaryCategory(attraction.category);
-  const city = cityLabel(attraction.city);
-  const ticket = attraction.ticketPrice;
+  // The itinerary may hold frozen Attraction references from when the trip was
+  // generated (especially the sample itinerary, picked at module-load time).
+  // Re-resolve by slug each render so edits to attractions.ts (e.g. updated
+  // imageUrl) flow through to the PlanPage thumbnail in real time.
+  const live = attractions.find((a) => a.slug === attraction.slug) ?? attraction;
+
+  const meta = primaryCategory(live.category);
+  const city = cityLabel(live.city);
+  const ticket = live.ticketPrice;
 
   const goToMap = () => {
-    setSelectedAttraction(attraction);
+    setSelectedAttraction(live);
     navigate('/map');
   };
 
@@ -1239,8 +1245,8 @@ function AttractionRow({ attraction }: { attraction: Attraction }) {
       <div className="flex gap-0">
         <div className="relative shrink-0 overflow-hidden" style={{ width: 110 }}>
           <img
-            src={attraction.imageUrl}
-            alt={localized(attraction.name)}
+            src={live.imageUrl}
+            alt={localized(live.name)}
             loading="lazy"
             className="h-full w-full object-cover"
             style={{ borderRadius: 0 }}
@@ -1262,11 +1268,11 @@ function AttractionRow({ attraction }: { attraction: Attraction }) {
           </div>
 
           <Link
-            to={`/attraction/${attraction.slug}`}
+            to={`/attraction/${live.slug}`}
             className="group inline-flex items-baseline gap-1"
           >
             <h3 className="font-chinese text-[16px] font-semibold leading-snug text-ink group-hover:text-lime-deep">
-              {localized(attraction.name)}
+              {localized(live.name)}
             </h3>
             <ArrowUpRight size={13} className="text-ink-faint group-hover:text-lime-deep" />
           </Link>
@@ -1320,18 +1326,31 @@ function AttractionRow({ attraction }: { attraction: Attraction }) {
       </div>
 
       {showCards && (
-        <div className="border-t px-4 py-4">
-          {attraction.languageCards.length > 0 ? (
-            <LanguageCardDeck cards={attraction.languageCards} />
+        <div className="border-t py-4">
+          {live.languageCards.length > 0 ? (
+            <div
+              className="scrollbar-hidden flex gap-3 overflow-x-auto px-4 pb-1"
+              style={{ scrollSnapType: 'x mandatory' }}
+            >
+              {live.languageCards.map((card) => (
+                <div
+                  key={card.id}
+                  className="shrink-0"
+                  style={{ scrollSnapAlign: 'start', width: 280 }}
+                >
+                  <LanguageCard card={card} />
+                </div>
+              ))}
+            </div>
           ) : (
-            <p className="text-center font-chinese text-[13px] text-ink-faint">
+            <p className="px-4 text-center font-chinese text-[13px] text-ink-faint">
               這個景點還沒有語言小卡。
             </p>
           )}
         </div>
       )}
 
-      {collaborativeData && <VoteRow attractionId={attraction.id} />}
+      {collaborativeData && <VoteRow attractionId={live.id} />}
     </article>
   );
 }

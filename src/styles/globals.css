@@ -91,24 +91,15 @@
     color: var(--color-lime-deep);
   }
 
-  /* Thin sage scrollbar over a transparent track. */
+  /* Hide all scrollbars site-wide — content still scrolls, but no bar shows.
+     Firefox: scrollbar-width none. WebKit: hide the bar itself. */
   * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-sage) transparent;
+    scrollbar-width: none;
   }
   *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  *::-webkit-scrollbar-thumb {
-    background: var(--color-sage);
-    border-radius: var(--radius-pill);
-  }
-  *::-webkit-scrollbar-thumb:hover {
-    background: var(--color-lime-deep);
+    width: 0;
+    height: 0;
+    display: none;
   }
 }
 

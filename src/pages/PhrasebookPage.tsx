@@ -5,6 +5,7 @@ import {
   Landmark,
   Pill,
   Search,
+  ShoppingBag,
   ShoppingCart,
   Siren,
   Train,
@@ -38,6 +39,7 @@ type TabId = Extract<
   | 'pharmacy'
   | 'transport'
   | 'hotel'
+  | 'shopping'
   | 'emergency'
   | 'attraction'
 >;
@@ -49,6 +51,7 @@ const TABS: { id: TabId; icon: LucideIcon; label: string }[] = [
   { id: 'pharmacy', icon: Pill, label: '藥局' },
   { id: 'transport', icon: Train, label: '交通' },
   { id: 'hotel', icon: BedDouble, label: '住宿' },
+  { id: 'shopping', icon: ShoppingBag, label: '購物市集' },
   { id: 'emergency', icon: Siren, label: '緊急' },
   { id: 'attraction', icon: Landmark, label: '景點相關' },
 ];

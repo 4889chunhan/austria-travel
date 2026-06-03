@@ -1,6 +1,10 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import {
   ArrowUpRight,
   Bus,
@@ -18,7 +22,7 @@ import { useStore } from '../store';
 import { attractions } from '../data/attractions';
 import { CATEGORY_META, primaryCategory } from '../utils/categoryColors';
 import { useLocalizedField } from '../hooks/useLocalizedField';
-import { LanguageCardDeck } from '../components/LanguageCardDeck';
+import { LanguageCard } from '../components/LanguageCard';
 import { cn } from '../utils/cn';
 import { CITY_DISPLAY } from '../utils/cityDisplay';
 import type { Attraction } from '../types';
@@ -64,6 +68,55 @@ function DetailView({ attraction }: { attraction: Attraction }) {
     s.savedAttractions.includes(attraction.id),
   );
 
+  // Refs for the GSAP ScrollTrigger parallax/fade on the hero.
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const img = heroImgRef.current;
+    if (!hero || !img) return;
+
+    // The Layout's <main> is the scrolling container (overflow-y-auto) — we
+    // have to point ScrollTrigger at it explicitly, otherwise it watches the
+    // window which never scrolls in this app.
+    let scroller: HTMLElement | undefined;
+    let el: HTMLElement | null = hero.parentElement;
+    while (el) {
+      const oy = getComputedStyle(el).overflowY;
+      if (oy === 'auto' || oy === 'scroll') {
+        scroller = el;
+        break;
+      }
+      el = el.parentElement;
+    }
+
+    // Zoom IN while fading out — the image grows toward the camera as the
+    // content scrolls up and covers it (Ken-Burns-into-fade).
+    const tween = gsap.to(img, {
+      scale: 1.5,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: hero,
+        scroller,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    // Refresh once the route-transition wrapper finishes its entry animation —
+    // start positions can shift slightly during the page-enter keyframe.
+    const refresh = window.setTimeout(() => ScrollTrigger.refresh(), 350);
+
+    return () => {
+      window.clearTimeout(refresh);
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, [attraction.id]);
+
   const meta = primaryCategory(attraction.category);
   const cityLabel =
     CITY_DISPLAY[attraction.city] ?? { zh: attraction.city, en: attraction.city };
@@ -98,14 +151,24 @@ function DetailView({ attraction }: { attraction: Attraction }) {
   };
 
   return (
-    <div className="bg-cream">
-      {/* ============ HERO ============ */}
-      <div className="relative h-[40vh] w-full md:h-[55vh]">
+    <div className="relative bg-cream">
+      {/* ============ HERO (sticky behind content) ============
+          Stays glued to the top of the scroll viewport. GSAP ScrollTrigger
+          scrubs scale + opacity on the image as the user scrolls. */}
+      <div
+        ref={heroRef}
+        className="sticky top-0 z-0 h-[40vh] w-full overflow-hidden md:h-[55vh]"
+      >
         <img
+          ref={heroImgRef}
           src={attraction.imageUrl}
           alt={localized(attraction.name)}
           className="absolute inset-0 h-full w-full object-cover"
-          style={{ borderRadius: 0 }}
+          style={{
+            borderRadius: 0,
+            transformOrigin: 'center',
+            willChange: 'transform, opacity',
+          }}
         />
         <div
           className="absolute inset-0"
@@ -117,14 +180,14 @@ function DetailView({ attraction }: { attraction: Attraction }) {
         <div
           className="absolute inline-flex items-center gap-2"
           style={{
-            bottom: 20,
-            left: 20,
+            bottom: 48,
+            left: 24,
             background: 'rgba(255, 255, 255, 0.85)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             border: '0.5px solid rgba(255, 255, 255, 0.6)',
             borderRadius: 'var(--radius-pill)',
-            padding: '6px 14px',
+            padding: '8px 16px',
             boxShadow: 'var(--shadow-float)',
           }}
         >
@@ -138,147 +201,161 @@ function DetailView({ attraction }: { attraction: Attraction }) {
         </div>
       </div>
 
-      {/* ============ CONTENT ============ */}
-      <article className="mx-auto max-w-[1200px] px-6 pb-16">
-        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12">
-          <aside className="lg:col-span-3 lg:sticky lg:self-start" style={{ top: 88 }}>
-            {nearby.length > 0 && (
-              <div className="lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto lg:pr-1">
-                <h2 className="mb-4 font-chinese text-[18px] font-medium text-ink">
-                  附近景點
-                  <span className="ml-2 font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
-                    · {cityLabel.en}
-                  </span>
-                </h2>
-                <div className="space-y-3">
-                  {nearby.map((a) => (
-                    <NearbyCard key={a.id} attraction={a} compact />
-                  ))}
+      {/* ============ CONTENT — slides up over the hero ============
+          Two-column layout: 附近景點 left, everything else (title, info,
+          transport, language cards) right. `min-h-screen` so the content
+          extends past the sticky hero down to the footer. */}
+      <article className="relative z-10 -mt-6 min-h-screen bg-cream pb-16 pt-8">
+        <div className="mx-auto max-w-[1280px] px-6 sm:px-10">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+            {/* LEFT column — 附近景點 */}
+            <aside className="lg:col-span-3">
+              {nearby.length > 0 && (
+                <div>
+                  <h2 className="mb-4 font-chinese text-[18px] font-medium text-ink">
+                    附近景點
+                    <span className="ml-2 font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
+                      · {cityLabel.en}
+                    </span>
+                  </h2>
+                  <div className="space-y-3">
+                    {nearby.map((a) => (
+                      <NearbyCard key={a.id} attraction={a} compact />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </aside>
-
-          <div
-            className="lg:col-span-9 lg:sticky lg:self-start lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto lg:pr-1"
-            style={{ top: 88 }}
-          >
-            {/* TOP META */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span
-                className="rounded-pill bg-lime px-2.5 py-1 font-mono uppercase tracking-editorial text-lime-deep"
-                style={{ fontSize: 10 }}
-              >
-                {cityLabel.en}
-              </span>
-              {attraction.category.map((c) => {
-                const m = CATEGORY_META[c];
-                return (
-                  <span
-                    key={c}
-                    className="rounded-pill px-2.5 py-1 font-mono uppercase tracking-editorial"
-                    style={{
-                      background: hexAlpha(m.color, 0.15),
-                      color: m.color,
-                      fontSize: 10,
-                    }}
-                  >
-                    {m.en}
-                  </span>
-                );
-              })}
-              <button
-                type="button"
-                onClick={() => toggleSaved(attraction.id)}
-                aria-pressed={isSaved}
-                className={cn(
-                  'ml-auto inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 font-chinese text-[12px] font-medium transition-colors',
-                  isSaved
-                    ? 'bg-lime text-lime-deep'
-                    : 'text-ink-muted hover:text-ink',
-                )}
-                style={
-                  !isSaved
-                    ? { border: '1px solid var(--color-border-med)' }
-                    : undefined
-                }
-              >
-                <Heart size={14} fill={isSaved ? 'currentColor' : 'none'} strokeWidth={2} />
-                {isSaved ? '已收藏' : '收藏'}
-              </button>
-            </div>
-
-            {/* NAME BLOCK */}
-            <header className="mt-5">
-              <h1
-                className="font-chinese text-ink"
-                style={{ fontSize: 44, fontWeight: 700, lineHeight: 1.1 }}
-              >
-                {attraction.name.zh}
-              </h1>
-              <p
-                className="mt-1 font-serif italic text-ink-muted"
-                style={{ fontSize: 26, lineHeight: 1.2 }}
-              >
-                {attraction.name.en}
-              </p>
-              <p className="mt-1 font-german text-ink-faint" style={{ fontSize: 15 }}>
-                {attraction.name.de}
-              </p>
-            </header>
-
-            <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
-              <div className="md:col-span-7">
-                <p
-                  className="font-chinese text-ink"
-                  style={{ fontSize: 16, lineHeight: 1.85 }}
-                >
-                  <span
-                    aria-hidden
-                    className={isZh ? 'font-chinese' : 'font-serif'}
-                    style={{
-                      float: 'left',
-                      fontSize: 64,
-                      fontWeight: 700,
-                      lineHeight: 1,
-                      marginRight: 12,
-                      marginTop: 6,
-                      color: 'var(--color-ink)',
-                    }}
-                  >
-                    {dropChar}
-                  </span>
-                  {restOfDesc}
-                </p>
-                <div style={{ clear: 'both' }} />
-              </div>
-
-              <aside className="md:col-span-5">
-                <InfoCard attraction={attraction} onShare={handleShare} />
-              </aside>
-            </div>
-
-            {/* TRANSPORT */}
-            <TransportSection />
-
-            {/* LANGUAGE CARDS */}
-            <section className="mt-16">
-              <div className="mb-6 flex items-baseline gap-3">
-                <h2 className="font-serif italic text-ink" style={{ fontSize: 36 }}>
-                  語言小卡
-                </h2>
-                <p className="font-german text-[14px] text-ink-muted">
-                  Language cards
-                </p>
-              </div>
-              {attraction.languageCards.length > 0 ? (
-                <LanguageCardDeck cards={attraction.languageCards} />
-              ) : (
-                <p className="font-chinese text-[14px] text-ink-faint">
-                  這個景點還沒有語言小卡。
-                </p>
               )}
-            </section>
+            </aside>
+
+            {/* RIGHT column — meta, title, description + info card, transport, language cards */}
+            <div className="lg:col-span-9">
+              {/* TOP META */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span
+                  className="rounded-pill bg-lime px-2.5 py-1 font-mono uppercase tracking-editorial text-lime-deep"
+                  style={{ fontSize: 10 }}
+                >
+                  {cityLabel.en}
+                </span>
+                {attraction.category.map((c) => {
+                  const m = CATEGORY_META[c];
+                  return (
+                    <span
+                      key={c}
+                      className="rounded-pill px-2.5 py-1 font-mono uppercase tracking-editorial"
+                      style={{
+                        background: hexAlpha(m.color, 0.15),
+                        color: m.color,
+                        fontSize: 10,
+                      }}
+                    >
+                      {m.en}
+                    </span>
+                  );
+                })}
+                <button
+                  type="button"
+                  onClick={() => toggleSaved(attraction.id)}
+                  aria-pressed={isSaved}
+                  className={cn(
+                    'ml-auto inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 font-chinese text-[12px] font-medium transition-colors',
+                    isSaved ? 'bg-lime text-lime-deep' : 'text-ink-muted hover:text-ink',
+                  )}
+                  style={
+                    !isSaved ? { border: '1px solid var(--color-border-med)' } : undefined
+                  }
+                >
+                  <Heart size={14} fill={isSaved ? 'currentColor' : 'none'} strokeWidth={2} />
+                  {isSaved ? '已收藏' : '收藏'}
+                </button>
+              </div>
+
+              {/* NAME BLOCK */}
+              <header className="mt-5">
+                <h1
+                  className="font-chinese text-ink"
+                  style={{ fontSize: 44, fontWeight: 700, lineHeight: 1.1 }}
+                >
+                  {attraction.name.zh}
+                </h1>
+                <p
+                  className="mt-1 font-serif italic text-ink-muted"
+                  style={{ fontSize: 26, lineHeight: 1.2 }}
+                >
+                  {attraction.name.en}
+                </p>
+                <p className="mt-1 font-german text-ink-faint" style={{ fontSize: 15 }}>
+                  {attraction.name.de}
+                </p>
+              </header>
+
+              {/* DESCRIPTION + INFO CARD (inner 7/5 split) */}
+              <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
+                <div className="md:col-span-7">
+                  <p
+                    className="font-chinese text-ink"
+                    style={{ fontSize: 16, lineHeight: 1.85 }}
+                  >
+                    <span
+                      aria-hidden
+                      className={isZh ? 'font-chinese' : 'font-serif'}
+                      style={{
+                        float: 'left',
+                        fontSize: 64,
+                        fontWeight: 700,
+                        lineHeight: 1,
+                        marginRight: 12,
+                        marginTop: 6,
+                        color: 'var(--color-ink)',
+                      }}
+                    >
+                      {dropChar}
+                    </span>
+                    {restOfDesc}
+                  </p>
+                  <div style={{ clear: 'both' }} />
+                </div>
+
+                <aside className="md:col-span-5">
+                  <InfoCard attraction={attraction} onShare={handleShare} />
+                </aside>
+              </div>
+
+              {/* TRANSPORT */}
+              <TransportSection />
+
+              {/* LANGUAGE CARDS */}
+              <section className="mt-16">
+                <div className="mb-6 flex items-baseline gap-3">
+                  <h2 className="font-serif italic text-ink" style={{ fontSize: 36 }}>
+                    語言小卡
+                  </h2>
+                  <p className="font-german text-[14px] text-ink-muted">
+                    Language cards
+                  </p>
+                </div>
+                {attraction.languageCards.length > 0 ? (
+                  <div
+                    className="scrollbar-hidden flex gap-3 overflow-x-auto pb-1"
+                    style={{ scrollSnapType: 'x mandatory' }}
+                  >
+                    {attraction.languageCards.map((card) => (
+                      <div
+                        key={card.id}
+                        className="shrink-0"
+                        style={{ scrollSnapAlign: 'start', width: 280 }}
+                      >
+                        <LanguageCard card={card} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="font-chinese text-[14px] text-ink-faint">
+                    這個景點還沒有語言小卡。
+                  </p>
+                )}
+              </section>
+            </div>
           </div>
         </div>
       </article>
@@ -410,7 +487,7 @@ function TransportSection() {
       <h2 className="mb-4 font-chinese text-[16px] font-medium text-ink">
         如何前往
       </h2>
-      <div className="space-y-3">
+      <div className="space-y-4">
         <TransportRow
           icon={Train}
           type="火車"
@@ -446,7 +523,7 @@ function TransportRow({
   operator: string;
 }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-4">
       <div
         className="flex items-center justify-center"
         style={{
@@ -466,11 +543,11 @@ function TransportRow({
       <div className="ml-auto flex items-center gap-2">
         <span
           className="rounded-pill px-2.5 py-0.5 font-mono text-ink"
-          style={{ background: 'var(--color-cream)', fontSize: 11 }}
+          style={{ background: 'var(--color-cream)', fontSize: 12 }}
         >
           {duration}
         </span>
-        <span className="font-chinese text-[12px] text-ink-muted">
+        <span className="font-chinese text-[14px] text-ink-muted">
           {operator}
         </span>
       </div>
@@ -530,7 +607,7 @@ function NearbyCard({
         </p>
         <span
           className="mt-2 inline-block rounded-pill bg-lime px-2 py-0.5 font-mono uppercase tracking-editorial text-lime-deep"
-          style={{ fontSize: 9 }}
+          style={{ fontSize: 10 }}
         >
           {cityLabel.en}
         </span>

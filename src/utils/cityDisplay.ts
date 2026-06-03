@@ -24,10 +24,15 @@ export const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
   munich: { zh: '慕尼黑', en: 'Munich' },
   neuschwanstein: { zh: '新天鵝堡', en: 'Neuschwanstein' },
   regensburg: { zh: '雷根斯堡', en: 'Regensburg' },
+  chiemsee: { zh: '基姆湖', en: 'Chiemsee' },
+  rosenheim: { zh: '羅森海姆', en: 'Rosenheim' },
 
   // Czech Republic
   prague: { zh: '布拉格', en: 'Prague' },
   'cesky-krumlov': { zh: '庫倫洛夫', en: 'Český Krumlov' },
+
+  // Austria — Baden bei Wien (Vienna outskirts overnight)
+  baden: { zh: '巴登', en: 'Baden bei Wien' },
 };
 
 export type Lang = 'zh' | 'en';
