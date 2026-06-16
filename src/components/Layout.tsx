@@ -8,6 +8,7 @@ import { cn } from '../utils/cn';
 const NAV_ITEMS = [
   { to: '/plan', key: 'nav.plan' },
   { to: '/map', key: 'nav.map' },
+  { to: '/stays', key: 'nav.stays' },
   { to: '/phrasebook', key: 'nav.phrasebook' },
   { to: '/chat', key: 'nav.chat' },
 ] as const;

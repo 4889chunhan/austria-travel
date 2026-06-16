@@ -15,6 +15,7 @@ import {
   Compass,
   Copy,
   Droplets,
+  Footprints,
   Grape,
   Landmark,
   Languages,
@@ -1493,7 +1494,14 @@ function AccommodationCard({ day }: { day: DayPlan }) {
 
 function TransportConnector({ from, to }: { from: Attraction; to: Attraction }) {
   const { type, duration, route } = estimateTransport(from, to);
-  const Icon = type === 'train' ? Train : type === 'bus' ? Bus : Car;
+  const Icon =
+    type === 'train'
+      ? Train
+      : type === 'bus'
+        ? Bus
+        : type === 'walk'
+          ? Footprints
+          : Car;
 
   return (
     <div className="relative flex items-center justify-center" style={{ height: 44 }}>
@@ -1520,7 +1528,12 @@ function TransportConnector({ from, to }: { from: Attraction; to: Attraction }) 
   );
 }
 
-/* ---- Transport estimation (haversine — no real route dataset yet) ---------- */
+/* ---- Transport estimation -------------------------------------------------
+   Inter-city legs use real driving times from Google Maps (normal traffic),
+   keyed by a sorted city-pair. Anything not in the table falls back to a
+   road-distance estimate. Within a city, Vienna/Prague hops are public transit
+   (U-Bahn / metro / tram) and short hops are walked.
+   --------------------------------------------------------------------------- */
 
 function haversineKm(
   a: { lat: number; lng: number },
@@ -1536,23 +1549,67 @@ function haversineKm(
   return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 }
 
+/** Real driving minutes between cities (Google Maps, normal traffic). */
+const ROAD_LEG_MIN: Record<string, number> = {
+  'cesky-krumlov|vienna': 165,
+  'cesky-krumlov|prague': 135,
+  'prague|salzburg': 248,
+  'konigssee|salzburg': 35,
+  'gosau|salzburg': 80,
+  'gosau|hallstatt': 25,
+  'hallstatt|salzburg': 75,
+  'hallstatt|melk': 135,
+  'durnstein|melk': 35,
+  'durnstein|vienna': 75,
+  'melk|vienna': 70,
+  'salzburg|vienna': 180,
+  'hallstatt|vienna': 225,
+  'hallstatt|konigssee': 80,
+  'gosau|melk': 150,
+};
+
+function fmtMin(totalMin: number): string {
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  return h > 0 ? `${h}h ${m.toString().padStart(2, '0')}min` : `${m}min`;
+}
+
 function estimateTransport(
   from: Attraction,
   to: Attraction,
-): { type: 'train' | 'bus' | 'car'; duration: string; route: string } {
-  const km = haversineKm(from.coordinates, to.coordinates);
-  const sameCity = from.city === to.city;
-  const speedKmh = sameCity ? 25 : 70;
-  const type: 'train' | 'bus' | 'car' = sameCity ? 'bus' : 'train';
-
-  const totalMin = Math.max(5, Math.round((km / speedKmh) * 60));
-  const h = Math.floor(totalMin / 60);
-  const m = totalMin % 60;
-  const duration = h > 0 ? `${h}h ${m.toString().padStart(2, '0')}min` : `${m}min`;
-
+): { type: 'train' | 'bus' | 'car' | 'walk'; duration: string; route: string } {
   const fromLabel = cityLabel(from.city).zh;
   const toLabel = cityLabel(to.city).zh;
-  const route = sameCity ? `${fromLabel}市內` : `${fromLabel} → ${toLabel}`;
 
-  return { type, duration, route };
+  // ---- Inter-city: real driving time (road trip) -------------------------
+  if (from.city !== to.city) {
+    const key = [from.city, to.city].sort().join('|');
+    const min =
+      ROAD_LEG_MIN[key] ??
+      Math.max(
+        15,
+        Math.round((haversineKm(from.coordinates, to.coordinates) * 1.3) / 75 * 60),
+      );
+    return { type: 'car', duration: fmtMin(min), route: `${fromLabel} → ${toLabel}` };
+  }
+
+  // ---- Within a city -----------------------------------------------------
+  const roadKm = haversineKm(from.coordinates, to.coordinates) * 1.4;
+
+  // Short hop → walk.
+  if (roadKm < 0.9) {
+    const min = Math.max(4, Math.round((roadKm / 4.8) * 60));
+    return { type: 'walk', duration: fmtMin(min), route: `${fromLabel}市內 · 步行` };
+  }
+
+  // Vienna U-Bahn / Prague metro & tram (~6 min access + ride).
+  if (from.city === 'vienna' || from.city === 'prague') {
+    const min = Math.round((roadKm / 19) * 60) + 6;
+    const label = from.city === 'vienna' ? 'U-Bahn' : '地鐵/電車';
+    return { type: 'train', duration: fmtMin(min), route: `${fromLabel}市內 · ${label}` };
+  }
+
+  // Other towns (Salzburg, Hallstatt, Wachau villages) — walkable old towns.
+  const min = Math.max(5, Math.round((roadKm / 4.8) * 60));
+  return { type: 'walk', duration: fmtMin(min), route: `${fromLabel}市內 · 步行` };
 }

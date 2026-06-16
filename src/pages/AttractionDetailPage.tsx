@@ -24,8 +24,9 @@ import { CATEGORY_META, primaryCategory } from '../utils/categoryColors';
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { LanguageCard } from '../components/LanguageCard';
 import { cn } from '../utils/cn';
-import { CITY_DISPLAY } from '../utils/cityDisplay';
-import type { Attraction } from '../types';
+import { CITY_DISPLAY, cityLabel } from '../utils/cityDisplay';
+import { transportRoutes } from '../data/transport';
+import type { Attraction, TransportRoute } from '../types';
 
 export function AttractionDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -322,7 +323,7 @@ function DetailView({ attraction }: { attraction: Attraction }) {
               </div>
 
               {/* TRANSPORT */}
-              <TransportSection />
+              <TransportSection attraction={attraction} />
 
               {/* LANGUAGE CARDS */}
               <section className="mt-16">
@@ -478,35 +479,71 @@ function InfoRow({
 }
 
 /* ---------------------------------------------------------------------------
-   Transport — placeholder data until a real TransportRoute dataset exists.
+   Transport — real routes from src/data/transport.ts. Shows how to reach this
+   attraction's city from the nearest hub on the road trip; Vienna (the arrival
+   hub) and any city without a route fall back to a within-city note.
    --------------------------------------------------------------------------- */
 
-function TransportSection() {
+const TYPE_META: Record<
+  TransportRoute['methods'][number]['type'],
+  { icon: LucideIcon; label: string }
+> = {
+  train: { icon: Train, label: '火車' },
+  bus: { icon: Bus, label: '巴士' },
+  car: { icon: Car, label: '自駕' },
+};
+
+/** First route connecting `city` to a hub, searched in priority order. */
+function routeIntoCity(
+  city: string,
+): { route: TransportRoute; from: string } | undefined {
+  const hubs = ['vienna', 'salzburg', 'prague', 'hallstatt', 'melk', 'durnstein'];
+  for (const hub of hubs) {
+    if (hub === city) continue;
+    const route = transportRoutes.find(
+      (r) =>
+        (r.from === hub && r.to === city) || (r.from === city && r.to === hub),
+    );
+    if (route) return { route, from: hub };
+  }
+  return undefined;
+}
+
+function TransportSection({ attraction }: { attraction: Attraction }) {
+  const match = routeIntoCity(attraction.city);
+
   return (
     <section className="card mt-12">
-      <h2 className="mb-4 font-chinese text-[16px] font-medium text-ink">
+      <h2 className="mb-1 font-chinese text-[16px] font-medium text-ink">
         如何前往
       </h2>
-      <div className="space-y-4">
-        <TransportRow
-          icon={Train}
-          type="火車"
-          duration="2h 30min"
-          operator="ÖBB Railjet"
-        />
-        <TransportRow
-          icon={Bus}
-          type="巴士"
-          duration="3h 15min"
-          operator="FlixBus"
-        />
-        <TransportRow
-          icon={Car}
-          type="自駕"
-          duration="2h 45min"
-          operator="A1 西部高速公路"
-        />
-      </div>
+      {match ? (
+        <>
+          <p className="mb-4 font-chinese text-[13px] text-ink-muted">
+            從{cityLabel(match.from)}前往{cityLabel(attraction.city)}
+          </p>
+          <div className="space-y-4">
+            {match.route.methods.map((method, i) => {
+              const meta = TYPE_META[method.type];
+              return (
+                <TransportRow
+                  key={i}
+                  icon={meta.icon}
+                  type={meta.label}
+                  duration={method.duration}
+                  operator={method.operator ?? ''}
+                />
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        <p className="mt-3 font-chinese text-[13px] leading-relaxed text-ink-muted">
+          {attraction.city === 'vienna'
+            ? '維也納為行程起點。市區景點以 U-Bahn(地鐵)、路面電車與巴士串聯,建議購買 48/72 小時通票。'
+            : `${cityLabel(attraction.city)}主要以自駕抵達,老城區停車後步行遊覽。`}
+        </p>
+      )}
     </section>
   );
 }

@@ -7,8 +7,9 @@ import type { Accommodation } from '../types';
  * NOTES
  * - `imageUrl` values follow the Unsplash CDN pattern but the photo IDs are
  *   placeholders pending curation — verify each resolves before production.
- * - `bookingUrl` values are best-effort booking.com deep links; confirm each
- *   property's canonical slug before relying on it.
+ * - `bookingUrl` values are Booking.com *search* links (keyed on the property
+ *   name) rather than deep links, so they always resolve to live, bookable
+ *   results instead of 404-ing on a guessed slug.
  * - The `tags` union (see the Accommodation interface) has no `luxury` value,
  *   so the luxury tier is expressed through `type: 'hotel'` + `stars: 5` + a
  *   high `pricePerNight`, not a tag.
@@ -39,7 +40,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'bar', 'breakfast', 'ac'],
     imageUrl:
       'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/wombat-s-vienna.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Wombat%27s%20City%20Hostel%2C%20Vienna',
     nearbyAttractions: ['naschmarkt', 'stephansdom'],
     tags: ['budget', 'central'],
   },
@@ -66,7 +67,7 @@ export const accommodations: Accommodation[] = [
     imageUrl:
       'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=80&auto=format&fit=crop',
     bookingUrl:
-      'https://www.booking.com/hotel/at/25hours-wien-beim-museumsquartier.html',
+      'https://www.booking.com/searchresults.html?ss=25hours%20Hotel%20beim%20MuseumsQuartier%2C%20Vienna',
     nearbyAttractions: ['kunsthistorisches-museum', 'naschmarkt'],
     tags: ['design', 'central'],
   },
@@ -92,7 +93,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'spa', 'restaurant', 'bar', 'concierge', 'breakfast'],
     imageUrl:
       'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/sacher.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Hotel%20Sacher%20Wien',
     nearbyAttractions: ['wiener-staatsoper', 'stephansdom', 'hofburg-palace'],
     tags: ['romantic', 'central'],
   },
@@ -118,7 +119,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'breakfast', 'parking', 'pets'],
     imageUrl:
       'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/stadthalle.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Boutique%20Hotel%20Stadthalle%2C%20Vienna',
     nearbyAttractions: ['naschmarkt'],
     tags: ['design', 'family'],
   },
@@ -144,7 +145,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'restaurant', 'bar', 'concierge', 'ac', 'gym'],
     imageUrl:
       'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/do-co.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=DO%20%26%20CO%20Hotel%20Vienna',
     nearbyAttractions: ['stephansdom', 'hofburg-palace'],
     tags: ['business', 'central'],
   },
@@ -173,7 +174,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'bar', 'breakfast'],
     imageUrl:
       'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/yoho-international-youth.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=YOHO%20International%20Youth%20Hostel%2C%20Salzburg',
     nearbyAttractions: ['mirabell-palace'],
     tags: ['budget'],
   },
@@ -201,7 +202,7 @@ export const accommodations: Accommodation[] = [
     imageUrl:
       'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1600&q=80&auto=format&fit=crop',
     bookingUrl:
-      'https://www.booking.com/hotel/at/goldener-hirsch-a-luxury-collection.html',
+      'https://www.booking.com/searchresults.html?ss=Hotel%20Goldener%20Hirsch%2C%20Salzburg',
     nearbyAttractions: ['getreidegasse', 'mozart-geburtshaus'],
     tags: ['romantic', 'central'],
   },
@@ -227,7 +228,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'restaurant', 'bar', 'breakfast'],
     imageUrl:
       'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/arthotel-blaue-gans.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Arthotel%20Blaue%20Gans%2C%20Salzburg',
     nearbyAttractions: ['getreidegasse', 'mozart-geburtshaus'],
     tags: ['design', 'central'],
   },
@@ -253,7 +254,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'bar', 'breakfast', 'ac'],
     imageUrl:
       'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/stein.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Hotel%20Stein%2C%20Salzburg',
     nearbyAttractions: ['getreidegasse', 'hohensalzburg-fortress'],
     tags: ['design', 'romantic'],
   },
@@ -283,7 +284,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'breakfast', 'parking', 'lakeview'],
     imageUrl:
       'https://images.unsplash.com/photo-1601000937962-1bd9a1f7a9f7?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/pension-sarstein.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Pension%20Sarstein%2C%20Hallstatt',
     nearbyAttractions: ['hallstatt-village'],
     tags: ['romantic', 'family'],
   },
@@ -309,7 +310,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'restaurant', 'breakfast', 'lakeview', 'bar'],
     imageUrl:
       'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/heritage-hallstatt.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Heritage%20Hotel%20Hallstatt',
     nearbyAttractions: ['hallstatt-village', 'salzwelten-hallstatt'],
     tags: ['romantic', 'design'],
   },
@@ -335,7 +336,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'restaurant', 'breakfast', 'lakeview', 'parking'],
     imageUrl:
       'https://images.unsplash.com/photo-1455587734955-081b22074882?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/seehotel-gruner-baum.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Seehotel%20Gruner%20Baum%2C%20Hallstatt',
     nearbyAttractions: ['hallstatt-village'],
     tags: ['family', 'central'],
   },
@@ -365,7 +366,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'bar', 'breakfast', 'parking'],
     imageUrl:
       'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/daniel-graz.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Hotel%20Daniel%2C%20Graz',
     nearbyAttractions: [],
     tags: ['design', 'central'],
   },
@@ -391,7 +392,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'restaurant', 'bar', 'breakfast'],
     imageUrl:
       'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/wiesler.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Hotel%20Wiesler%2C%20Graz',
     nearbyAttractions: [],
     tags: ['design', 'romantic'],
   },
@@ -421,7 +422,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'pool', 'spa', 'restaurant', 'breakfast', 'parking'],
     imageUrl:
       'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/innsbruck.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Hotel%20Innsbruck',
     nearbyAttractions: [],
     tags: ['family', 'central'],
   },
@@ -447,7 +448,7 @@ export const accommodations: Accommodation[] = [
     amenities: ['wifi', 'breakfast', 'parking', 'ac'],
     imageUrl:
       'https://images.unsplash.com/photo-1605346434674-a440ca4dc4c0?w=1600&q=80&auto=format&fit=crop',
-    bookingUrl: 'https://www.booking.com/hotel/at/nala-individuellhotel.html',
+    bookingUrl: 'https://www.booking.com/searchresults.html?ss=Nala%20Individuellhotel%2C%20Innsbruck',
     nearbyAttractions: [],
     tags: ['design', 'romantic'],
   },

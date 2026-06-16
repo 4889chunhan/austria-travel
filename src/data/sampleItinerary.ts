@@ -2,20 +2,25 @@ import { attractions } from './attractions';
 import type { Attraction, DayPlan, TripConfig } from '../types';
 
 /**
- * Pre-built 7/8–7/20 Austria · Bayern · Czech road trip (13 days, 2 travellers,
+ * Pre-built 7/8–7/20 Austria · Czech road trip (13 days, 2 travellers,
  * mid-tempo, city × nature). Loaded into the store by the "載入示範行程"
  * button on PlanPage.
  *
- * OPTIMIZATIONS applied (from the 2026 trip notes):
- *  - Day 4: pick up the rental car at Vienna Airport (VIE) rather than the
- *    city centre — fewer one-way streets, straight onto the A1 toward Wachau.
- *  - Day 6: morning Hallstatt (front light, before the crowds) → afternoon
- *    Gosau (the Dachstein wall sits in glorious afternoon side-light).
- *  - Day 9: skip Regensburg today — drive Munich → Neuschwanstein, then east
- *    along the Alpine Road to overnight at Chiemsee (visit Herrenchiemsee).
- *    Day 10 then takes Regensburg as a lunch stop on the way to Prague.
- *  - Day 12: overnight in Baden bei Wien (or near VIE airport) so Day 13's
- *    car drop-off and flight are stress-free.
+ * ROUTE (clockwise loop, every leg verified ≤ ~4h driving):
+ *  - 7/9–7/11  Vienna — public transport only (U-Bahn / tram / bus).
+ *  - 7/12      Vienna → Český Krumlov (drive 2h45), overnight in the old town.
+ *  - 7/13      Český Krumlov → Prague (drive 2h15), 3 days in Prague.
+ *  - 7/16      Prague → Salzburg (drive ~4h08 — the one long transfer; break it
+ *              with a Linz lunch stop, or overnight Linz if you want it strict
+ *              under 4h).
+ *  - 7/17      Salzburg old town + Königssee (35 min south).
+ *  - 7/18      Salzburg → Gosau → Hallstatt (drive 1h45), overnight Hallstatt.
+ *  - 7/19      Hallstatt → Melk Abbey → Dürnstein (Wachau) → Vienna (drive ~4h00).
+ *
+ * Driving everywhere except Vienna, which is done entirely on public transport
+ * (rental car is picked up on the morning of 7/12 and dropped at VIE on 7/20).
+ * Bavaria sights (Munich, Neuschwanstein, etc.) stay in the dataset/map but are
+ * intentionally not part of this loop.
  */
 
 const bySlug = (slug: string): Attraction | undefined =>
@@ -38,19 +43,14 @@ export const sampleTripConfig: Partial<TripConfig> = {
   startCity: 'vienna',
   cities: [
     'vienna',
-    'durnstein',
-    'melk',
-    'salzburg',
-    'hallstatt',
-    'gosau',
-    'konigssee',
-    'chiemsee',
-    'munich',
-    'neuschwanstein',
-    'regensburg',
-    'prague',
     'cesky-krumlov',
-    'baden',
+    'prague',
+    'salzburg',
+    'konigssee',
+    'gosau',
+    'hallstatt',
+    'melk',
+    'durnstein',
   ],
   budget: 'mid',
   includeAccommodation: false,
@@ -59,24 +59,20 @@ export const sampleTripConfig: Partial<TripConfig> = {
 };
 
 export const sampleItinerary: DayPlan[] = [
-  // Day 1 · 7/8 — Taipei → Vienna (overnight flight). Stephansdom is the first
-  // landmark guests typically see on the arrival-evening walk.
-  { day: 1, date: '2026-07-08', city: 'vienna', attractions: pick('stephansdom') },
+  // Day 1 · 7/8 — Taipei → Vienna (overnight flight, lands the morning of 7/9).
+  { day: 1, date: '2026-07-08', city: 'vienna', attractions: [] },
 
-  // Day 2 · 7/9 — Vienna arrival, old-town walk through Graben to Hofburg.
+  // Day 2 · 7/9 — Land at VIE in the morning; old-town walk Stephansdom →
+  // Graben/Kohlmarkt → Hofburg. City transport: U-Bahn + tram.
   {
     day: 2,
     date: '2026-07-09',
     city: 'vienna',
-    attractions: pick(
-      'stephansdom',
-      'graben-kohlmarkt',
-      'hofburg-palace',
-      'wiener-staatsoper',
-    ),
+    attractions: pick('stephansdom', 'graben-kohlmarkt', 'hofburg-palace'),
   },
 
-  // Day 3 · 7/10 — Vienna: palaces, museums & a Musikverein concert.
+  // Day 3 · 7/10 — Vienna: Schönbrunn, Kunsthistorisches Museum, opera house &
+  // a Musikverein concert.
   {
     day: 3,
     date: '2026-07-10',
@@ -84,102 +80,92 @@ export const sampleItinerary: DayPlan[] = [
     attractions: pick(
       'schoenbrunn-palace',
       'kunsthistorisches-museum',
+      'wiener-staatsoper',
       'wiener-musikverein',
-      'secession-building',
     ),
   },
 
-  // Day 4 · 7/11 — Pick up the rental at VIE → Wachau Valley → Salzburg.
+  // Day 4 · 7/11 — Vienna: Secession, Naschmarkt, café culture. Last day on
+  // public transport before picking up the rental car tomorrow.
   {
     day: 4,
     date: '2026-07-11',
-    city: 'salzburg',
-    attractions: pick('durnstein-village', 'melk-abbey'),
+    city: 'vienna',
+    attractions: pick('secession-building', 'naschmarkt', 'cafe-central'),
   },
 
-  // Day 5 · 7/12 — Salzburg old town, cathedral, fortress.
+  // Day 5 · 7/12 — Pick up the rental car → drive to Český Krumlov (2h45).
+  // Afternoon + evening in the fairy-tale old town; overnight there.
   {
     day: 5,
     date: '2026-07-12',
-    city: 'salzburg',
-    attractions: pick(
-      'salzburg-cathedral',
-      'hohensalzburg-fortress',
-      'mozart-geburtshaus',
-      'getreidegasse',
-    ),
+    city: 'cesky-krumlov',
+    attractions: pick('cesky-krumlov-old-town'),
   },
 
-  // Day 6 · 7/13 — Hallstatt morning (golden front-light) → Gosau afternoon
-  // (Dachstein wall in magic side-light). Wolfgangsee dropped for a calmer day.
+  // Day 6 · 7/13 — Český Krumlov → Prague (2h15). Afternoon arrival walk through
+  // the Old Town Square and the Art-Nouveau Municipal House.
   {
     day: 6,
     date: '2026-07-13',
-    city: 'hallstatt',
-    attractions: pick('hallstatt-village', 'gosaukamm-gosausee'),
+    city: 'prague',
+    attractions: pick('prague-old-town-square', 'prague-municipal-house'),
   },
 
-  // Day 7 · 7/14 — Königssee morning, then drive to Munich.
+  // Day 7 · 7/14 — Prague: castle hill, St. Vitus & Charles Bridge.
   {
     day: 7,
     date: '2026-07-14',
-    city: 'munich',
-    attractions: pick('konigssee-lake'),
-  },
-
-  // Day 8 · 7/15 — Munich: Marienplatz, Alter Peter tower, Residenz, BMW Welt,
-  // Hofbräuhaus.
-  {
-    day: 8,
-    date: '2026-07-15',
-    city: 'munich',
-    attractions: pick(
-      'munich-marienplatz',
-      'munich-st-peter',
-      'munich-residenz',
-      'bmw-welt',
-      'hofbrauhaus',
-    ),
-  },
-
-  // Day 9 · 7/16 — Neuschwanstein, then east along the Alpine Road to overnight
-  // at Chiemsee (visit Herrenchiemsee — the "Bavarian Versailles" — by boat).
-  {
-    day: 9,
-    date: '2026-07-16',
-    city: 'chiemsee',
-    attractions: pick('neuschwanstein-castle', 'herrenchiemsee'),
-  },
-
-  // Day 10 · 7/17 — Chiemsee → Regensburg (lunch + the stone bridge + cathedral)
-  // → Prague. Afternoon arrival walk through the Art-Nouveau old town.
-  {
-    day: 10,
-    date: '2026-07-17',
-    city: 'prague',
-    attractions: pick(
-      'regensburg-altstadt',
-      'prague-old-town-square',
-      'prague-municipal-house',
-      'dancing-house',
-    ),
-  },
-
-  // Day 11 · 7/18 — Prague: castle + St. Vitus + Charles Bridge.
-  {
-    day: 11,
-    date: '2026-07-18',
     city: 'prague',
     attractions: pick('prague-castle', 'charles-bridge'),
   },
 
-  // Day 12 · 7/19 — Český Krumlov, then overnight in Baden bei Wien so the
-  // Day 13 airport drop-off + tax refund + flight are stress-free.
+  // Day 8 · 7/15 — Prague: riverside (Dancing House) + free time in the old town.
+  {
+    day: 8,
+    date: '2026-07-15',
+    city: 'prague',
+    attractions: pick('dancing-house'),
+  },
+
+  // Day 9 · 7/16 — Prague → Salzburg (~4h08, the trip's one long transfer; a
+  // Linz lunch stop breaks it nicely). Evening: Salzburg cathedral + Getreidegasse.
+  {
+    day: 9,
+    date: '2026-07-16',
+    city: 'salzburg',
+    attractions: pick('salzburg-cathedral', 'getreidegasse'),
+  },
+
+  // Day 10 · 7/17 — Königssee in the morning (35 min south), then back to
+  // Salzburg for the fortress and Mozart's birthplace.
+  {
+    day: 10,
+    date: '2026-07-17',
+    city: 'salzburg',
+    attractions: pick(
+      'konigssee-lake',
+      'hohensalzburg-fortress',
+      'mozart-geburtshaus',
+    ),
+  },
+
+  // Day 11 · 7/18 — Salzburg → Gosau (Dachstein wall in afternoon side-light) →
+  // Hallstatt (1h45 total). Overnight in Hallstatt.
+  {
+    day: 11,
+    date: '2026-07-18',
+    city: 'hallstatt',
+    attractions: pick('gosaukamm-gosausee', 'hallstatt-village'),
+  },
+
+  // Day 12 · 7/19 — Scenic Wachau return: Hallstatt → Melk Abbey → Dürnstein →
+  // Vienna (~4h00 of driving spread across the day). Drop into Vienna for the night.
   {
     day: 12,
     date: '2026-07-19',
-    city: 'baden',
-    attractions: pick('cesky-krumlov-old-town'),
+    city: 'durnstein',
+    attractions: pick('melk-abbey', 'durnstein-village'),
   },
 
   // Day 13 · 7/20 — Drop the car at VIE, fly back to Taipei.
