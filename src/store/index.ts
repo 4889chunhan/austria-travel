@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import i18n from '../i18n';
 import { attractions as ALL_ATTRACTIONS } from '../data/attractions';
 import { accommodations as ALL_ACCOMMODATIONS } from '../data/accommodations';
+import { seedFoodCollection } from '../data/foodCollection';
 import type {
   Accommodation,
   Attraction,
@@ -12,6 +13,7 @@ import type {
   ChatMessage,
   CollaborativeItinerary,
   DayPlan,
+  FoodItem,
   SeasonalTip,
   TripConfig,
 } from '../types';
@@ -85,6 +87,16 @@ interface AppStore {
 
   // ---- Seasonal tips -------------------------------------------------------
   getSeasonalTipsForDate: (attractionId: string) => SeasonalTip[];
+
+  // ---- Food collection -----------------------------------------------------
+  foodCollection: FoodItem[];
+  addFoodItem: (item: Omit<FoodItem, 'id' | 'source' | 'createdAt'>) => void;
+  removeFoodItem: (id: string) => void;
+}
+
+/** Derive the reference source from a URL host. */
+function detectFoodSource(url: string): FoodItem['source'] {
+  return /instagram\.com/i.test(url) ? 'instagram' : 'web';
 }
 
 // All cities the app knows about, in a sensible default travel order
@@ -806,6 +818,25 @@ export const useStore = create<AppStore>()(
           tip.months.includes(month),
         );
       },
+
+      // ---- Food collection ---------------------------------------------------
+      foodCollection: seedFoodCollection,
+      addFoodItem: (item) =>
+        set((state) => ({
+          foodCollection: [
+            {
+              ...item,
+              id: nanoid(10),
+              source: detectFoodSource(item.url),
+              createdAt: new Date().toISOString(),
+            },
+            ...state.foodCollection,
+          ],
+        })),
+      removeFoodItem: (id) =>
+        set((state) => ({
+          foodCollection: state.foodCollection.filter((f) => f.id !== id),
+        })),
     }),
     {
       name: 'austria-reise-store',
@@ -817,6 +848,7 @@ export const useStore = create<AppStore>()(
         tripConfig: state.tripConfig,
         activeCategories: state.activeCategories,
         itinerary: state.itinerary,
+        foodCollection: state.foodCollection,
       }),
       // Backward-compatible hydration: older persisted snapshots may miss
       // newer TripConfig keys (e.g. `cities`), which would crash /plan.
@@ -853,6 +885,9 @@ export const useStore = create<AppStore>()(
           itinerary: Array.isArray(persisted.itinerary)
             ? persisted.itinerary
             : current.itinerary,
+          foodCollection: Array.isArray(persisted.foodCollection)
+            ? persisted.foodCollection
+            : current.foodCollection,
         };
       },
     },

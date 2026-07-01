@@ -3,6 +3,8 @@ import { HomePage } from './pages/HomePage';
 import { PlanPage } from './pages/PlanPage';
 import { MapPage } from './pages/MapPage';
 import { StaysPage } from './pages/StaysPage';
+import { EventsPage } from './pages/EventsPage';
+import { FoodPage } from './pages/FoodPage';
 import { PhrasebookPage } from './pages/PhrasebookPage';
 import { ChatPage } from './pages/ChatPage';
 import { CollabPage } from './pages/CollabPage';
@@ -17,6 +19,8 @@ export default function App() {
         <Route path="/plan" element={<PlanPage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/stays" element={<StaysPage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/food" element={<FoodPage />} />
         <Route path="/phrasebook" element={<PhrasebookPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/collab/:id" element={<CollabPage />} />

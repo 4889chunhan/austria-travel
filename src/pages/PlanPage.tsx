@@ -41,7 +41,6 @@ import { CATEGORY_META, CATEGORY_ORDER, primaryCategory } from '../utils/categor
 import { useLocalizedField } from '../hooks/useLocalizedField';
 import { LanguageCard } from '../components/LanguageCard';
 import { PlanChatbot } from '../components/PlanChatbot';
-import { BudgetCalculator } from '../components/BudgetCalculator';
 import { cn } from '../utils/cn';
 import {
   addDaysISO,
@@ -138,19 +137,6 @@ function formatTWD(n: number): string {
 
 function cityLabel(city: string): { zh: string; en: string } {
   return CITY_DISPLAY[city] ?? { zh: city, en: city };
-}
-
-/** Per-day EUR estimate, mirroring the store's budget heuristics. */
-function dayBudgetEUR(
-  day: DayPlan,
-  prev: DayPlan | undefined,
-  travelers: number,
-): { transport: number; tickets: number; food: number } {
-  let tickets = 0;
-  for (const a of day.attractions) tickets += a.ticketPrice?.adult.EUR ?? 0;
-  const transport = prev ? (prev.city !== day.city ? 35 : 6) : 6;
-  const food = Math.max(1, travelers) * 35;
-  return { transport, tickets, food };
 }
 
 /* ===========================================================================
@@ -884,14 +870,43 @@ function ChatbotSection() {
 
 function RightPanel() {
   const itinerary = useStore((s) => s.itinerary);
-  const [selectedDay, setSelectedDay] = useState(0);
+  const [activeDay, setActiveDay] = useState(0);
 
+  // Scroll-spy: highlight the day whose section is nearest the top of the
+  // viewport. Root defaults to the viewport, which works whether the inner
+  // #itinerary-preview scrolls (desktop) or the whole page scrolls (mobile).
   useEffect(() => {
-    if (selectedDay >= itinerary.length) setSelectedDay(0);
-  }, [itinerary.length, selectedDay]);
+    if (itinerary.length === 0) return;
+    const sections = itinerary
+      .map((d) => document.getElementById(`day-section-${d.day}`))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (sections.length === 0) return;
 
-  const day = itinerary[selectedDay] ?? itinerary[0];
-  const prevDay = selectedDay > 0 ? itinerary[selectedDay - 1] : undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+          );
+        const top = visible[0];
+        if (!top) return;
+        const idx = itinerary.findIndex(
+          (d) => `day-section-${d.day}` === top.target.id,
+        );
+        if (idx !== -1) setActiveDay(idx);
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [itinerary]);
+
+  const scrollToDay = (day: number) => {
+    document
+      .getElementById(`day-section-${day}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div
@@ -902,15 +917,20 @@ function RightPanel() {
       {itinerary.length === 0 ? (
         <EmptyPreview />
       ) : (
-        <div className="flex flex-col gap-5 px-6 py-6">
-          <BudgetCalculator />
+        <div className="px-6 py-6">
           <ShareBar />
-          <DayTabs
-            days={itinerary}
-            selected={selectedDay}
-            onSelect={setSelectedDay}
-          />
-          {day && <DailyView day={day} prevDay={prevDay} />}
+          <div className="mt-5 flex flex-col gap-5 md:flex-row md:gap-8">
+            <AnchorBar
+              days={itinerary}
+              activeDay={activeDay}
+              onSelect={scrollToDay}
+            />
+            <div className="flex min-w-0 flex-1 flex-col gap-12">
+              {itinerary.map((day) => (
+                <DaySection key={day.day} day={day} />
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -1075,96 +1095,147 @@ function ShareBar() {
   );
 }
 
-/* ---- Day tabs -------------------------------------------------------------- */
+/* ---- Anchor bar ------------------------------------------------------------
+   Sticky day navigation. Vertical rail on desktop; horizontal scroll strip on
+   mobile. Clicking a day scrolls its section into view; the active day is
+   driven by the scroll-spy in RightPanel.
+   --------------------------------------------------------------------------- */
 
-function DayTabs({
+function AnchorBar({
   days,
-  selected,
+  activeDay,
   onSelect,
 }: {
   days: DayPlan[];
-  selected: number;
-  onSelect: (i: number) => void;
+  activeDay: number;
+  onSelect: (day: number) => void;
 }) {
   const startDate = useStore((s) => s.tripConfig.startDate);
 
   return (
-    <div
-      className="scrollbar-hidden flex gap-1 overflow-x-auto p-1.5"
-      style={{
-        background: 'var(--color-cream)',
-        border: '0.5px solid var(--color-border)',
-        borderRadius: 'var(--radius-pill)',
-      }}
-    >
-      {days.map((day, i) => {
-        const date = startDate ? addDaysISO(startDate, day.day - 1) : null;
-        const topTip = date ? getSeasonalTipsForDay(date, day.city)[0] : undefined;
-        return (
-          <button
-            key={day.day}
-            type="button"
-            onClick={() => onSelect(i)}
-            className={cn(
-              'shrink-0 whitespace-nowrap rounded-pill px-4 py-2 font-chinese text-[13px] transition-colors',
-              selected === i ? 'bg-lime font-medium text-lime-deep' : 'text-ink-muted hover:text-ink',
-            )}
-          >
-            Day {day.day} · {cityLabel(day.city).zh}
-            {topTip && (
-              <span
-                aria-hidden
-                className="ml-1.5 inline-block rounded-pill align-middle"
-                style={{ width: 6, height: 6, background: SEASONAL_TYPE_COLOR[topTip.type] }}
-              />
-            )}
-          </button>
-        );
-      })}
-    </div>
+    <nav className="sticky top-0 z-20 -mx-6 shrink-0 px-6 md:top-6 md:mx-0 md:w-[168px] md:self-start md:px-0">
+      <p className="mb-2 hidden font-mono text-[10px] uppercase tracking-editorial text-ink-faint md:block">
+        Itinerary
+      </p>
+      <div
+        className="scrollbar-hidden flex gap-1.5 overflow-x-auto py-2 md:flex-col md:gap-0.5 md:overflow-visible md:py-0"
+        style={{ background: 'var(--color-card)' }}
+      >
+        {days.map((day, i) => {
+          const active = i === activeDay;
+          const date = startDate ? addDaysISO(startDate, day.day - 1) : day.date ?? null;
+          const topTip = date ? getSeasonalTipsForDay(date, day.city)[0] : undefined;
+          return (
+            <button
+              key={day.day}
+              type="button"
+              onClick={() => onSelect(day.day)}
+              aria-current={active ? 'true' : undefined}
+              className={cn(
+                'group flex shrink-0 items-center gap-2 whitespace-nowrap rounded-pill px-3.5 py-2 text-left transition-colors md:rounded-md md:border-l-2 md:px-3 md:py-1.5',
+                active
+                  ? 'bg-lime font-medium text-lime-deep md:border-lime-deep'
+                  : 'text-ink-muted hover:text-ink md:border-transparent md:hover:bg-cream',
+              )}
+            >
+              <span className="font-mono text-[11px] tabular-nums opacity-80">
+                D{day.day}
+              </span>
+              <span className="font-chinese text-[13px] leading-tight">
+                {cityLabel(day.city).zh}
+              </span>
+              {topTip && (
+                <span
+                  aria-hidden
+                  className="inline-block shrink-0 rounded-pill align-middle"
+                  style={{ width: 6, height: 6, background: SEASONAL_TYPE_COLOR[topTip.type] }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 }
 
-/* ---- Daily view ------------------------------------------------------------ */
+/* ---- Day section ----------------------------------------------------------- */
 
-function DailyView({ day, prevDay }: { day: DayPlan; prevDay?: DayPlan }) {
-  const travelers = useStore((s) => s.tripConfig.travelers);
+function DaySection({ day }: { day: DayPlan }) {
   const includeAccommodation = useStore((s) => s.tripConfig.includeAccommodation);
-  const exchangeRate = useStore((s) => s.exchangeRate);
   const startDate = useStore((s) => s.tripConfig.startDate);
+  const localized = useLocalizedField();
 
-  const date = startDate ? addDaysISO(startDate, day.day - 1) : null;
+  const date = startDate ? addDaysISO(startDate, day.day - 1) : day.date ?? null;
   const events = date ? getSeasonalTipsForDay(date, day.city) : [];
-  const eur = dayBudgetEUR(day, prevDay, travelers);
-  const dayTotalTWD =
-    (eur.transport + eur.tickets + eur.food) * exchangeRate;
+  const city = cityLabel(day.city);
 
   return (
-    <section className="flex flex-col gap-4">
-      {events.map((tip, i) => (
-        <div
-          key={tip.title.zh}
-          className="tip-slide-down"
-          style={{ ['--index' as string]: i } as CSSProperties}
-        >
-          <SeasonalBanner tip={tip} />
+    <section id={`day-section-${day.day}`} className="scroll-mt-24 md:scroll-mt-6">
+      {/* Day header */}
+      <header className="mb-4">
+        <div className="flex items-center gap-3">
+          <span
+            className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg font-mono leading-none text-lime-deep"
+            style={{ background: 'var(--color-lime)' }}
+          >
+            <span className="text-[8px] uppercase tracking-editorial">Day</span>
+            <span className="text-[17px] font-semibold tabular-nums">{day.day}</span>
+          </span>
+          <div className="min-w-0">
+            <p className="font-mono text-[11px] uppercase tracking-editorial text-ink-faint">
+              {date ? shortDayLabel(date) : `Day ${day.day}`} · {city.en}
+            </p>
+            <h3 className="font-chinese text-[18px] font-semibold leading-snug text-ink">
+              {day.title ? localized(day.title) : city.zh}
+            </h3>
+          </div>
         </div>
-      ))}
 
-      {day.attractions.length === 0 ? (
-        <div className="card text-center">
-          <p className="font-chinese text-[14px] text-ink-muted">
-            這天還沒有安排景點 — 試試多選一個城市、放寬偏好或增加天數。
+        {day.summary && (
+          <p className="mt-2 font-chinese text-[13px] leading-relaxed text-ink-muted">
+            {localized(day.summary)}
           </p>
-        </div>
-      ) : (
-        <ol className="flex flex-col">
-          {day.attractions.map((a, i) => (
-            <li
-              key={a.id}
-              className="stagger-item"
+        )}
+
+        {(day.driveNote || day.overnight) && (
+          <div className="mt-2.5 flex flex-wrap gap-2">
+            {day.driveNote && (
+              <span className="inline-flex items-center gap-1.5 rounded-pill bg-cream px-3 py-1 font-chinese text-[11px] text-ink-muted" style={{ border: '0.5px solid var(--color-border)' }}>
+                <Car size={12} strokeWidth={1.8} className="shrink-0 text-ink-faint" />
+                {localized(day.driveNote)}
+              </span>
+            )}
+            {day.overnight && (
+              <span className="inline-flex items-center gap-1.5 rounded-pill px-3 py-1 font-chinese text-[11px]" style={{ background: 'var(--color-card)', border: '0.5px solid var(--color-border)', color: '#8B6F9B' }}>
+                <BedDouble size={12} strokeWidth={1.8} className="shrink-0" />
+                {localized(day.overnight)}
+              </span>
+            )}
+          </div>
+        )}
+      </header>
+
+      {/* Seasonal / event banners */}
+      {events.length > 0 && (
+        <div className="mb-4 flex flex-col gap-3">
+          {events.map((tip, i) => (
+            <div
+              key={tip.title.zh}
+              className="tip-slide-down"
               style={{ ['--index' as string]: i } as CSSProperties}
             >
+              <SeasonalBanner tip={tip} />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Attractions */}
+      {day.attractions.length > 0 && (
+        <ol className="flex flex-col">
+          {day.attractions.map((a, i) => (
+            <li key={a.id}>
               <AttractionRow attraction={a} />
               {i < day.attractions.length - 1 && (
                 <TransportConnector from={a} to={day.attractions[i + 1]!} />
@@ -1174,24 +1245,21 @@ function DailyView({ day, prevDay }: { day: DayPlan; prevDay?: DayPlan }) {
         </ol>
       )}
 
-      {includeAccommodation && <AccommodationCard day={day} />}
-
-      {/* Daily budget row */}
-      <div
-        className="flex flex-wrap items-center justify-between gap-2 rounded px-4 py-2.5"
-        style={{ background: 'var(--color-cream)' }}
-      >
-        <span className="font-mono text-[12px] text-ink">
-          今日費用預估: {formatTWD(dayTotalTWD)}
-        </span>
-        <span className="font-mono text-[11px] text-ink-faint">
-          交通 {formatTWD(eur.transport * exchangeRate)} · 票價{' '}
-          {formatTWD(eur.tickets * exchangeRate)} · 餐飲{' '}
-          {formatTWD(eur.food * exchangeRate)}
-        </span>
-      </div>
+      {includeAccommodation && (
+        <div className="mt-4">
+          <AccommodationCard day={day} />
+        </div>
+      )}
     </section>
   );
+}
+
+/** "7/11 (六)" short label from an ISO date. */
+function shortDayLabel(iso: string): string {
+  const d = new Date(`${iso}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return iso;
+  const weekday = ['日', '一', '二', '三', '四', '五', '六'][d.getDay()];
+  return `${d.getMonth() + 1}/${d.getDate()} (${weekday})`;
 }
 
 /** Seasonal event banner — right-panel day view, lime-green left border. */
@@ -1553,6 +1621,10 @@ function haversineKm(
 const ROAD_LEG_MIN: Record<string, number> = {
   'cesky-krumlov|vienna': 165,
   'cesky-krumlov|prague': 135,
+  'cesky-krumlov|salzburg': 160,
+  'salzburg|wolfgangsee': 45,
+  'hallstatt|wolfgangsee': 50,
+  'gosau|wolfgangsee': 55,
   'prague|salzburg': 248,
   'konigssee|salzburg': 35,
   'gosau|salzburg': 80,

@@ -147,6 +147,36 @@ export interface TransportMethod {
 }
 
 /* ===========================================================================
+   Food collection — saved restaurants / cafés from Instagram & the web
+   =========================================================================== */
+
+export type FoodCategory =
+  | 'restaurant'
+  | 'cafe'
+  | 'streetfood'
+  | 'dessert'
+  | 'bar';
+
+/** Where the reference came from — derived from the URL host. */
+export type FoodSource = 'instagram' | 'web';
+
+export interface FoodItem {
+  id: string;
+  /** Instagram post link or any web URL. */
+  url: string;
+  title: string;
+  note?: string;
+  /** City slug (see cityDisplay) or free-text place. */
+  city?: string;
+  country?: 'austria' | 'czech' | 'germany' | 'other';
+  category: FoodCategory;
+  source: FoodSource;
+  /** Optional user-supplied thumbnail image URL. */
+  imageUrl?: string;
+  createdAt: string;
+}
+
+/* ===========================================================================
    Trip configuration
    =========================================================================== */
 
@@ -202,6 +232,16 @@ export interface DayPlan {
   city: string;
   attractions: Attraction[];
   transport?: TransportRoute[];
+
+  // ---- Presentational (optional, used by the curated sample itinerary) ----
+  /** Day headline, e.g. "Vienna → Wachau → Hallstatt". */
+  title?: { zh: string; en: string };
+  /** One or two sentence summary of the day. */
+  summary?: { zh: string; en: string };
+  /** Where you sleep tonight (hotel name / town). */
+  overnight?: { zh: string; en: string };
+  /** Driving legs / transfer note for the day. */
+  driveNote?: { zh: string; en: string };
 
   // ---- Extended ----------------------------------------------------------
   accommodation?: Accommodation; // recommended stay for this night

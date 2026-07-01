@@ -18,6 +18,7 @@ export const CITY_DISPLAY: Record<string, { zh: string; en: string }> = {
   badischl: { zh: '巴特伊舍', en: 'Bad Ischl' },
   wolfgangsee: { zh: '聖沃夫岡湖', en: 'Wolfgangsee' },
   gosau: { zh: '戈紹', en: 'Gosau' },
+  altaussee: { zh: '阿爾陶塞', en: 'Altaussee' },
 
   // Bayern (Germany)
   konigssee: { zh: '國王湖', en: 'Königssee' },
